@@ -1,7 +1,12 @@
 import React from 'react';
 import NextImage from 'next/image';
+import { ITestimonialsSection } from '../../Images/types';
 
-const Testimonials = () => {
+interface IProps {
+  testimonialsSectionImages: ITestimonialsSection;
+}
+
+const Testimonials: React.FC<IProps> = ({ testimonialsSectionImages }) => {
   return (
     <div className='pb-16 bg-gradient-to-r from-teal-500 to-cyan-600 lg:pb-0 lg:z-10 lg:relative'>
       <div className='lg:mx-auto lg:max-w-7xl lg:px-8 lg:grid lg:grid-cols-3 lg:gap-8'>
@@ -14,9 +19,11 @@ const Testimonials = () => {
             <div className='aspect-w-10 aspect-h-6 rounded-xl shadow-xl overflow-hidden sm:aspect-w-16 sm:aspect-h-7 lg:aspect-none lg:h-full'>
               <NextImage
                 className='object-cover lg:h-full lg:w-full overflow-hidden rounded-xl'
-                src='/testimonial_1.jpg'
+                src={testimonialsSectionImages.number1.url}
                 alt='Testimonial'
                 layout='fill'
+                placeholder='blur'
+                blurDataURL={testimonialsSectionImages.number1.base64}
               />
             </div>
           </div>

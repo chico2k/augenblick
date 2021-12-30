@@ -28,7 +28,7 @@ export const createBlur = async () => {
   const meta = await sharpImg.metadata();
   const placeholderImgWidth = 20;
 
-  const imgAspectRatio = meta.width / meta.height;
+  const imgAspectRatio = meta.width! / meta.height!;
 
   const placeholderImgHeight = Math.round(placeholderImgWidth / imgAspectRatio);
 

@@ -3,40 +3,6 @@ import { useKeenSlider } from 'keen-slider/react';
 import NextImage from 'next/image';
 import { ISlideSection } from '../../../Images/types';
 
-const images = [
-  {
-    id: 1,
-    url: '/work/1.jpg',
-    blur: '/work/1.jpg',
-  },
-  {
-    id: 2,
-    url: '/work/2.jpg',
-    blur: '/work/2.jpg',
-  },
-  {
-    id: 3,
-    url: '/work/3.jpg',
-    blur: '/work/3.jpg',
-  },
-
-  {
-    id: 4,
-    url: '/work/4.jpg',
-    blur: '/work/4.jpg',
-  },
-  {
-    id: 5,
-    url: '/work/5.jpg',
-    blur: '/work/5.jpg',
-  },
-  {
-    id: 6,
-    url: '/work/6.jpg',
-    blur: '/work/6.jpg',
-  },
-];
-
 interface IProps {
   slideSectionImages: ISlideSection;
 }
@@ -62,7 +28,13 @@ const Slider: React.FC<IProps> = ({ slideSectionImages }) => {
 
   return (
     <>
-      <h1>Gallery</h1>
+      <div className='mb-10 '>
+        <div className='text-center mb-8'>
+          <h2 className='underline text-indigo-700 underline-offset-8 text-md leading-6 font-semibold  uppercase tracking-wider'>
+            Impressionen
+          </h2>
+        </div>
+      </div>
       <div ref={ref} className='keen-slider'>
         {imagesList}
       </div>

@@ -5,12 +5,10 @@ const AnfahrtSection = () => {
     /**
      * Remove First Div
      */
-    <div className='mt-40 mb-20'>
+    <div className='mt-40'>
       <div className='max-w-7xl mx-auto sm:px-6 lg:px-8 rounded-lg'>
         <div className='text-center mb-8'>
-          <h2 className='underline text-indigo-700 underline-offset-8 text-md leading-6 font-semibold  uppercase tracking-wider'>
-            Anfahrt
-          </h2>
+          <h2 className='text-indigo-700 text-2xl'> Anfahrt</h2>
         </div>
         <iframe
           src='https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d10690.83700606855!2d12.6016273!3d47.9420075!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xd66571c4270f68c7!2sAugenblick%20Chiemgau!5e0!3m2!1sen!2sde!4v1640699367324!5m2!1sen!2sde'

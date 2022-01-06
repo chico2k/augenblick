@@ -5,13 +5,11 @@ import NextImage from 'next/image';
 const StudionSection = () => {
   return (
     <div className='mt-24'>
-      <div className='text-center mb-10'>
-        <h2 className='underline text-indigo-700 underline-offset-8 text-md leading-6 font-semibold  uppercase tracking-wider'>
-          Das Studio
-        </h2>
-      </div>
-
-      <div className='h-72 w-full relative'>
+      <div className='h-52 w-full relative'>
+        <div className='absolute inset-0 pl-4 z-10 text-white pt-4'>
+          <h2 className=' text-3xl'> Das Studio</h2>
+          <p> Atemberaubende Atomosphäre</p>
+        </div>
         <NextImage
           src='/studio.png'
           layout='fill'
@@ -19,13 +17,13 @@ const StudionSection = () => {
           className='overflow-hidden'
         />
       </div>
-      <div className='ml-4 mt-6'>
+      <div className='ml-5 mt-4'>
         <a href='https://www.google.com/maps/place/Augenblick+Chiemgau,+Carl-Orff-Stra%C3%9Fe+7,+83374+Traunreut/@47.942008,12.601627,14z/data=!4m2!3m1!1s0x477671d200d6f24f:0xd66571c4270f68c7?hl=DE&gl=DE'>
           <div className='flex'>
             <div className='pr-3 text-indigo-700 flex align-center'>
               <svg
                 xmlns='http://www.w3.org/2000/svg'
-                className='h-6 w-6 block m-auto'
+                className='h-8 w-8 block m-auto'
                 fill='none'
                 viewBox='0 0 24 24'
                 stroke='currentColor'
@@ -44,8 +42,8 @@ const StudionSection = () => {
                 />
               </svg>
             </div>
-            <div className='-mt-2'>
-              <span className='font-medium'>Premiumcosmetic</span>
+            <div className='text-xs'>
+              <span className='text-indigo-700'>Premiumcosmetic</span>
               <br />
               <span className='font-light'>
                 Carl-Orff-Straße 7, 83374 Traunreut

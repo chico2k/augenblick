@@ -7,7 +7,7 @@ import BuchungsSection from '../components/Main/Buchung';
 import PartnerSection from '../components/Main/Partner';
 import AngebotSection from '../components/Main/Angebot';
 import SandraComponent from '../components/Main/Sandra';
-import Slider from '../components/Main/Arbeit/Slider';
+import Slider from '../components/Main/Impressionen/';
 import { blurHandler } from '../lib/blurHandler';
 import { IBlurOutput } from '../components/Images/types';
 
@@ -17,7 +17,7 @@ interface IProps {
 
 const Home: NextPage<IProps> = ({ images }) => {
   return (
-    <div className=''>
+    <div className='font-sans'>
       <HeroSection heroSectionImages={images.heroSectionImages} />
       <SandraComponent sandraSectionImages={images.sandraSectionImages} />
       <AngebotSection />
@@ -26,8 +26,8 @@ const Home: NextPage<IProps> = ({ images }) => {
       />
 
       <StudionSection />
-      <BuchungsSection />
       <Slider slideSectionImages={images.slideSectionImages} />
+      <BuchungsSection />
       <PartnerSection />
       <AnfahrtSection />
     </div>

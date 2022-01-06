@@ -9,7 +9,6 @@ function MyApp({ Component, pageProps }: AppProps) {
   // useLaxLibrary();
   return (
     <>
-      <HeaderSection />
       <Component {...pageProps} />
       <Footer />
     </>

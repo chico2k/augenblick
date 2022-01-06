@@ -1,99 +1,88 @@
 import React from 'react';
 import NextImage from 'next/image';
-
-const people = {
-  name: 'Eli Steffel',
-  unternehmen: 'premimucosmetik',
-  role: 'Kosmetikerin',
-  imageUrl:
-    'https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80',
-  twitterUrl: '#',
-  linkedinUrl: '#',
-};
+import {
+  MailIcon,
+  PhoneIcon,
+  LocationMarkerIcon,
+} from '@heroicons/react/outline';
 
 const PartnerSection = () => {
   return (
     <div className='bg-white'>
-      <div className='mx-auto py-12 px-4 max-w-7xl sm:px-6 lg:px-8 lg:py-24'>
-        <div className='text-center mb-8'>
-          <h2 className='underline text-indigo-700 underline-offset-8 text-md leading-6 font-semibold  uppercase tracking-wider'>
-            Meine Partnerin
-          </h2>
-        </div>
-        <div className='space-y-12 lg:grid lg:grid-cols-2 lg:gap-8 lg:space-y-0'>
-          <div className='lg:col-span-1'>
-            <ul
-              role='list'
-              className='space-y-12 sm:divide-y sm:divide-gray-200 sm:space-y-0 sm:-mt-8 lg:gap-x-8 lg:space-y-0'
-            >
-              <li className=''>
-                <div className='space-y-4 sm:grid sm:items-start sm:gap-6 sm:space-y-0'>
-                  <div className='w-full h-96 relative'>
-                    <NextImage
-                      className='object-cover shadow-lg rounded-lg'
-                      src='/eli.jpg'
-                      alt='Bild von Sandra Rudic'
-                      objectFit='cover'
-                      layout='fill'
-                      // placeholder='blur'
-                      // blurDataURL={sandraSectionImages.sandra.base64}
-                    />
-                  </div>
-                </div>
-              </li>
-            </ul>
-          </div>
-          <div className='space-y-5 sm:space-y-4'>
-            <p className='text-2xl text-gray-500'>
-              Inhaberin des Studios Premiumcosmetic und langjährige gute
-              Freundin.
-            </p>
-            <div className='text-xl leading-6 font-medium space-y-1'>
-              <h3>
-                <span> Elli Steffel</span>
+      <div className='mx-auto max-w-7xl sm:px-6 lg:px-8 lg:py-24'>
+        <div className='mb-8 px-5'>
+          <h2 className='text-indigo-700 text-2xl'>Meine Partnerin</h2>
+          <p className='pt-14 text-base'>
+            Inhaberin von Premiumcosmetic und langjährige gute Freundin. Elli
+            <br />
+            <br />
+            <span className='text-indigo-700 font-light'>
+              Steffel, Kosmetikerin
+            </span>
+          </p>
+          <div>
+            <dl className='mt-8 space-y-3 text-xs'>
+              <dd className='flex '>
+                <LocationMarkerIcon
+                  className='flex-shrink-0 w-4 h-4 '
+                  aria-hidden='true'
+                />
+                <span className='ml-3'>
+                  Carl-Orff-Straße 7, 83374 Traunreut
+                </span>
+              </dd>
+              <dt>
+                <span className='sr-only'>Phone number</span>
+              </dt>
+              <dd className='flex  '>
+                <PhoneIcon
+                  className='flex-shrink-0 w-4 h-4 '
+                  aria-hidden='true'
+                />
+                <span className='ml-3'>+49 151 11 73 43 53 </span>
+              </dd>
+              <dt>
+                <span className='sr-only'>Email</span>
+              </dt>
+              <dd className='flex  '>
+                <MailIcon
+                  className='flex-shrink-0 w-4 h-4 '
+                  aria-hidden='true'
+                />
+                <span className='ml-3'>info@premiumcosmetic.de</span>
+              </dd>
 
-                <span className='text-indigo-700'> Kosmetikerin</span>
-              </h3>
-            </div>
-            <div className='space-y-4'>
-              <ul role='list' className='flex space-x-5'>
-                <li>
-                  <a
-                    href={people.twitterUrl}
-                    className='text-gray-400 hover:text-gray-500'
-                  >
-                    <span className='sr-only'>Twitter</span>
-                    <svg
-                      className='w-5 h-5'
-                      aria-hidden='true'
-                      fill='currentColor'
-                      viewBox='0 0 20 20'
-                    >
-                      <path d='M6.29 18.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0020 3.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.073 4.073 0 01.8 7.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 010 16.407a11.616 11.616 0 006.29 1.84' />
-                    </svg>
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href={people.linkedinUrl}
-                    className='text-gray-400 hover:text-gray-500'
-                  >
-                    <span className='sr-only'>LinkedIn</span>
-                    <svg
-                      className='w-5 h-5'
-                      aria-hidden='true'
-                      fill='currentColor'
-                      viewBox='0 0 20 20'
-                    >
-                      <path
-                        fillRule='evenodd'
-                        d='M16.338 16.338H13.67V12.16c0-.995-.017-2.277-1.387-2.277-1.39 0-1.601 1.086-1.601 2.207v4.248H8.014v-8.59h2.559v1.174h.037c.356-.675 1.227-1.387 2.526-1.387 2.703 0 3.203 1.778 3.203 4.092v4.711zM5.005 6.575a1.548 1.548 0 11-.003-3.096 1.548 1.548 0 01.003 3.096zm-1.337 9.763H6.34v-8.59H3.667v8.59zM17.668 1H2.328C1.595 1 1 1.581 1 2.298v15.403C1 18.418 1.595 19 2.328 19h15.34c.734 0 1.332-.582 1.332-1.299V2.298C19 1.581 18.402 1 17.668 1z'
-                        clipRule='evenodd'
-                      />
-                    </svg>
-                  </a>
-                </li>
-              </ul>
+              <dd className='flex  '>
+                <svg
+                  xmlns='http://www.w3.org/2000/svg'
+                  width='24'
+                  height='24'
+                  viewBox='0 0 24 24'
+                  className='flex-shrink-0 w-4 h-4 '
+                  aria-hidden='true'
+                >
+                  <path d='M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z' />
+                </svg>
+                <span className='ml-3'>premiumcosmetic_elli</span>
+              </dd>
+            </dl>
+          </div>
+        </div>
+
+        <div className='grid lg:grid-cols-2 lg:gap-8 lg:space-y-0'>
+          <div className='lg:col-span-1'>
+            <div className=' sm:grid sm:items-start sm:gap-6 sm:space-y-0'>
+              <div className='w-full h-96 relative'>
+                <NextImage
+                  className='object-cover'
+                  src='/eli.jpg'
+                  alt='Bild von Sandra Rudic'
+                  objectFit='cover'
+                  layout='fill'
+                  // placeholder='blur'
+                  // blurDataURL={sandraSectionImages.sandra.base64}
+                />
+              </div>
             </div>
           </div>
         </div>

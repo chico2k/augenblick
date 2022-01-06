@@ -22,6 +22,7 @@ export type ISandraSection = {
 
 export type ITestimonialsSection = {
   number1: IUrlProps;
+  number2: IUrlProps;
 };
 
 export type ISlideSection = IUrlProps[];

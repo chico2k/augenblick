@@ -13,7 +13,7 @@ export const Scroll = () => {
   });
 
   return (
-    <animated.div className='flex h-full justify-center align-bottom relative'>
+    <animated.div className='relative'>
       <div className='absolute bottom-16 text-indigo-700'>
         <svg
           xmlns='http://www.w3.org/2000/svg'

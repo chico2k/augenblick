@@ -37,6 +37,11 @@ const testimonialsSectionImages: ITestimonialsSection = {
     url: '/testimonial_1.jpg',
     base64: '',
   },
+  number2: {
+    id: 2,
+    url: '/testimonial_2.jpg',
+    base64: '',
+  },
 };
 
 export const sectionImages: IBlurOutput = {

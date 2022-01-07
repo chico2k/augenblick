@@ -18,7 +18,7 @@ const SandraComponent: React.FC<IProps> = ({ sandraSectionImages }) => {
         <h2 className='text-indigo-700 text-2xl'>Über mich</h2>
         <p className='py-14 text-base'>
           Ich bin zertifizierte Wimpernexpertin. Mit Liebe und Leidenschaft,
-          möchte ich für meinen Kundeinnen einen perfektes Ergenbnis zielen.
+          möchte ich für meinen Kundinnen einen perfektes Ergenbnis zielen.
           <br />
           <br />
           <span className='text-indigo-700 font-light'> Sandra Rudic</span>

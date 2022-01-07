@@ -14,7 +14,7 @@ const Testimonials: React.FC<IProps> = ({ testimonialsSectionImages }) => {
       <div className='grid grid-rows-2 gap-8'>
         <div className='grid grid-cols-1 relative sm:grid sm:grid-cols-2'>
           <div className='w-full aspect-square shadow-xl overflow-hidden relative self-center'>
-            <div className='absolute left-3 text-base top-3  font-medium  rounded-xl w-40  h-8 bg-indigo-700 text-white z-10 flex justify-center '>
+            <div className='absolute left-5 text-base top-3  font-medium  rounded-xl w-40  h-8 bg-indigo-700 text-white z-10 flex justify-center '>
               <span className='self-center'> Verlängerung</span>
             </div>
             <NextImage
@@ -50,7 +50,7 @@ const Testimonials: React.FC<IProps> = ({ testimonialsSectionImages }) => {
         </div>
         <div className='grid grid-cols-1 relative sm:grid sm:grid-cols-2'>
           <div className='w-full aspect-square shadow-xl overflow-hidden relative self-center'>
-            <div className='absolute left-3 text-base top-3  font-medium  rounded-xl w-40  h-8 bg-indigo-700 text-white z-10 flex justify-center '>
+            <div className='absolute left-5 text-base top-3  font-medium  rounded-xl w-40  h-8 bg-indigo-700 text-white z-10 flex justify-center '>
               <span className='self-center'> Lifting</span>
             </div>
             <NextImage

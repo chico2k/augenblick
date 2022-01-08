@@ -4,7 +4,7 @@ import NextImage from 'next/image';
 
 const StudionSection = () => {
   return (
-    <div className='mt-24'>
+    <div className='mt-36'>
       <div className='h-52 w-full relative'>
         <div className='absolute inset-0 pl-4 z-10 text-white pt-4'>
           <h2 className=' text-3xl'> Das Studio</h2>

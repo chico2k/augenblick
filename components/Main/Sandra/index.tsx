@@ -1,11 +1,5 @@
-import React, { useEffect, useState } from 'react';
 import NextImage from 'next/image';
 import { ISandraSection } from '../../Images/types';
-
-const people = {
-  twitterUrl: '#',
-  linkedinUrl: '#',
-};
 
 interface IProps {
   sandraSectionImages: ISandraSection;
@@ -14,14 +8,15 @@ interface IProps {
 const SandraComponent: React.FC<IProps> = ({ sandraSectionImages }) => {
   return (
     <>
-      <div className='container px-5'>
-        <h2 className='text-indigo-700 text-2xl'>Über mich</h2>
-        <p className='py-14 text-base'>
+      <div className='container px-5 mt-36 mb-9'>
+        <h2 className='text-indigo-700 text-2xl mb-3'>Über mich</h2>
+        <p className='text-base'>
           Ich bin zertifizierte Wimpernexpertin. Mit Liebe und Leidenschaft,
           möchte ich für meinen Kundinnen einen perfektes Ergenbnis zielen.
           <br />
-          <br />
-          <span className='text-indigo-700 font-light'> Sandra Rudic</span>
+          <span className='block text-indigo-700 font-light italic mt-3'>
+            Sandra Rudic
+          </span>
         </p>
       </div>
 

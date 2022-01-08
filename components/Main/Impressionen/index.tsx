@@ -76,12 +76,8 @@ const Slider: React.FC<IProps> = ({ slideSectionImages }) => {
 
   return (
     <>
-      <div className='mb-10 mt-32'>
-        <div className='text-center mb-8'>
-          <h2 className='underline text-indigo-700 underline-offset-8 text-md leading-6 font-semibold  uppercase tracking-wider'>
-            Impressionen
-          </h2>
-        </div>
+      <div className='mt-36'>
+        <h2 className='text-indigo-700 text-2xl mb-8 pl-5'> Impressionen</h2>
       </div>
       <div ref={sliderRef} className='keen-slider relative z-10'>
         {imagesList}

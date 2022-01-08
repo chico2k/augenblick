@@ -3,7 +3,7 @@ import React from 'react';
 const BuchungsForm = () => {
   return (
     <>
-      <div className='bg-gray-100 pt-10 px-6 sm:px-10 lg:col-span-2 xl:p-12'>
+      <div className='bg-gray-100 pt-3 px-6 sm:px-10 lg:col-span-2 xl:p-12'>
         <form
           action='#'
           method='POST'

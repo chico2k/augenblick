@@ -8,26 +8,26 @@ interface IProps {
 const SandraComponent: React.FC<IProps> = ({ sandraSectionImages }) => {
   return (
     <>
-      <div className='container px-5 mt-36 mb-9'>
-        <h2 className='text-indigo-700 text-2xl mb-3'>Über mich</h2>
-        <p className='text-base'>
-          Ich bin zertifizierte Wimpernexpertin. Mit Liebe und Leidenschaft,
-          möchte ich für meinen Kundinnen einen perfektes Ergenbnis zielen.
-          <br />
-          <span className='block text-indigo-700 font-light italic mt-3'>
-            Sandra Rudic
-          </span>
-        </p>
-      </div>
-
-      <div className='w-full relative aspect-square'>
-        <NextImage
-          layout='fill'
-          src='/sandra_about.jpg'
-          objectFit='cover'
-          placeholder='blur'
-          blurDataURL={sandraSectionImages.sandra.base64}
-        />
+      <div className='sandra__wrapper'>
+        <div className='sandra__textContainer'>
+          <h2 className='sandra__sectionHeader'>Über mich</h2>
+          <p className='sandra__text'>
+            Ich bin zertifizierte Wimpernexpertin. Mit Liebe und Leidenschaft,
+            möchte ich für meinen Kundinnen einen perfektes Ergenbnis zielen.
+            <br />
+            <span className='sandra__name'>Sandra Rudic</span>
+          </p>
+        </div>
+        <div className='sandra__imageWrapper'>
+          <NextImage
+            layout='fill'
+            src='/sandra_about.jpg'
+            objectFit='cover'
+            placeholder='blur'
+            className='overflow-hidden'
+            blurDataURL={sandraSectionImages.sandra.base64}
+          />
+        </div>
       </div>
     </>
   );

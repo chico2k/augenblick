@@ -39,11 +39,14 @@ const Slider: React.FC<IProps> = ({ slideSectionImages }) => {
 
   const [sliderRef, instanceRef] = useKeenSlider<HTMLDivElement>({
     breakpoints: {
-      '(min-width: 400px)': {
+      '(min-width: 640px)': {
         slides: { perView: 2, spacing: 5 },
       },
-      '(min-width: 1000px)': {
+      '(min-width: 768px)': {
         slides: { perView: 3, spacing: 10 },
+      },
+      '(min-width: 1000px)': {
+        slides: { perView: 4, spacing: 15 },
       },
     },
     initial: 0,
@@ -62,7 +65,10 @@ const Slider: React.FC<IProps> = ({ slideSectionImages }) => {
 
   const imagesList = slideSectionImages.map((image) => {
     return (
-      <div className='keen-slider__slide  h-96 bg-white' key={image.id}>
+      <div
+        className='keen-slider__slide  h-full aspect-square bg-white '
+        key={image.id}
+      >
         <NextImage
           src={image.url}
           blurDataURL={image.base64}
@@ -76,32 +82,43 @@ const Slider: React.FC<IProps> = ({ slideSectionImages }) => {
 
   return (
     <>
-      <div className='mt-36'>
-        <h2 className='text-indigo-700 text-2xl mb-8 pl-5'> Impressionen</h2>
-      </div>
-      <div ref={sliderRef} className='keen-slider relative z-10'>
-        {imagesList}
-        {loaded && instanceRef.current && (
-          <>
-            <SliderArrow
-              left
-              onClick={(e: any) =>
-                e.stopPropagation() || instanceRef.current?.prev()
-              }
-              disabled={currentSlide === 0}
-            />
+      <div
+        className='mt-36
+        md:container md:px-8'
+      >
+        <h2
+          className='text-indigo-700 text-2xl mb-8 pl-5
+              md:text-3xl md:pl-0
+              xl:text-5xl xl:mb-16
+              '
+        >
+          Impressionen
+        </h2>
 
-            <SliderArrow
-              onClick={(e: any) =>
-                e.stopPropagation() || instanceRef.current?.next()
-              }
-              disabled={
-                currentSlide ===
-                instanceRef.current.track.details.slides.length - 1
-              }
-            />
-          </>
-        )}
+        <div ref={sliderRef} className='keen-slider relative z-10'>
+          {imagesList}
+          {loaded && instanceRef.current && (
+            <>
+              <SliderArrow
+                left
+                onClick={(e: any) =>
+                  e.stopPropagation() || instanceRef.current?.prev()
+                }
+                disabled={currentSlide === 0}
+              />
+
+              <SliderArrow
+                onClick={(e: any) =>
+                  e.stopPropagation() || instanceRef.current?.next()
+                }
+                disabled={
+                  currentSlide ===
+                  instanceRef.current.track.details.slides.length - 1
+                }
+              />
+            </>
+          )}
+        </div>
       </div>
     </>
   );

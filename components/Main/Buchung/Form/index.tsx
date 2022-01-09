@@ -3,11 +3,18 @@ import React from 'react';
 const BuchungsForm = () => {
   return (
     <>
-      <div className='bg-gray-100 pt-3 px-6 sm:px-10 lg:col-span-2 xl:p-12'>
+      <div
+        className='pt-3 pr-6 
+        sm:px-7 
+        lg:col-span-2 lg:mb-18
+        xl:p-12'
+      >
         <form
           action='#'
           method='POST'
-          className='mt-6 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-8'
+          className='mt-6 grid grid-cols-1 gap-y-6
+            sm:grid-cols-2 sm:gap-x-8
+            lg:mb-6'
         >
           <div>
             <label
@@ -84,7 +91,7 @@ const BuchungsForm = () => {
               />
             </div>
           </div>
-          <div className='sm:col-span-2 sm:flex sm:justify-end'>
+          <div className='sm:col-span-2 sm:flex sm:justify-start'>
             <button
               type='submit'
               className='mt-2 w-full inline-flex items-center justify-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:w-auto'

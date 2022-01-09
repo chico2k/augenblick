@@ -1,7 +1,7 @@
 export const navigationLinks = [
+  { name: 'Über Mich', href: '#' },
   { name: 'Angebot', href: '#' },
-  { name: 'Meine Arbeit', href: '#' },
-  { name: 'Studio', href: '#' },
-  { name: 'Partner', href: '#' },
-  { name: 'Anfahrt', href: '#' },
+  { name: 'Erfahrungen', href: '#' },
+  { name: 'Impressionen', href: '#' },
+  { name: 'Studio & Partner', href: '#' },
 ];

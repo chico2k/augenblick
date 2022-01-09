@@ -13,7 +13,7 @@ const SliderArrow = ({ onClick, left }: IProps) => {
   return (
     <svg
       onClick={onClick}
-      className={`w-10 h-10  bg-gray-100 opacity-30 rounded-full p-2 absolute top-1/2 fill-indigo-700  ${addCasses}`}
+      className={`w-10 h-10  bg-gray-100 opacity-30 rounded-full p-2 absolute top-1/2 fill-indigo-700  -left- ${addCasses}`}
       //   className={`arrow ${left ? 'arrow--left' : 'arrow--right'} ${disabeld}`}
       xmlns='http://www.w3.org/2000/svg'
       viewBox='0 0 24 24'

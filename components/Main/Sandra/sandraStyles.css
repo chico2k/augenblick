@@ -1,0 +1,38 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .sandra__wrapper {
+    @apply px-5 mt-36 
+    sm:container 
+    md:grid md:grid-cols-2 md:gap-8
+    lg:gap-20;
+  }
+
+  .sandra__textContainer {
+    @apply md:order-2;
+  }
+
+  .sandra__sectionHeader {
+    @apply text-indigo-700 text-2xl mb-3 w-full
+    md:order-2 md:text-3xl md:mb-8
+    lg:text-5xl;
+  }
+
+  .sandra__imageWrapper {
+    @apply w-full aspect-square relative bg-red-500
+      md:order-1
+      lg:aspect-video lg:min-h-fit;
+  }
+
+  .sandra__text {
+    @apply text-base mb-9
+    md:text-base md:pr-3
+    lg:text-xl lg:pr-24;
+  }
+
+  .sandra__name {
+    @apply block text-indigo-700 font-light italic mt-3;
+  }
+}

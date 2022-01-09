@@ -9,12 +9,31 @@ interface IProps {
 
 const Testimonials: React.FC<IProps> = ({ testimonialsSectionImages }) => {
   return (
-    <div className='container mt-36 mx-auto sm:px-12 lg:px-16'>
-      <h3 className='text-indigo-700 text-2xl ml-5 mb-8'>Kundenmeinungen</h3>
+    <div
+      className='mt-36 mx-auto px-5 
+        md:container
+        lg:px-16
+    '
+    >
+      <h3
+        className='text-indigo-700 text-2xl ml-5 mb-8
+          md:text-3xl md:ml-0
+          xl:text-5xl xl:mb-16
+      '
+      >
+        Kundenmeinungen
+      </h3>
       {/* Review #1 Container */}
-      <div className='grid grid-cols-1 mb-16'>
+      <div
+        className='grid grid-cols-1 mb-16
+          md:grid-cols-2
+      '
+      >
         {/* Review #1 Image Container */}
-        <div className='w-full aspect-square shadow-xl overflow-hidden relative self-center'>
+        <div
+          className='w-full aspect-square shadow-xl overflow-hidden relative self-center
+          lg:aspect-video lg:max-w-2xl'
+        >
           {/* Review #1 Image Tag */}
           <div className='absolute left-5 text-base top-5  font-medium  rounded-xl w-40  h-8 bg-indigo-700 text-white z-10 flex justify-center '>
             <span className='self-center'> Verlängerung</span>
@@ -31,14 +50,22 @@ const Testimonials: React.FC<IProps> = ({ testimonialsSectionImages }) => {
           />
         </div>
         {/* Review #1 Quote Container */}
-        <div className='mx-auto px-5 pt-5'>
+        <div
+          className='mx-auto px-5 pt-5
+                md:pt-0
+                lg:max-w-2xl md:px-8'
+        >
           <blockquote>
             <div className='flex'>
               <div className='text-yellow-400  -ml-1'>
                 <Stars />
               </div>
             </div>
-            <p className='mt-2 text-md text-gray-700 italic'>
+            <p
+              className='mt-2 text-md text-gray-700 italic
+              md:pt-0
+            '
+            >
               Es war richtig cool. Mein erstes Mal Wimpern Lifting und Sandra
               hat alles gut erklärt, ich wusste also vorab was passiert. Der
               Schwung, die Farbe und wie lange es hält ist einfach krass genial.
@@ -51,11 +78,17 @@ const Testimonials: React.FC<IProps> = ({ testimonialsSectionImages }) => {
           </blockquote>
         </div>
       </div>
-      <div className='grid grid-cols-1 relative sm:grid sm:grid-cols-2'>
-        <div className='w-full aspect-square shadow-xl overflow-hidden relative self-center'>
-          <div className='absolute left-5 text-base top-5  font-medium  rounded-xl w-40  h-8 bg-indigo-700 text-white z-10 flex justify-center '>
-            <span className='self-center'> Lifting</span>
-          </div>
+      {/* Review #2 Image Container */}
+      <div
+        className='grid grid-cols-1 relative 
+          md:items-start 
+          sm:grid sm:grid-cols-2'
+      >
+        <div
+          className='w-full aspect-square shadow-xl overflow-hidden relative self-center
+          md:order-2 
+          lg:aspect-video lg:max-w-2xl'
+        >
           <NextImage
             className='overflow-hidden '
             src={testimonialsSectionImages.number2.url}
@@ -65,15 +98,28 @@ const Testimonials: React.FC<IProps> = ({ testimonialsSectionImages }) => {
             placeholder='blur'
             blurDataURL={testimonialsSectionImages.number2.base64}
           />
+          <div
+            className='absolute left-5 text-base top-5  font-medium  rounded-xl w-40  h-8 bg-indigo-700 text-white z-10 flex justify-center
+                 '
+          >
+            <span className='self-center'> Lifting</span>
+          </div>
         </div>
-        <div className='my-6 mx-auto px-5'>
+        <div
+          className='my-6 mx-auto px-5 w-full
+            md:pl-0 pr-8 md:flex md:justify-self-start
+        '
+        >
           <blockquote>
             <div className='flex'>
               <div className='text-yellow-400  -ml-1'>
                 <Stars />
               </div>
             </div>
-            <p className='mt-2 text-md text-gray-700 italic'>
+            <p
+              className='mt-2 text-md text-gray-700 italic 
+                lg:max-w-2xl'
+            >
               Ich bin sowas von begeistert{' '}
               <span className='not-italic'>😍</span> die liebe Sandra hat mir
               ein wunderschönes Lashlifting verpasst. Da wirken die Augen gleich

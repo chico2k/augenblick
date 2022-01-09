@@ -8,9 +8,20 @@ import {
 
 const PartnerSection = () => {
   return (
-    <div className=' bg-white mx-auto max-w-7xl mt-36 sm:px-6 lg:px-8 lg:py-24'>
-      <div className='mb-8 px-5'>
-        <h2 className='text-indigo-700 text-2xl mb-3'>Meine Partnerin</h2>
+    <div
+      className=' bg-white mx-auto max-w-7xl mt-36 
+        md:container md:grid md:grid-cols-2
+        '
+    >
+      <div className='mb-8 pl-5'>
+        <h2
+          className='text-indigo-700 text-2xl mb-3
+          md:text-3xl md:mb-8
+          xl:text-5xl 
+        '
+        >
+          Meine Partnerin
+        </h2>
         <p className='text-base'>
           Inhaberin von Premiumcosmetic und langjährige gute Freundin. Elli
           <br />
@@ -18,7 +29,8 @@ const PartnerSection = () => {
             Steffel, Kosmetikerin
           </span>
         </p>
-        <div className='text-gray-500 fill-gray-500'>
+
+        <div className='text-gray-900 fill-gray-900'>
           <dl className='mt-8 space-y-3 text-xs'>
             <dd className='flex '>
               <LocationMarkerIcon
@@ -62,21 +74,22 @@ const PartnerSection = () => {
         </div>
       </div>
 
-      <div className='grid lg:grid-cols-2 lg:gap-8 lg:space-y-0'>
-        <div className='lg:col-span-1'>
-          <div className=' sm:grid sm:items-start sm:gap-6 sm:space-y-0'>
-            <div className='w-full h-96 relative'>
-              <NextImage
-                className='object-cover'
-                src='/eli.jpg'
-                alt='Bild von Sandra Rudic'
-                objectFit='cover'
-                layout='fill'
-                // placeholder='blur'
-                // blurDataURL={sandraSectionImages.sandra.base64}
-              />
-            </div>
-          </div>
+      <div className='sm:grid sm:items-start sm:gap-6 sm:space-y-0'>
+        <div
+          className='w-full aspect-square relative
+              md:shadow-2xl md:shadow-indigo-700/30
+              lg:aspect-video
+            '
+        >
+          <NextImage
+            className='object-cover'
+            src='/eli.jpg'
+            alt='Bild von Sandra Rudic'
+            objectFit='cover'
+            layout='fill'
+            // placeholder='blur'
+            // blurDataURL={sandraSectionImages.sandra.base64}
+          />
         </div>
       </div>
     </div>

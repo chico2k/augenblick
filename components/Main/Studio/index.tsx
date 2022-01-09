@@ -4,53 +4,41 @@ import NextImage from 'next/image';
 
 const StudionSection = () => {
   return (
-    <div className='mt-36'>
-      <div className='h-52 w-full relative'>
-        <div className='absolute inset-0 pl-4 z-10 text-white pt-4'>
-          <h2 className=' text-3xl'> Das Studio</h2>
-          <p> Atemberaubende Atomosphäre</p>
+    <div className='mt-36 relative'>
+      <div
+        className='h-64 w-full relative aspect-video
+        object-right-bottom
+        sm:h-2/3
+        lg:h-screen
+    '
+      >
+        <div
+          className='absolute inset-0 pl-5 pt-5 z-10 
+     
+          md:pl-5 md:pt-5
+          lg:pl-16 lg:pt-16 lg:text-9xl 
+        '
+        >
+          <div
+            className='text-white text-3xl 
+          md:text-4xl '
+          >
+            <h2
+              className='tex-inherit
+              mb-4'
+            >
+              Das Studio
+            </h2>
+            <span>Atemberaubende Atomosphäre</span>
+          </div>
         </div>
+
         <NextImage
           src='/studio.png'
           layout='fill'
           objectFit='cover'
-          className='overflow-hidden'
+          className='overflow-hidden object-bottom-right'
         />
-      </div>
-      <div className='ml-5 mt-4'>
-        <a href='https://www.google.com/maps/place/Augenblick+Chiemgau,+Carl-Orff-Stra%C3%9Fe+7,+83374+Traunreut/@47.942008,12.601627,14z/data=!4m2!3m1!1s0x477671d200d6f24f:0xd66571c4270f68c7?hl=DE&gl=DE'>
-          <div className='flex'>
-            <div className='pr-3 text-indigo-700 flex align-center'>
-              <svg
-                xmlns='http://www.w3.org/2000/svg'
-                className='h-8 w-8 block m-auto'
-                fill='none'
-                viewBox='0 0 24 24'
-                stroke='currentColor'
-              >
-                <path
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  strokeWidth={2}
-                  d='M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z'
-                />
-                <path
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  strokeWidth={2}
-                  d='M15 11a3 3 0 11-6 0 3 3 0 016 0z'
-                />
-              </svg>
-            </div>
-            <div className='text-xs'>
-              <span className='text-indigo-700'>Premiumcosmetic</span>
-              <br />
-              <span className='font-light'>
-                Carl-Orff-Straße 7, 83374 Traunreut
-              </span>
-            </div>
-          </div>
-        </a>
       </div>
     </div>
   );

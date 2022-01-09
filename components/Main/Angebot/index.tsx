@@ -23,7 +23,13 @@ const MostPopular: React.FC<{ mostPopular: boolean }> = ({ mostPopular }) => {
   return (
     <div className='absolute inset-x-0 top-0 transform translate-y-px'>
       <div className='flex justify-center transform -translate-y-1/2 md'>
-        <span className='inline-flex rounded-full bg-white border-2 solid border-indigo-700  text-indigo-700 text-xl px-4 py-1  font-semibold tracking-wider uppercase md:text-base'>
+        <span
+          className='inline-flex rounded-full bg-white border-2 solid border-indigo-700  text-indigo-700 text-xl px-4 py-1  font-semibold tracking-wider uppercase 
+
+          md:text-sm md:py-2 md:px-3 md:rounded-3xl
+          lgtext-medium
+          '
+        >
           Am beliebtesten
         </span>
       </div>
@@ -62,10 +68,29 @@ const AngebotSection = () => {
 
   return (
     <>
-      <div className='container mt-36 pt-16'>
-        <div className='bg-gradient-to-tr from-indigo-400 via-indigo-500 to-indigo-700  px-5 pb-64 md:pb-12'>
-          <h3 className='text-2xl text-center text-white py-9'>Angebot</h3>
-          <div className='md:grid md:grid-cols-3 gap-3'>{productList}</div>
+      <div
+        className='     mt-36 bg-gradient-to-tr from-indigo-400 via-indigo-500 to-indigo-700  px-5 pb-64 
+                        md:pb-12'
+      >
+        <div
+          className='
+                        md:container md:py-0'
+        >
+          <h3
+            className=' text-2xl text-center text-white py-10
+                        md:text-3xl
+                        lg:text-5xl lg:py-20'
+          >
+            Angebot
+          </h3>
+          <div
+            className=' gap-3
+                        md:grid md:grid-cols-3  
+                        lg:gap-8
+          '
+          >
+            {productList}
+          </div>
         </div>
       </div>
     </>

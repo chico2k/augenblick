@@ -1,4 +1,5 @@
 import '../styles/globals.css';
+import '../components/Main/Sandra/sandraStyles.css';
 import 'keen-slider/keen-slider.min.css';
 import type { AppProps } from 'next/app';
 import HeaderSection from '../components/Header';

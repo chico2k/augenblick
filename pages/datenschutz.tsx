@@ -1,5 +1,5 @@
 import React from 'react';
-import DateschutzComponent from '../components/Main/Datenschutz';
+import DateschutzComponent from '../components/Datenschutz';
 
 const DatenSchutzPage = () => {
   return (

@@ -1,15 +1,14 @@
 import type { NextPage } from 'next';
-import AnfahrtSection from '../components/Main/Anfahrt';
-import Testimonials from '../components/Main/Testimonials';
-import HeroSection from '../components/Main/Hero';
-import StudionSection from '../components/Main/Studio';
-import BuchungsSection from '../components/Main/Buchung';
-import PartnerSection from '../components/Main/Partner';
-import AngebotSection from '../components/Main/Angebot';
-import SandraComponent from '../components/Main/Sandra';
-import Slider from '../components/Main/Impressionen/';
-import { blurHandler } from '../lib/blurHandler';
+import AnfahrtSection from '../components/Anfahrt';
+import HeroSection from '../components/Hero';
+import BuchungsSection from '../components/Buchung';
+import PartnerSection from '../components/Partner';
+import AngebotSection from '../components/Angebot';
+import SandraComponent from '../components/Sandra';
+import Slider from '../components/Impressionen';
 import { IBlurOutput } from '../components/Images/types';
+import Testimonials from '../components/Testimonials';
+import StrongLash from '../components/StrongLash';
 
 interface IProps {
   images: IBlurOutput;
@@ -17,32 +16,18 @@ interface IProps {
 
 const Home: NextPage<IProps> = ({ images }) => {
   return (
-    <div className='font-sans'>
-      <HeroSection heroSectionImages={images.heroSectionImages} />
-      <SandraComponent sandraSectionImages={images.sandraSectionImages} />
+    <div className='font-sans relative'>
+      <HeroSection />
+      <SandraComponent />
       <AngebotSection />
-      <Testimonials
-        testimonialsSectionImages={images.testimonialsSectionImages}
-      />
-
-      <StudionSection />
-      <Slider slideSectionImages={images.slideSectionImages} />
+      <Testimonials />
+      <StrongLash />
+      <Slider />
       <BuchungsSection />
       <PartnerSection />
       <AnfahrtSection />
     </div>
   );
-};
-
-export const getStaticProps = async () => {
-  const images = await blurHandler();
-  const props = {
-    props: {
-      images,
-    },
-  };
-
-  return props;
 };
 
 export default Home;

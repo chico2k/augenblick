@@ -16,17 +16,56 @@ export const useLaxLibrary = () => {
      * Angebot
      *
      */
-    lax.addElements('.lax__angebot_left', {
+    lax.addElements('.lax__angebot_background', {
       scrollY: {
-        translateX: [
+        scale: [
           ['elInY', 'elCenterY', 'elOutY'],
-          [-10, 0, 0],
+          [1, 1.3, 2],
           {
             easing: 'easeInQuart',
           },
         ],
       },
     });
+
+    /**
+     * Sandra 
+     */
+    lax.addElements('.lax__sandra__wimpern', {
+      scrollY: {
+        opacity: [
+          ['elInY', 'elCenterY', 'elOutY'],
+          [0, 0.4, 0],
+          {
+            easing: 'easeInQuart',
+          },
+        ],
+
+      },
+    });
+    /**
+     * Caption 
+     */
+    lax.addElements('.lax__strong_lash', {
+      scrollY: {
+        opacity: [
+          ['elInY', 'elCenterY', 'elOutY'],
+          [0.6, 0.8, 0.8],
+          {
+            easing: 'easeInQuart',
+          },
+        ],
+        scale: [
+          ['elInY', 'elCenterY', 'elOutY'],
+          [1, 1.4, 1.4],
+          {
+            easing: 'easeInQuart',
+          },
+        ],
+      },
+    });
+
+
     lax.addElements('.lax__angebot_right', {
       scrollY: {
         translateX: [
@@ -46,7 +85,7 @@ export const useLaxLibrary = () => {
       scrollY: {
         scale: [
           ['elInY', 'elCenterY', 'elOutY'],
-          [1, 1, 1.25],
+          [0.8, 1, 1.25],
           {
             easing: 'easeInQuad',
           },

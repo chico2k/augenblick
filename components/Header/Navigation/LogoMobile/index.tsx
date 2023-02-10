@@ -1,12 +1,18 @@
 import React from 'react';
 import NextImage from 'next/image';
 
-const LogoMobile = () => {
+interface IProps {
+  open: boolean;
+}
+
+const LogoMobile: React.FC<IProps> = ({ open }) => {
+  const isOpen = open ? 'hidden' : '';
+
   return (
     <div
-      className='absolute inset-0 flex justify-center h-full mt-4  z-20
-  
-        lg:hidden'
+      className={`absolute inset-0 flex justify-center h-full mt-4  z-20
+         ${isOpen}
+        lg:hidden`}
     >
       <div
         className='h-14 aspect-video relative 

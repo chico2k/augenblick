@@ -1,25 +1,32 @@
 import type { NextPage } from 'next';
-import AnfahrtSection from '../components/Main/Anfahrt';
-import ArbeitSection from '../components/Main/Arbeit';
-import Testimonials from '../components/Main/Testimonials';
-import HeroSection from '../components/Header/Hero';
-import StudionSection from '../components/Main/Studio';
-import BuchungsSection from '../components/Main/Buchung';
-import PartnerSection from '../components/Main/Partner';
-import AngebotSection from '../components/Main/Angebot';
+import AnfahrtSection from '../components/Anfahrt';
+import HeroSection from '../components/Hero';
+import BuchungsSection from '../components/Buchung';
+import PartnerSection from '../components/Partner';
+import AngebotSection from '../components/Angebot';
+import SandraComponent from '../components/Sandra';
+import Slider from '../components/Impressionen';
+import { IBlurOutput } from '../components/Images/types';
+import Testimonials from '../components/Testimonials';
+import StrongLash from '../components/StrongLash';
 
-const Home: NextPage = () => {
+interface IProps {
+  images: IBlurOutput;
+}
+
+const Home: NextPage<IProps> = ({ images }) => {
   return (
-    <main className='mb-8'>
+    <div className='font-sans relative'>
       <HeroSection />
+      <SandraComponent />
       <AngebotSection />
-      <ArbeitSection />
-      <StudionSection />
       <Testimonials />
+      <StrongLash />
+      <Slider />
       <BuchungsSection />
       <PartnerSection />
       <AnfahrtSection />
-    </main>
+    </div>
   );
 };
 

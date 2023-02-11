@@ -2,7 +2,7 @@ import React from 'react';
 import { Popover } from '@headlessui/react';
 
 const navigation = [
-  { name: 'Service', href: '#' },
+  { name: 'Angebot', href: '#' },
   { name: 'Meine Arbeit', href: '#' },
   { name: 'Studio', href: '#' },
   { name: 'Partner', href: '#' },

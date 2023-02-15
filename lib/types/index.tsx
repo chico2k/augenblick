@@ -5,3 +5,6 @@ export interface IContactFormValues {
   message: string;
   robot: boolean;
 }
+export interface INewsletterFormValues {
+  email: string;
+}

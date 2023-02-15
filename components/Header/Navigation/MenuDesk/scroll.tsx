@@ -1,10 +1,11 @@
-import useScrollListener from '../../../../lib/Hooks';
-import React, { useEffect, useState, useCallback } from 'react';
-import { animated, useSpring } from 'react-spring';
+import useScrollListener from "../../../../lib/Hooks";
+import React, { useEffect, useState, useCallback } from "react";
+import { animated, useSpring } from "react-spring";
 
 export function debounce(func: () => void, wait: number, immediate: boolean) {
   let timeout: any;
   return function () {
+    // @ts-ignore
     const context = this as any;
     const args = arguments as any;
     var later = function () {
@@ -25,10 +26,10 @@ const ScrollNav = () => {
   const handleScroll = useCallback(() => {
     const currentScrollPos = window.pageYOffset;
 
-    console.log('currentScrollPos', currentScrollPos);
-    console.log('prevScrollPos', prevScrollPos);
+    console.log("currentScrollPos", currentScrollPos);
+    console.log("prevScrollPos", prevScrollPos);
     console.log(
-      ' prevScrollPos - currentScrollPos',
+      " prevScrollPos - currentScrollPos",
       prevScrollPos - currentScrollPos
     );
 
@@ -38,18 +39,18 @@ const ScrollNav = () => {
       currentScrollPos < 10;
     setVisible(bla);
 
-    console.log('bla', bla);
+    console.log("bla", bla);
 
     setPrevScrollPos(currentScrollPos);
   }, [prevScrollPos, setPrevScrollPos]);
 
   useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
 
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, [prevScrollPos, visible, handleScroll]);
 
-  const hidden = visible ? '' : 'hidden';
+  const hidden = visible ? "" : "hidden";
 
   const styles = useSpring({
     to: { y: visible ? 0 : -200 },

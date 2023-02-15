@@ -1,9 +1,9 @@
-import React from 'react';
+import React from "react";
 
 const DateschutzComponent = () => {
   return (
-    <div>
-      <h2>Einleitung</h2>
+    <section className="container mx-auto w-max-xl relative min-h-scree pt-32">
+      <h2 className="text-xl">Einleitung</h2>
       <p>
         Wir („wir“, „uns“, „unser/e“) nehmen den Schutz der Daten der Nutzer
         („Nutzer“ oder „Sie“) unserer Website und/oder unseres Mobile-App (die
@@ -26,7 +26,7 @@ const DateschutzComponent = () => {
         Zustimmung zu dieser Datenschutzrichtlinie und allen Änderungen daran
         dar.
       </p>
-    </div>
+    </section>
   );
 };
 

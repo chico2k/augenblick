@@ -1,4 +1,5 @@
-import Image from 'next/future/image';
+import NextImage from 'next/image';
+
 
 import avatarImage1 from '/public/testimonial_1.jpg';
 import avatarImage2 from '/public/testimonial_1.jpg';
@@ -107,7 +108,7 @@ export function Testimonials() {
                       className='bg-red-200 w-full rounded-t-2xl 
                      overflow-hidden relative'
                     >
-                      <Image
+                      <NextImage
                         className='w-full object-contain object-position-bottom hover:scale-110 transition-all duration-200'
                         src={testimonial.author.image}
                         alt={testimonial.author.alt}

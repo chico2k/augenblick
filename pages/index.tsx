@@ -1,27 +1,26 @@
-import type { NextPage } from 'next';
-import AnfahrtSection from '../components/Anfahrt';
-import HeroSection from '../components/Hero';
-import BuchungsSection from '../components/Buchung';
-import PartnerSection from '../components/Partner';
-import AngebotSection from '../components/Angebot';
-import SandraComponent from '../components/Sandra';
-import Slider from '../components/Impressionen';
-import { IBlurOutput } from '../components/Images/types';
-import Testimonials from '../components/Testimonials';
-import StrongLash from '../components/StrongLash';
+import type { NextPage } from "next";
+import AnfahrtSection from "../components/Anfahrt";
+import BuchungsSection from "../components/Buchung";
+import PartnerSection from "../components/Partner";
+import AngebotSection from "../components/Angebot";
+import SandraComponent from "../components/Sandra";
+import Slider from "../components/Impressionen";
+import HeroSection from "../components/Hero";
+import Testimonials from "../components/Testimonials";
+import StrongLash from "../components/StrongLash";
+import Augenblick from "components/Augenblick";
+import Newsletter from "components/Newsletter";
 
-interface IProps {
-  images: IBlurOutput;
-}
-
-const Home: NextPage<IProps> = ({ images }) => {
+const Home: NextPage = () => {
   return (
-    <div className='font-sans relative'>
+    <div className="font-sans relative">
       <HeroSection />
       <SandraComponent />
       <AngebotSection />
       <Testimonials />
       <StrongLash />
+      <Newsletter />
+      <Augenblick />
       <Slider />
       <BuchungsSection />
       <PartnerSection />

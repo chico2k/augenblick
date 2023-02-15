@@ -1,11 +1,11 @@
-import React from 'react';
-import DateschutzComponent from '../components/Datenschutz';
+import React from "react";
+import DateschutzComponent from "../components/Datenschutz";
 
 const DatenSchutzPage = () => {
   return (
-    <div>
+    <section className="text-xs  mx-auto max-w-xl min-h-screen">
       <DateschutzComponent />
-    </div>
+    </section>
   );
 };
 

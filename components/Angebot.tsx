@@ -52,32 +52,30 @@ const MostPopular: React.FC<{ mostPopular: boolean }> = ({ mostPopular }) => {
 const AngebotSection = () => {
   const productList = products.map((product) => {
     return (
-      <>
-        <div className="mb-16 relative " key={product.id}>
-          <MostPopular mostPopular={product.popular} />
-          <div className="shadow-lg  shadow-fuchsia-300/30  h-72  rounded-xl flex items-center justify-center bg-white border ">
-            <div className="w-full text-center">
-              <div className="text-center ">
-                <h3 className="text-xl md:text-2xl lg:text-3xl text-gray-600 uppercase">
-                  {product.title}
-                </h3>
-                <div className="text-center mt-1 text-fuchsia-700 text-base lg:text-lg font-light">
-                  {product.subTitle}
-                </div>
-                <div className="text-center mt-6">
-                  <span className="px-3 flex items-start text-6xl tracking-tight text-gray-900 justify-center align-center">
-                    <span className="text-6xl">{product.price}</span>
-                    <span className="text-3xl font-medium">€</span>
-                  </span>
-                </div>
-                <div className="mt-8 text-xs absolute inset-x-0">
-                  {product.footer}
-                </div>
+      <div className="mb-16 relative " key={product.id}>
+        <MostPopular mostPopular={product.popular} />
+        <div className="shadow-lg  shadow-fuchsia-300/30  h-72  rounded-xl flex items-center justify-center bg-white border ">
+          <div className="w-full text-center">
+            <div className="text-center ">
+              <h3 className="text-xl md:text-2xl lg:text-3xl text-gray-600 uppercase">
+                {product.title}
+              </h3>
+              <div className="text-center mt-1 text-fuchsia-700 text-base lg:text-lg font-light">
+                {product.subTitle}
+              </div>
+              <div className="text-center mt-6">
+                <span className="px-3 flex items-start text-6xl tracking-tight text-gray-900 justify-center align-center">
+                  <span className="text-6xl">{product.price}</span>
+                  <span className="text-3xl font-medium">€</span>
+                </span>
+              </div>
+              <div className="mt-8 text-xs absolute inset-x-0">
+                {product.footer}
               </div>
             </div>
           </div>
         </div>
-      </>
+      </div>
     );
   });
 

@@ -8,6 +8,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@axiomhq/axiom-node": "^0.11.0",
     "@babel/preset-typescript": "^7.16.5",
     "@google-cloud/local-auth": "^1.0.1",
     "@headlessui/react": "^1.4.2",
@@ -24,6 +25,7 @@
     "keen-slider": "^6.6.2",
     "lax.js": "^2.0.3",
     "next": "13.1.6",
+    "next-axiom": "^0.17.0",
     "plaiceholder": "^2.2.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
@@ -32,6 +34,7 @@
     "react-scroll": "^1.8.4",
     "react-spring": "^9.3.3",
     "react-toastify": "^9.0.5",
+    "winston": "^3.8.2",
     "zod": "^3.17.3",
     "zod-formik-adapter": "^1.1.1"
   },

@@ -1,12 +1,12 @@
-import React from 'react';
-import NextImage from 'next/image';
+import React from "react";
+import NextImage from "next/image";
 
 interface IProps {
   open: boolean;
 }
 
 const LogoMobile: React.FC<IProps> = ({ open }) => {
-  const isOpen = open ? 'hidden' : '';
+  const isOpen = open ? "hidden" : "";
 
   return (
     <div
@@ -15,16 +15,17 @@ const LogoMobile: React.FC<IProps> = ({ open }) => {
         lg:hidden`}
     >
       <div
-        className='h-14 aspect-video relative 
+        className="h-14 aspect-video relative 
               xs:h-16
-              sm:h-24'
+              sm:h-24"
       >
         <NextImage
-          layout='fill'
-          src='/logo.png'
-          alt='Augenblick Logo'
-          className='block 
-            lg:hidden'
+          src="/logo.png"
+          alt="Augenblick Logo"
+          className="block 
+            lg:hidden"
+          width={300}
+          height={300}
         />
       </div>
     </div>

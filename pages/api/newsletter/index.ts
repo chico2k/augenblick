@@ -9,7 +9,7 @@ async function sendEmail(req: NextApiRequest, res: NextApiResponse) {
     const formValues = req.body as IContactFormValues;
 
     const data = {
-      list_ids: ["2f947422-d4c5-4695-8351-d8a3db48842c"],
+      list_ids: ["be1bdc02-c8d0-4bf6-b3a4-b53055256db9"],
       contacts: [
         {
           email: req.body.email,

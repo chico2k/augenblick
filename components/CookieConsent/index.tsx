@@ -1,39 +1,67 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { setCookie, hasCookie } from "cookies-next";
+import { setCookie, hasCookie, getCookie } from "cookies-next";
 
-function Consent() {
-  const [consent, setConsent] = useState(true);
-  useEffect(() => {
-    setConsent(hasCookie("localConsent"));
+export const useConsent = () => {
+  const defaultConsent = useMemo(() => {
+    return { ad_storage: "denied", analytics_storage: "denied" };
   }, []);
 
+  const grantedConsent = {
+    ad_storage: "granted",
+    analytics_storage: "granted",
+  };
+
+  const [consent, setConsent] = useState(defaultConsent);
+
+  useEffect(() => {
+    if (hasCookie("localConsent")) {
+      const consent = getCookie("localConsent") as string;
+      return setConsent(JSON.parse(consent));
+    }
+
+    setCookie("localConsent", defaultConsent, { maxAge: 60 * 60 * 24 * 365 });
+    return setConsent(defaultConsent);
+  }, [defaultConsent]);
+
   const acceptCookie = () => {
-    setConsent(true);
-    setCookie("localConsent", "true", { maxAge: 60 * 60 * 24 * 365 });
+    setConsent(grantedConsent);
+
+    setCookie(
+      "localConsent",
+      {
+        ad_storage: "granted",
+        analytics_storage: "granted",
+      },
+      { maxAge: 60 * 60 * 24 * 365 }
+    );
 
     gtag("consent", "update", {
       ad_storage: "granted",
       analytics_storage: "granted",
     });
 
-    console.log("accepting cookies");
+    console.log("update consent");
   };
-  const closeP = () => {
-    setConsent(true);
+
+  const closeCookie = () => {
+    setConsent(grantedConsent);
   };
+
   const denyCookie = () => {
-    setConsent(true);
-    setCookie("localConsent", "false", { maxAge: 60 * 60 * 24 * 365 });
-    console.log("denying cookie");
+    setConsent(defaultConsent);
+    setCookie("localConsent", defaultConsent, { maxAge: 60 * 60 * 24 * 365 });
   };
-  if (consent === true) {
-    return null;
-  }
+  return { consent, acceptCookie, denyCookie, closeCookie };
+};
+
+function Consent() {
+  const { consent, acceptCookie, denyCookie, closeCookie } = useConsent();
+
   return (
     <section
       className={`fixed bottom-0 left-0 w-full py-2 md:py-4 ${
-        consent ? "hidden" : ""
+        consent.ad_storage === "granted" ? "hidden" : ""
       } z-30`}
     >
       <div className="flex flex-col items-start px-5 py-3 space-y-2 bg-gray-200 md:flex-row md:space-y-0 md:items-stretch md:space-x-2">
@@ -53,14 +81,14 @@ function Consent() {
         <div className="flex items-center">
           <button
             type="button"
-            onClick={acceptCookie}
+            onClick={denyCookie}
             className="mr-4 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
           >
             Ablehnen
           </button>
           <button
             type="button"
-            onClick={denyCookie}
+            onClick={acceptCookie}
             className="inline-flex items-center rounded-md border border-transparent bg-fuchsia-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-fuchsia-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
           >
             Zustimmen

@@ -6,11 +6,12 @@ import Navigation from "../components/Header/Navigation";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Script from "next/script";
-import Consent from "components/CookieConsent";
+import Consent, { useConsent } from "components/CookieConsent";
 import { getCookie } from "cookies-next";
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const consent = getCookie("localConsent");
+  const { consent } = useConsent();
+
   return (
     <>
       <Script
@@ -37,16 +38,15 @@ function MyApp({ Component, pageProps }: AppProps) {
         }}
       />
 
-      {consent === true && (
+      {consent.ad_storage === "granted" && (
         <Script
           id="consupd"
           strategy="afterInteractive"
           dangerouslySetInnerHTML={{
             __html: `
-            gtag('consent', 'update', {
-              'ad_storage': 'granted',
-              'analytics_storage': 'granted'
-            });
+
+            gtag('consent', 'update', ${JSON.stringify(consent)});
+            
           `,
           }}
         />

@@ -27,12 +27,12 @@ export default function Newsletter() {
       <div className="mx-auto max-w-7xl py-12 px-6 lg:flex lg:items-center lg:py-32 lg:px-8">
         <div className="lg:w-0 lg:flex-1">
           <h2
-            className="text-3xl font-bold tracking-tight text-white sm:text-4xl"
+            className="text-3xl font-semibold tracking-tight text-white sm:text-3xl"
             id="newsletter-headline"
           >
             Melde dich für den Newsletter an.
           </h2>
-          <p className="mt-3 max-w-3xl text-lg leading-6 text-gray-300">
+          <p className="mt-3 max-w-lg text-lg leading-6 text-gray-100">
             Verpasse keine Deals und Neuigkeiten mehr! Melde dich jetzt für den
             Newsletter an und bleibe immer up-to-date.
           </p>
@@ -68,6 +68,7 @@ export default function Newsletter() {
             />
             <div className="mt-3 rounded-md shadow sm:mt-0 sm:ml-3 sm:flex-shrink-0">
               <button
+                id="submit-newsletter"
                 type="submit"
                 className="flex w-full items-center justify-center rounded-md border border-transparent bg-fuchsia-800 px-5 py-3 text-base font-medium text-white hover:bg-fuchsia-700 focus:outline-none focus:ring-2 focus:ring-fuchsia-500 focus:ring-offset-2 focus:ring-offset-gray-800"
               >
@@ -75,7 +76,7 @@ export default function Newsletter() {
               </button>
             </div>
           </form>
-          <p className="mt-3 text-sm text-gray-300">
+          <p className="mt-3 text-sm text-gray-100 ">
             Der Schutz Ihrer Daten liegt uns am Herzen. Lesen Sie unsere{" "}
             <NextLink
               href="/datenschutz"

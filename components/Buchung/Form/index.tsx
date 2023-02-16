@@ -5,11 +5,9 @@ import * as z from "zod";
 import ContactFields from "./Field";
 import dynamic from "next/dynamic";
 import { toFormikValidationSchema } from "zod-formik-adapter";
-import ReCAPTCHAComponent from "./CaptachField";
 import { toast } from "react-toastify";
 import useContactSubmit from "../useContactSubmit";
 import NextImage from "next/image";
-
 import eye from "/public/form/Auge-Form.png";
 
 const ReCAPTCHA = dynamic(() => import("react-google-recaptcha"));
@@ -44,8 +42,8 @@ const BuchungsForm = () => {
   if (hasSubmitted) {
     return (
       <>
-        <div className="pt-16 text-gray-700 pb-8 pr-6 sm:px-7 lg:col-span-2 lg:mb-18 xl:p-12">
-          <span className="text-2xl">
+        <div className="pt-16 text-gray-700 pb-8 pr-6  lg:col-span-2 lg:mb-18 ">
+          <span className="text-xl">
             Vielen Dank für Ihre Nachricht. Wir werden uns so schnell wie
             möglich.
           </span>

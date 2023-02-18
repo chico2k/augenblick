@@ -1,8 +1,9 @@
-import { INewsletterFormValues } from "../../lib/types";
+import { schemaNewsLetter } from "components/Newsletter";
+import z from "zod";
 
 const useNewsletterSubmit = () => {
   const newsletterSubmitHandler = async (
-    values: INewsletterFormValues
+    values: z.infer<typeof schemaNewsLetter>
   ): Promise<Boolean> => {
     try {
       const res = await fetch("/api/newsletter", {

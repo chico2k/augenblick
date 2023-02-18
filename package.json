@@ -20,7 +20,6 @@
     "@types/react-google-recaptcha": "^2.1.5",
     "axios": "^0.24.0",
     "cookies-next": "^2.1.1",
-    "formik": "^2.2.9",
     "googleapis": "^92.0.0",
     "keen-slider": "^6.6.2",
     "lax.js": "^2.0.3",
@@ -35,8 +34,7 @@
     "react-spring": "^9.3.3",
     "react-toastify": "^9.0.5",
     "winston": "^3.8.2",
-    "zod": "^3.17.3",
-    "zod-formik-adapter": "^1.1.1"
+    "zod": "^3.17.3"
   },
   "devDependencies": {
     "@babel/core": "^7.16.5",

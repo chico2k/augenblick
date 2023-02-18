@@ -5,7 +5,7 @@ import lash from "/public/navigation/augenblick.png";
 
 const Augenblick = () => {
   return (
-    <div className="container mt-64 max-w-4xl">
+    <div className="mx-auto mt-28 max-w-4xl">
       <NextImage
         alt="Strong Lashes"
         src={lash}

@@ -5,7 +5,7 @@ import * as z from "zod";
 import { toast } from "react-toastify";
 import NextLink from "next/link";
 
-const schema = z.object({
+export const schemaNewsLetter = z.object({
   email: z
     .string({ required_error: "E-Mail ist ein Pflichtfeld" })
     .email({ message: "Bitte eine gültige E-Mail-Adresse eingeben" }),
@@ -17,9 +17,11 @@ export default function Newsletter() {
   const {
     handleSubmit,
     register,
+    reset,
+
     formState: { errors },
-  } = useForm({
-    resolver: zodResolver(schema),
+  } = useForm<z.infer<typeof schemaNewsLetter>>({
+    resolver: zodResolver(schemaNewsLetter),
   });
 
   return (
@@ -40,18 +42,18 @@ export default function Newsletter() {
         <div className="mt-8 lg:mt-0 lg:ml-8">
           <form
             className="sm:flex"
-            onSubmit={handleSubmit(
-              async () =>
-                await toast.promise(
-                  newsletterSubmitHandler({ email: "mariogalla86@gmail.com" }),
-                  {
-                    pending: "Nachricht wird geschickt...",
-                    success: "Wir haben E-Mail aufgenommen.",
-                    error:
-                      "Es ist etwas schiefgelaufen. Bitte probiere es nochmal.",
-                  }
-                )
-            )}
+            onSubmit={handleSubmit(async (data) => {
+              await toast.promise(
+                newsletterSubmitHandler({ email: data.email }),
+                {
+                  pending: "Bitte warten..",
+                  success: "Wir haben deine E-Mail aufgenommen.",
+                  error:
+                    "Es ist etwas schiefgelaufen. Bitte probiere es nochmal.",
+                }
+              );
+              return reset();
+            })}
           >
             <label htmlFor="email-address" className="sr-only">
               Email address

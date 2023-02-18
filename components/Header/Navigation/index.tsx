@@ -2,8 +2,6 @@ import { Disclosure } from "@headlessui/react";
 import MenuMobil from "./MenuMobil";
 import MenuDesk from "./MenuDesk";
 import LogoMobile from "./LogoMobile";
-import MobileMenuButton from "./ButtonMobile";
-import useScrollListener from "../../../lib/Hooks";
 
 const Navigation = () => {
   return (
@@ -32,3 +30,33 @@ const Navigation = () => {
 };
 
 export default Navigation;
+
+import React from "react";
+
+import { MenuIcon, XIcon } from "@heroicons/react/outline";
+
+interface IProps {
+  open: boolean;
+}
+
+const MobileMenuButton: React.FC<IProps> = ({ open }) => {
+  return (
+    <Disclosure.Button
+      className="inline-flex items-center  rounded-md text-fuchsia-500  z-40
+        hover:text-fuchsia-600 hover:bg-gray-100 
+          focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500
+        lg:hidden
+          "
+    >
+      <span className="sr-only">Open main menu</span>
+      {open ? (
+        <XIcon className="block h-12 w-12 md:h-14 md:w-14" aria-hidden="true" />
+      ) : (
+        <MenuIcon
+          className="block h-12 w-12 md:h-14 md:w-14"
+          aria-hidden="true"
+        />
+      )}
+    </Disclosure.Button>
+  );
+};

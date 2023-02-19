@@ -94,13 +94,13 @@ const Slider: React.FunctionComponent = () => {
             {loaded && instanceRef.current && (
               <>
                 <button
-                  className="h-full transparent w-5 md:w-20 absolute left-0 group cursor-pointer hover:bg-gray-50/20"
+                  className="h-full transparent w-10 md:w-20 absolute left-0 group cursor-pointer "
                   onClick={(e: any) =>
                     e.stopPropagation() || instanceRef.current?.prev()
                   }
                 >
                   <svg
-                    className={`w-8 h-8 p-2 md:w-12 md:h-12 md:p-3 bg-fuchsia-500 rounded-full absolute top-1/2 group-hover:bg-fuchsia-600 group-hover:scale-110 transition-all cursor-pointer fill-white -mt-7 left-2 md:left-5`}
+                    className={`w-8 h-8 p-2 md:w-12 md:h-12 md:p-3 bg-fuchsia-1000 rounded-full absolute top-1/2 group-hover:bg-fuchsia-600 group-hover:scale-110 transition-all cursor-pointer fill-white -mt-7 left-2 md:left-5`}
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
                   >
@@ -108,7 +108,7 @@ const Slider: React.FunctionComponent = () => {
                   </svg>
                 </button>
                 <button
-                  className="h-full transparent w-5 md:w-20 absolute right-0 group cursor-pointer  hover:bg-gray-50/10"
+                  className="h-full transparent w-10 md:w-20 absolute right-0 group cursor-pointer  "
                   onClick={(e: any) =>
                     e.stopPropagation() || instanceRef.current?.next()
                   }

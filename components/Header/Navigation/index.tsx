@@ -23,20 +23,20 @@ const Navigation = () => {
                     <span className="sr-only">Open main menu</span>
                     {open ? (
                       <XIcon
-                        className="block h-10 w-10 md:h-14 md:w-14"
+                        className="block h-10 w-10 mt-3  md:h-14 md:w-14"
                         aria-hidden="true"
                       />
                     ) : (
                       <MenuIcon
-                        className="block h-10 w-10 md:h-14 md:w-14"
+                        className="block h-10 w-10 mt-3 md:h-14 md:w-14"
                         aria-hidden="true"
                       />
                     )}
                   </Disclosure.Button>
                   <div
-                    className={`absolute inset-0 flex justify-center h-full mt-4  lg:hidden`}
+                    className={`absolute inset-0 flex justify-center h-full mt-4 lg:hidden`}
                   >
-                    <div className="w-44 aspect-video relative mt-2 z-40 ">
+                    <div className="w-52 aspect-video relative mt-2 z-40 ">
                       <NextImage
                         src={logo}
                         alt="Augenblick Logo"

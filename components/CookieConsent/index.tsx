@@ -62,7 +62,7 @@ function Consent() {
   const { consent, acceptCookie, denyCookie, closeCookie, hasLoaded } =
     useConsent();
 
-  if (!hasLoaded) return;
+  if (!hasLoaded) return null;
   return (
     <section
       className={`fixed bottom-0 left-0 w-full py-2 md:py-4 ${

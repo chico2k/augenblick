@@ -1,82 +1,41 @@
+import NextLink from "next/link";
 import NextImage from "next/image";
-
-import avatarImage1 from "/public/testimonial_1.jpg";
-import avatarImage2 from "/public/testimonial_1.jpg";
-import avatarImage3 from "/public/testimonial_1.jpg";
-import avatarImage4 from "/public/testimonial_2.jpg";
-import avatarImage5 from "/public/testimonial_2.jpg";
+import bg from "/public/testimonials/bg.png";
 
 const testimonials = [
   [
     {
       content:
         "Es war richtig cool. Mein erstes Mal Wimpern Lifting und Sandra hat alles gut erklärt, ich wusste also vorab was passiert. Der Schwung, die Farbe und wie lange es hält ist einfach krass genial. Hab seit 2 Wochen keinen Mascara mehr genutzt. Und am Ende noch ein Bürstchen bekommen. Voll cool. Also echt zu empfehlen!!!",
-      type: "Verlängerung",
-      author: {
-        name: "Sheryl Berge",
-        role: "CEO at Lynch LLC",
-        alt: "CEO at Lynch LLC",
-        image: avatarImage1,
-      },
+      name: "Susan",
     },
     {
       content:
-        "Tolles Studio, sehr saubere und schöne Leistung bei einer entspannten und wohltuender Atmosphäre! Ich liebe meine Wimpern jeden Tag!",
-      type: "Verlängerung",
-      author: {
-        name: "Amy Hahn",
-        role: "Director at Velocity Industries",
-        image: avatarImage4,
-        alt: "CEO at Lynch LLC",
-      },
+        "Ich war total zufrieden, habe ein Lashlifting bei der lieben Sandra machen lassen. Tob Ergebnis und eine Super Beratung. Die einzelnen Schritte erklärt Sie ganz genau, so dass man weiß was am Auge gemacht wird. Ich habe mich sehr Wohlgefühlt, man merkt dass sie Spaß an Ihrer Arbeit hat.",
+      name: "Jasmina",
+    },
+  ],
+  [
+    {
+      content: `Mein erster Termin war mega schön und Sandra weiß immer genau was sie macht. Ihr ist sehr wichtig das alles perfekt sitzt und der Kunde zufrieden ist. Man fühlt sich sehr sehr wohl und es ist eine super entspannte Atmosphäre. Ich bin sehr begeistert und werde jetzt immer zu ihr gehen.`,
+      name: "Pauline",
+    },
+    {
+      content:
+        "Sehr schôner Saloon mit sehr lieben und freundlichem Personal dass zudem auch noch sehr gut ihr Handwerk verstehen. Noch nie waren meine Wimpern so schôn.wie bei Sandra. 1000% Empfehlung",
+      name: "Roswitha",
     },
   ],
   [
     {
       content:
-        "Super sympathisch und professioneller Service! Absolut empfehlenswert",
-      type: "Verlängerung",
-      author: {
-        name: "Leland Kiehn",
-        role: "Founder of Kiehn and Sons",
-        image: avatarImage5,
-        alt: "CEO at Lynch LLC",
-      },
+        "Sandra ist einfach die Beste! Bin als absoluter Lashes-Neuling zu ihr gekommen und hab mich von Anfang an super wohl und unglaublich gut aufgehoben gefühlt. Die Atmosphäre ist locker und es ist immer lustig. Die Ergebnisse sind atemberaubend schön, das Preis-Leistungs-Verhältnis unschlagbar gut! Klare Weiterempfehlung!",
+      name: "Annalena",
     },
     {
       content:
-        "There are so many things I had to do with my old software that I just don’t do at all with TaxPal. Suspicious but I can’t say I don’t love it.",
-      type: "Verlängerung",
-      author: {
-        name: "Erin Powlowski",
-        role: "COO at Armstrong Inc",
-        image: avatarImage2,
-        alt: "CEO at Lynch LLC",
-      },
-    },
-  ],
-  [
-    {
-      content:
-        "I used to have to remit tax to the EU and with TaxPal I somehow don’t have to do that anymore. Nervous to travel there now though.",
-      type: "Verlängerung",
-      author: {
-        name: "Peter Renolds",
-        role: "Founder of West Inc",
-        image: avatarImage3,
-        alt: "CEO at Lynch LLC",
-      },
-    },
-    {
-      content:
-        "This is the fourth email I’ve sent to your support team. I am literally being held in jail for tax fraud. Please answer your damn emails, this is important.",
-      type: "Verlängerung",
-      author: {
-        name: "Amy Hahn",
-        role: "Director at Velocity Industries",
-        image: avatarImage4,
-        alt: "CEO at Lynch LLC",
-      },
+        "Ich war heute das erste mal beim Lifting und Sandra hat mir jegliche Angst genommen! So eine liebe Person! Ich bin extrem zufrieden, es war eine sehr schöne Behandlung. Wahnsinn! Jederzeit wieder!",
+      name: "Melanie",
     },
   ],
 ];
@@ -85,12 +44,17 @@ export function Testimonials() {
   return (
     <section
       id="testimonials"
-      aria-label="What our customers are saying"
-      className=" py-20 sm:py-32 container max-w-6xl"
+      aria-label="Was meine Kundeninnen sagen"
+      className=" py-20 sm:pb-24 sm:pt-32  transparent relative"
     >
-      <div>
-        <div className="mx-auto max-w-2xl md:text-center">
-          <h2 className="font-display text-3xl text-fuchsia-500 sm:text-4xl">
+      <NextImage
+        alt="Hitergrundbild mit Herzen und Wimpern"
+        src={bg}
+        className="absolute inset-0 w-full h-full -z-10 "
+      />
+      <div className="z-20 container max-w-7xl px-6">
+        <div className="mx-auto max-w-2xl md:text-center lg:max-w-7xl">
+          <h2 className="z-20 font-display px-4 text-3xl text-fuchsia-500 sm:text-4xl lg:text-6xl ">
             Meine Kundinnen lieben das Ergebnis.
           </h2>
         </div>
@@ -103,20 +67,6 @@ export function Testimonials() {
               <ul role="list" className="flex flex-col gap-y-6 sm:gap-y-8">
                 {column.map((testimonial, testimonialIndex) => (
                   <li key={testimonialIndex}>
-                    <div
-                      className="bg-red-200 w-full rounded-t-2xl 
-                     overflow-hidden relative"
-                    >
-                      <NextImage
-                        className="w-full object-contain object-position-bottom hover:scale-110 transition-all duration-200"
-                        src={testimonial.author.image}
-                        alt={testimonial.author.alt}
-                        placeholder={"blur"}
-                      />
-                      <div className="absolute left-5 text-sm top-5  font-medium  rounded-xl px-4 h-6 bg-fuchsia-500 text-white z-10 flex justify-center ">
-                        <span className="self-center"> {testimonial.type}</span>
-                      </div>
-                    </div>
                     <figure className="relative rounded-2xl bg-white p-6 shadow-xl shadow-slate-900/10">
                       <svg
                         aria-hidden="true"
@@ -127,20 +77,19 @@ export function Testimonials() {
                         <path d="M25.086 77.292c-4.821 0-9.115-1.205-12.882-3.616-3.767-2.561-6.78-6.102-9.04-10.622C1.054 58.534 0 53.411 0 47.686c0-5.273.904-10.396 2.712-15.368 1.959-4.972 4.746-9.567 8.362-13.786a59.042 59.042 0 0 1 12.43-11.3C28.325 3.917 33.599 1.507 39.324 0l11.074 13.786c-6.479 2.561-11.677 5.951-15.594 10.17-3.767 4.219-5.65 7.835-5.65 10.848 0 1.356.377 2.863 1.13 4.52.904 1.507 2.637 3.089 5.198 4.746 3.767 2.41 6.328 4.972 7.684 7.684 1.507 2.561 2.26 5.5 2.26 8.814 0 5.123-1.959 9.19-5.876 12.204-3.767 3.013-8.588 4.52-14.464 4.52Zm54.24 0c-4.821 0-9.115-1.205-12.882-3.616-3.767-2.561-6.78-6.102-9.04-10.622-2.11-4.52-3.164-9.643-3.164-15.368 0-5.273.904-10.396 2.712-15.368 1.959-4.972 4.746-9.567 8.362-13.786a59.042 59.042 0 0 1 12.43-11.3C82.565 3.917 87.839 1.507 93.564 0l11.074 13.786c-6.479 2.561-11.677 5.951-15.594 10.17-3.767 4.219-5.65 7.835-5.65 10.848 0 1.356.377 2.863 1.13 4.52.904 1.507 2.637 3.089 5.198 4.746 3.767 2.41 6.328 4.972 7.684 7.684 1.507 2.561 2.26 5.5 2.26 8.814 0 5.123-1.959 9.19-5.876 12.204-3.767 3.013-8.588 4.52-14.464 4.52Z" />
                       </svg>
                       <blockquote className="relative">
-                        <p className="text-base tracking-tight text-slate-900">
+                        <p className="text-sm md:text-base  text-slate-900">
                           {testimonial.content}
                         </p>
                       </blockquote>
-                      <figcaption className="relative mt-6 flex items-center justify-between border-t border-slate-100 pt-6">
-                        <div className="flex justify-between  w-full">
-                          <div className="font-display text-base text-slate-900">
-                            {testimonial.author.name}
+                      <figcaption className="relative mt-2 md:mt-4 flex items-center justify-between border-t border-slate-100 pt-4 md:pt-6">
+                        <div className="flex justify-between w-full">
+                          <div className="font-display text-sm md:text-base text-slate-900">
+                            {testimonial.name}
                           </div>
-                          <div className="text-yellow-400  -ml-1">
+                          <div className="text-yellow-400 -ml-1">
                             <Stars />
                           </div>
                         </div>
-                        <div className="overflow-hidden rounded-full bg-slate-50"></div>
                       </figcaption>
                     </figure>
                   </li>
@@ -149,6 +98,24 @@ export function Testimonials() {
             </li>
           ))}
         </ul>
+      </div>
+
+      <div className="mt-12 flex text-xl justify-center md:w-full">
+        <button
+          type="submit"
+          className="mt-2 inline-flex items-center justify-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-gradient-to-tl from-fuchsia-500 via-fuchsia-600 to-fuchsia-700 
+                hover:bg-gradient-to-l hover:from-fuchsia-900 hbover:via-fuchsia-800 hover:to-fuchsia-900  transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-fuchsia-500 sm:w-auto"
+        >
+          Bewertung schreiben
+        </button>
+      </div>
+      <div className="text-base mt-4 flex md:text-xl justify-center md:w-full">
+        Alle Bewertungen findest du
+        <NextLink href="">
+          <span className="text-fuchsia-500 hover:text-fuchsia-700 ">
+            &nbsp; hier
+          </span>
+        </NextLink>
       </div>
     </section>
   );

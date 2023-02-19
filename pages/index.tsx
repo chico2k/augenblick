@@ -17,13 +17,13 @@ const Home: NextPage = () => {
       <HeroSection />
       <SandraComponent />
       <AngebotSection />
+      <Slider />
       <Testimonials />
-      <StrongLash />
       <Newsletter />
       <Augenblick />
-      <Slider />
       <BuchungsSection />
       <PartnerSection />
+      <StrongLash />
       <AnfahrtSection />
     </div>
   );

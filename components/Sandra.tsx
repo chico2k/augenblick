@@ -1,19 +1,18 @@
 import NextImage from "next/image";
-
 import wimpern from "/public/sandra/lashes.png";
-import sandra from "/public/sandra/sandra.jpg";
+import sandra from "/public/sandra/sandra.png";
 
 const SandraComponent: React.FunctionComponent = () => {
   return (
     <>
       <div className="max-w-7xl mx-auto">
         <div
-          className="px-5 my-56 sm:container md:grid md:grid-cols-2 md:gap-8 lg:gap-12"
+          className="my-28 md:my-56 sm:container md:grid md:grid-cols-2 md:gap-8 lg:gap-12"
           id="me"
         >
-          <div className="relative">
-            <h2 className="text-fuchsia-500 text-2xl mb-8 w-full md:text-3xl md:mb-16 lg:text-6xl">
-              Sandra Rudic
+          <div className="relative px-5 ">
+            <h2 className="text-fuchsia-500 text-6xl mb-8 w-full md:mb-12 lg:text-8xl">
+              Sandra
             </h2>
             <p className="text-base mb-9 md:text-base md:pr-3 lg:text-xl lg:pr-24">
               Ich bin{" "}
@@ -40,7 +39,7 @@ const SandraComponent: React.FunctionComponent = () => {
               alt="Bild von Sandra"
             />
           </div>
-          <div className="relative overflow-hidden rounded-lg h-auto ">
+          <div className="relative overflow-hidden md:rounded-lg h-auto ">
             <NextImage
               src={sandra}
               placeholder="blur"

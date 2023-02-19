@@ -5,7 +5,6 @@ import useContactSubmit from "../useContactSubmit";
 import NextImage from "next/image";
 import eye from "/public/form/Auge-Form.png";
 
-// NEW
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { ExclamationCircleIcon } from "@heroicons/react/outline";
@@ -14,22 +13,21 @@ const ReCAPTCHA = dynamic(() => import("react-google-recaptcha"));
 
 export const validationSchema = z.object({
   name: z
-    .string({ required_error: "Bitte geben Sie einen Namen ein." })
-    .min(2, { message: "Bitte geben Sie einen Namen ein." }),
+    .string({ required_error: "Bitte einen Namen angeben." })
+    .min(2, { message: "Bitte einen Namen angeben." }),
 
   email: z
-    .string({ required_error: "Bitte geben Sie einen E-Mail ein." })
+    .string({ required_error: "Bitte eine E-Mail angeben." })
     .email({ message: "Ungültige E-Mail" }),
 
   message: z
-    .string({ required_error: "Bitte geben Sie einen Nachricht ein." })
-    .min(2, { message: "Bitte geben Sie einen Nachricht ein." }),
+    .string({ required_error: "Bitte eine Nachricht angeben." })
+    .min(2, { message: "Bitte eine Nachricht angeben." }),
 
   robot: z.boolean({ required_error: `Bitte das Captcha ausfüllen.` }).refine(
     (val) => val === false,
     (val) => ({ message: `Bitte das Captcha ausfüllen.` })
   ),
-
   phone: z.string().optional(),
 });
 
@@ -230,7 +228,7 @@ const BuchungsForm = () => {
             </div>
             {/* Message FIELD END */}
 
-            <div className="my-1">
+            <div className="my-1 mt-4">
               <ReCAPTCHA
                 sitekey="6LePoBsgAAAAANy765Nz0Jl4gtYgXsJego5D8nHT"
                 onChange={() => setValue("robot", false)}
@@ -243,7 +241,8 @@ const BuchungsForm = () => {
             <div className="md:col-span-2 sm:flex sm:justify-start">
               <button
                 type="submit"
-                className="mt-2 w-full inline-flex items-center justify-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-fuchsia-500 hover:bg-fuchsia-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-fuchsia-500 sm:w-auto"
+                className="mt-2 w-full inline-flex items-center justify-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-gradient-to-tl from-fuchsia-500 via-fuchsia-600 to-fuchsia-700 
+                hover:bg-gradient-to-l hover:from-fuchsia-900 hbover:via-fuchsia-800 hover:to-fuchsia-900  transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-fuchsia-500 sm:w-auto"
               >
                 Anfragen
               </button>

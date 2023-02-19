@@ -33,15 +33,9 @@ const products = [
 const MostPopular: React.FC<{ mostPopular: boolean }> = ({ mostPopular }) => {
   if (!mostPopular) return null;
   return (
-    <div className="absolute inset-x-0 top-0 transform translate-y-px">
-      <div className="flex justify-center transform -translate-y-1/2 md">
-        <span
-          className="rounded-full tracking-wider bg-fuchsia-700  border-2 solid border-fuchsia-700  text-white text-xl px-6 py-2   tuppercase 
-
-          md:text-sm md:py-2 md:px-8 md:rounded-3xl
-          lgtext-medium
-          "
-        >
+    <div className="absolute z-10 inset-x-0 top-0 transform translate-y-px">
+      <div className="flex justify-center transform -translate-y-1/2 ">
+        <span className="rounded-2xl md:text-sm text-sm md:tracking-wider  bg-gradient-to-tl from-fuchsia-500 via-fuchsia-600 to-fuchsia-700   text-white px-6 py-2   uppercase  md:py-2 md:px-8 md:rounded-3xl lg:text-medium">
           Am beliebtesten
         </span>
       </div>
@@ -50,56 +44,53 @@ const MostPopular: React.FC<{ mostPopular: boolean }> = ({ mostPopular }) => {
 };
 
 const AngebotSection = () => {
-  const productList = products.map((product) => {
-    return (
-      <div className="mb-16 relative " key={product.id}>
-        <MostPopular mostPopular={product.popular} />
-        <div className="shadow-lg  shadow-fuchsia-300/30  h-72  rounded-xl flex items-center justify-center bg-white border ">
-          <div className="w-full text-center">
-            <div className="text-center ">
-              <h3 className="text-xl md:text-2xl lg:text-3xl text-gray-600 uppercase">
-                {product.title}
-              </h3>
-              <div className="text-center mt-1 text-fuchsia-700 text-base lg:text-lg font-light">
-                {product.subTitle}
-              </div>
-              <div className="text-center mt-6">
-                <span className="px-3 flex items-start text-6xl tracking-tight text-gray-900 justify-center align-center">
-                  <span className="text-6xl">{product.price}</span>
-                  <span className="text-3xl font-medium">€</span>
-                </span>
-              </div>
-              <div className="mt-8 text-xs absolute inset-x-0">
-                {product.footer}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  });
-
   return (
     <>
       <Element name="angebot">
-        ‚
         <div
-          className="   mt-36 bg-gradient-to-tr from-fuchsia-100 via-fuchsia-300 to-fuchsia-500  px-5 pb-64   relative overflow-hidden md:pb-12"
+          className="bg-gradient-to-tr from-fuchsia-100 via-fuchsia-300 to-fuchsia-500  px-5 pb-32   relative overflow-hidden"
           id="offer"
         >
-          <div className="h-full w-full absolute inset-0 overflow-hidden lax__angebot_background">
+          <div className="h-full w-full absolute inset-0 overflow-hidden">
             <NextImage
               alt="Hintergrundbild mit Wimpern"
               src={background}
-              className="w-full h-full object-cover  opacity-20 "
+              className="w-full h-full object-cover opacity-20 "
             />
           </div>
           <div className="md:container md:py-0">
-            <h3 className=" text-2xl text-center text-white py-10 ^md:text-3xl lg:text-5xl lg:py-20">
+            <h3 className=" text-4xl text-center text-white py-10 ^md:text-3xl lg:text-6xl lg:py-16">
               Angebot
             </h3>
-            <div className=" gap-3 max-w-6xl mx-auto md:grid md:grid-cols-3  lg:gap-8 ">
-              {productList}
+            <div className="grid grid-cols-1 gap-3 space-y-8 max-w-6xl mx-auto md:grid md:grid-cols-3 lg:gap-8 ">
+              {products.map((product) => {
+                return (
+                  <div className="relative" key={product.id}>
+                    <MostPopular mostPopular={product.popular} />
+                    <div className="shadow-lg relative shadow-fuchsia-300/30 py-12 md:h-72  rounded-xl flex items-center justify-center bg-white border ">
+                      <div className="w-full text-center  ">
+                        <div className="text-center ">
+                          <h3 className="text-3xl md:text-3xl lg:text-3xl text-gray-600 uppercase">
+                            {product.title}
+                          </h3>
+                          <div className="text-center mt-1 text-fuchsia-700 text-base lg:text-lg font-light">
+                            {product.subTitle}
+                          </div>
+                          <div className="text-center mt-6">
+                            <span className="px-3 flex items-start text-6xl tracking-tight text-gray-900 justify-center align-center">
+                              <span className="text-6xl">{product.price}</span>
+                              <span className="text-3xl font-medium">€</span>
+                            </span>
+                          </div>
+                          <div className="mt-8 text-xs absolute bottom-0 w-full pb-2 ">
+                            {product.footer}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>

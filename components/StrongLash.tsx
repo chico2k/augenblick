@@ -1,16 +1,15 @@
 import React from "react";
 import NextImage from "next/image";
-
 import lash from "/public/stronglash/quote.png";
 
 const StrongLash = () => {
   return (
-    <div className="container  h-[800px]">
+    <div className="container py-2 pb-40 overflow-hidden ">
       <NextImage
-        alt="Strong Lashes"
+        alt="Zitat 'May your coffee be strong and your lashes be long'"
         src={lash}
         placeholder="blur"
-        className="w-full h-full object-contain object-position-bottom "
+        className=" object-contain object-position-bottom scale-125 md:scale-100 md:h-[700px] "
       />
     </div>
   );

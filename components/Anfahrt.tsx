@@ -4,16 +4,9 @@ const AnfahrtSection = () => {
   return (
     <>
       <Element name="anfahrt">
-        <div
-          className="mt-72 max-w-7xl mx-auto
-         "
-        >
-          <h2
-            className="mb-8  text-fuchsia-500 text-2xl 
-          xl:text-5xl xl:mb-16
-        "
-          >
-            Anfahrt
+        <div className="mx-auto text-white bg-gradient-to-tl from-fuchsia-500 via-fuchsia-600 to-fuchsia-700  md:text-center ">
+          <h2 className="font-display px-4 text-3xl  sm:text-4xl lg:text-4xl py-16">
+            Hier findest du mich.
           </h2>
         </div>
         <div className="w-full h-screen text-xs">

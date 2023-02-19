@@ -17,6 +17,10 @@ body,
   box-sizing: border-box;
 }
 
+:root {
+  --body-bg: hsl(0, 68%, 45%);
+}
+
 textarea {
   border: none;
   overflow: auto;

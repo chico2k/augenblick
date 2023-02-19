@@ -5,7 +5,7 @@ import partner from "/public/partner/partner.png";
 
 const PartnerSection = () => {
   return (
-    <section className=" isolate relative my-40 after:absolute after:bg-gradient-to-r after:from-fuchsia-500 after:via-fuchsia-300 after:to-fuchsia-100 after:-skew-y-2 after:-z-10 after:inset-0">
+    <section className=" isolate relative my-40 after:absolute after:bg-gradient-to-b md:after:bg-gradient-to-r after:from-fuchsia-500 after:via-fuchsia-300  md:after:to-fuchsia-100  after:-skew-y-2 after:-z-10 after:inset-0">
       <div className="mx-auto max-w-7xl pt-16 pb-12  md:grid md:grid-cols-2">
         <div className="md:pr-16 px-6 md:px-12 pt-12">
           <h2 className="text-white text-4xl mb-3 md:text-3xl xl:text-5xl">

@@ -69,10 +69,11 @@ const Slider: React.FunctionComponent = () => {
         key={indeex}
       >
         <NextImage
+          priority={true}
           src={image.image}
           placeholder="blur"
           alt={image.alt}
-          className="hover:scale-105 h-full transition-all object-cover"
+          className="md:hover:scale-105 h-full transition-all object-cover"
         />
       </div>
     );

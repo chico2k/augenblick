@@ -19,7 +19,7 @@ const Navigation = () => {
                 sm:container sm:mt-10"
               >
                 <div className="flex justify-between">
-                  <Disclosure.Button className="inline-flex items-center  rounded-md text-fuchsia-500  z-40        hover:text-fuchsia-600 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 lg:hidden ">
+                  <Disclosure.Button className="inline-flex items-center  rounded-md text-fuchsia-500  z-40 hover:text-fuchsia-600 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 lg:hidden ">
                     <span className="sr-only">Open main menu</span>
                     {open ? (
                       <XIcon

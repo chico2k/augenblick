@@ -67,7 +67,6 @@ const Slider: React.FunctionComponent = () => {
         key={indeex}
       >
         <NextImage
-          priority={true}
           src={image.image}
           placeholder="blur"
           alt={image.alt}

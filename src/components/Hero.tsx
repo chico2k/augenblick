@@ -8,7 +8,6 @@ const HeroSection: React.FunctionComponent = () => {
     <section className="relative flex h-screen items-center overflow-hidden">
       <div className="absolute inset-0 z-10 bg-fuchsia-100 opacity-70"></div>
       <NextImage
-        priority={true}
         alt="Bild von Sandra beim Arbeiten"
         src={imageHero}
         className="absolute inset-0 h-screen object-cover"

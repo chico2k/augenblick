@@ -16,18 +16,18 @@ import image_11 from "/public/work/new/11.png";
 import image_12 from "/public/work/new/12.png";
 
 const imageList = [
-  { image: image_1, alt: "image 1" },
-  { image: image_2, alt: "image 2" },
-  { image: image_3, alt: "image 3" },
-  { image: image_4, alt: "image 4" },
-  { image: image_5, alt: "image 5" },
-  { image: image_6, alt: "image 6" },
-  { image: image_7, alt: "image 6" },
-  { image: image_8, alt: "image 6" },
-  { image: image_9, alt: "image 6" },
-  { image: image_10, alt: "image 6" },
-  { image: image_11, alt: "image 6" },
-  { image: image_12, alt: "image 6" },
+  { image: image_2, alt: "Bild von Wimpern" },
+  { image: image_3, alt: "Bild von Wimpern" },
+  { image: image_1, alt: "Bild von Wimpern" },
+  { image: image_4, alt: "Bild von Wimpern" },
+  { image: image_5, alt: "Bild von Wimpern" },
+  { image: image_6, alt: "Bild von Wimpern" },
+  { image: image_7, alt: "Bild von Wimpern" },
+  { image: image_8, alt: "Bild von Wimpern" },
+  { image: image_9, alt: "Bild von Wimpern" },
+  { image: image_10, alt: "Bild von Wimpern" },
+  { image: image_11, alt: "Bild von Wimpern" },
+  { image: image_12, alt: "Bild von Wimpern" },
 ];
 
 const Slider: React.FunctionComponent = () => {

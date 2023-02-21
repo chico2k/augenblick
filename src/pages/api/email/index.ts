@@ -2,14 +2,14 @@ import sendgrid from "@sendgrid/mail";
 import type { NextApiResponse } from "next";
 import type z from "zod";
 import { withAxiom, type AxiomAPIRequest } from "next-axiom";
-import Logger from "../../../lib/Logger";
-import type { validationSchema } from "../../../components/Buchung/Form";
+import Logger from "../../../lib/logger";
+import type { validationSchemaBuchung } from "../../../components/Buchung";
 
 sendgrid.setApiKey(process.env.SENDGRID_API_KEY as string);
 
 async function sendEmail(req: AxiomAPIRequest, res: NextApiResponse) {
   try {
-    const formValues = req.body as z.infer<typeof validationSchema>;
+    const formValues = req.body as z.infer<typeof validationSchemaBuchung>;
 
     const response = await sendgrid.send({
       to: formValues.email,

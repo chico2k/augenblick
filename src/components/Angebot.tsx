@@ -33,9 +33,9 @@ const products = [
 const MostPopular: React.FC<{ mostPopular: boolean }> = ({ mostPopular }) => {
   if (!mostPopular) return null;
   return (
-    <div className="absolute z-10 inset-x-0 top-0 transform translate-y-px">
-      <div className="flex justify-center transform -translate-y-1/2 ">
-        <span className="rounded-2xl md:text-sm text-sm md:tracking-wider  bg-gradient-to-tl from-fuchsia-500 via-fuchsia-600 to-fuchsia-700   text-white px-6 py-2   uppercase  md:py-2 md:px-8 md:rounded-3xl lg:text-medium">
+    <div className="absolute inset-x-0 top-0 z-10 translate-y-px transform">
+      <div className="flex -translate-y-1/2 transform justify-center ">
+        <span className="lg:text-medium rounded-2xl bg-gradient-to-tl from-fuchsia-500  via-fuchsia-600 to-fuchsia-700 px-6 py-2   text-sm uppercase text-white   md:rounded-3xl  md:py-2 md:px-8 md:text-sm md:tracking-wider">
           Am beliebtesten
         </span>
       </div>
@@ -45,46 +45,41 @@ const MostPopular: React.FC<{ mostPopular: boolean }> = ({ mostPopular }) => {
 
 const AngebotSection = () => {
   return (
-    <>
+    <section id="angebot">
       <Element name="angebot">
-        <div
-          className="bg-gradient-to-tr from-fuchsia-100 via-fuchsia-300 to-fuchsia-500  px-5 pb-32   relative overflow-hidden"
-          id="offer"
-        >
-          <div className="h-full w-full absolute inset-0 overflow-hidden">
+        <div className="relative mx-auto overflow-hidden bg-gradient-to-tr from-fuchsia-100 via-fuchsia-300 to-fuchsia-500  px-5 pb-32">
+          <div className="absolute inset-0 h-full w-full overflow-hidden">
             <NextImage
               alt="Hintergrundbild mit Wimpern"
               src={background}
-              className="w-full h-full object-cover opacity-20 "
+              className="h-full w-full object-cover opacity-20 "
             />
           </div>
-          <div className="md:container md:py-0">
-            <h3 className=" text-4xl text-center text-white py-10 ^md:text-3xl lg:text-6xl lg:py-16">
+          <div className="mx-auto max-w-7xl px-4 ">
+            <h3 className="py-10 text-center text-6xl text-white md:py-16 lg:py-16 lg:text-7xl ">
               Angebot
             </h3>
-            <div className="grid grid-cols-1 gap-3 space-y-8 max-w-6xl mx-auto md:grid md:grid-cols-3 lg:gap-8 ">
+            <div className="mx-auto grid grid-cols-1 gap-3 md:grid md:grid-cols-3 lg:gap-8 ">
               {products.map((product) => {
                 return (
-                  <div className="relative" key={product.id}>
+                  <div className="relative " key={product.id}>
                     <MostPopular mostPopular={product.popular} />
-                    <div className="shadow-lg relative shadow-fuchsia-300/30 py-12 md:h-72  rounded-xl flex items-center justify-center bg-white border ">
+                    <div className="relative flex items-center justify-center rounded-xl  border bg-white py-12 shadow-lg shadow-fuchsia-300/30  ">
                       <div className="w-full text-center  ">
-                        <div className="text-center ">
-                          <h3 className="text-3xl md:text-3xl lg:text-3xl text-gray-600 uppercase">
-                            {product.title}
-                          </h3>
-                          <div className="text-center mt-1 text-fuchsia-700 text-base lg:text-lg font-light">
-                            {product.subTitle}
-                          </div>
-                          <div className="text-center mt-6">
-                            <span className="px-3 flex items-start text-6xl tracking-tight text-gray-900 justify-center align-center">
-                              <span className="text-6xl">{product.price}</span>
-                              <span className="text-3xl font-medium">€</span>
-                            </span>
-                          </div>
-                          <div className="mt-8 text-xs absolute bottom-0 w-full pb-2 ">
-                            {product.footer}
-                          </div>
+                        <h3 className="text- gray-600 text-3xl uppercase md:text-2xl lg:text-3xl">
+                          {product.title}
+                        </h3>
+                        <div className="mt-1 text-center text-base font-light text-fuchsia-700 lg:text-lg">
+                          {product.subTitle}
+                        </div>
+                        <div className="my-6 text-center">
+                          <span className="align-center flex items-start justify-center px-3 text-6xl tracking-tight text-gray-900">
+                            <span className="text-6xl">{product.price}</span>
+                            <span className="text-3xl font-medium">€</span>
+                          </span>
+                        </div>
+                        <div className="absolute bottom-0 mt-8 w-full px-4 py-2 text-xs ">
+                          {product.footer}
                         </div>
                       </div>
                     </div>
@@ -95,7 +90,7 @@ const AngebotSection = () => {
           </div>
         </div>
       </Element>
-    </>
+    </section>
   );
 };
 

@@ -2,7 +2,7 @@ import client from "@sendgrid/client";
 import type { NextApiRequest, NextApiResponse } from "next";
 import type z from "zod";
 import type { schemaNewsLetter } from "../../../components/Newsletter";
-import Logger from "../../../lib/Logger";
+import Logger from "../../../lib/logger";
 
 client.setApiKey(process.env.SENDGRID_API_KEY as string);
 

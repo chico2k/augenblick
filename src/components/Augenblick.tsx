@@ -1,18 +1,15 @@
 import React from "react";
 import NextImage from "next/image";
-
 import lash from "/public/navigation/augenblick.png";
 
 const Augenblick = () => {
   return (
-    <div className="mx-auto px-8 md:px-0 my-36 max-w-4xl lg:py-24">
+    <div className="mx-auto my-36 max-w-4xl px-8 md:my-32 md:px-12 lg:my-44">
       <NextImage
         alt="Strong Lashes"
         src={lash}
         placeholder="blur"
-        height={200}
-        width={700}
-        className="w-full h-full object-contain object-position-bottom "
+        className="object-position-bottom h-full w-full object-contain "
       />
     </div>
   );

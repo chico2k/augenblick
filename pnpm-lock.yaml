@@ -17,6 +17,7 @@ specifiers:
   '@types/react-scroll': ^1.8.6
   '@typescript-eslint/eslint-plugin': ^5.47.1
   '@typescript-eslint/parser': ^5.47.1
+  augenblick: 'link:'
   autoprefixer: ^10.4.7
   cookies-next: ^2.1.1
   eslint: ^8.30.0
@@ -48,6 +49,7 @@ dependencies:
   '@hookform/resolvers': 2.9.11_react-hook-form@7.43.1
   '@sendgrid/client': 7.7.0
   '@sendgrid/mail': 7.7.0
+  augenblick: 'link:'
   cookies-next: 2.1.1
   googleapis: 92.0.0
   keen-slider: 6.8.5

@@ -24,7 +24,7 @@ const HeroSection: React.FunctionComponent = () => {
         <div className="mt-3 pl-5 text-lg text-gray-600 sm:text-2xl  lg:text-2xl  ">
           Wimpernverlängerung im Chiemgau
         </div>
-        <div className="ml-5 mt-8 flex space-x-2 md:mt-24 lg:space-x-6 lg:text-xl">
+        <div className="ml-5 mt-8 flex space-x-2 md:mt-16 lg:space-x-6 lg:text-xl">
           <button
             type="button"
             id="click-buchung"

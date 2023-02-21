@@ -99,7 +99,7 @@ const Slider: React.FunctionComponent = () => {
                   }}
                 >
                   <svg
-                    className={`bg-fuchsia-1000 absolute top-1/2 left-2 -mt-7 h-8 w-8 cursor-pointer rounded-full fill-white p-2 transition-all group-hover:scale-110 group-hover:bg-fuchsia-600 md:left-5 md:h-12 md:w-12 md:p-3`}
+                    className={`bg-fuchsia-1000 absolute top-1/2 left-2 -mt-7 h-8 w-8 cursor-pointer rounded-full  bg-fuchsia-500 fill-white p-2 transition-all group-hover:scale-110 group-hover:bg-fuchsia-600 md:left-5 md:h-12 md:w-12 md:p-3`}
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
                   >

@@ -1,5 +1,5 @@
 import type z from "zod";
-import type { schemaNewsLetter } from "../Newsletter";
+import type { schemaNewsLetter } from "../../components/Newsletter";
 
 const useNewsletterSubmit = () => {
   const newsletterSubmitHandler = async (

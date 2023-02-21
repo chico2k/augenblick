@@ -1,10 +1,10 @@
-import type { validationSchema } from "./Form";
 import type z from "zod";
 import { toast } from "react-toastify";
+import type { validationSchemaBuchung } from "../../components/Buchung";
 
 const useContactSubmit = () => {
   const contactSubmitHandler = async (
-    values: z.infer<typeof validationSchema>
+    values: z.infer<typeof validationSchemaBuchung>
   ) => {
     return toast.promise(apiCall(values), {
       pending: "Nachricht wird geschickt...",
@@ -14,7 +14,7 @@ const useContactSubmit = () => {
   };
 
   const apiCall = async (
-    values: z.infer<typeof validationSchema>
+    values: z.infer<typeof validationSchemaBuchung>
   ): Promise<boolean> => {
     try {
       await fetch("/api/email", {

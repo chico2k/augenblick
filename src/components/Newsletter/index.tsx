@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { toast } from "react-toastify";
 import NextLink from "next/link";
-import useNewsletterSubmit from "../Buchung/useNewsletterSubmit";
+import useNewsletterSubmit from "../../lib/hooks/useNewsletterSubmit";
 
 export const schemaNewsLetter = z.object({
   email: z
@@ -22,16 +22,13 @@ export default function Newsletter() {
   });
 
   return (
-    <section className="bg-gradient-to-tl from-fuchsia-500 via-fuchsia-600 to-fuchsia-700 py-8 ">
-      <div className=" mx-auto max-w-7xl py-12 px-6 lg:flex lg:items-center lg:py-32 lg:px-8">
-        <div className="lg:w-0 lg:flex-1">
-          <h2
-            className="text-3xl  font-semibold tracking-tight text-white sm:text-3xl"
-            id="newsletter-headline"
-          >
+    <section className="bg-gradient-to-tl from-fuchsia-500 via-fuchsia-600 to-fuchsia-700 ">
+      <div className=" mx-auto max-w-7xl py-20 px-12 lg:flex lg:items-center lg:py-32 lg:px-8">
+        <div className=" lg:w-0 lg:flex-1">
+          <h2 className="text-3xl font-semibold tracking-tight text-white sm:text-3xl lg:text-4xl">
             Melde dich für meinen Newsletter an.
           </h2>
-          <p className="mt-3 max-w-lg text-lg leading-6 text-gray-100">
+          <p className="mt-3 max-w-xl text-lg leading-6 text-gray-100">
             Verpasse keine Deals und Neuigkeiten mehr! Melde dich jetzt für den
             Newsletter an und bleibe immer up-to-date.
           </p>
@@ -75,7 +72,7 @@ export default function Newsletter() {
               </button>
             </div>
           </form>
-          <p className="mt-3 max-w-xl text-sm text-gray-100">
+          <p className="mt-3 max-w-lg text-sm text-gray-100">
             Der Schutz Ihrer Daten liegt uns am Herzen. Lesen Sie unsere{" "}
             <NextLink href="/datenschutz" className="font-medium  underline">
               <span className="hover:text-fuchsia-200">

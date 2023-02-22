@@ -1,6 +1,6 @@
 import React from "react";
 import NextImage from "next/image";
-import imageHero from "/public/hero/bg_2.png";
+import imageHero from "/public/hero/bg.png";
 import { Link } from "react-scroll";
 
 const HeroSection: React.FunctionComponent = () => {

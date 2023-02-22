@@ -23,12 +23,6 @@ const config = {
 };
 // export default config;
 
-import withBundleAnalyzer from "@next/bundle-analyzer";
 import { withAxiom } from "next-axiom";
 
-const cfg = withBundleAnalyzer({
-  enabled: process.env.ANALYZE === "true",
-  ...config,
-});
-
-export default withAxiom(cfg);
+export default withAxiom(config);

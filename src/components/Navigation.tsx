@@ -4,6 +4,7 @@ import React from "react";
 import NextImage from "next/image";
 import { Link } from "react-scroll";
 import { navigationLinks } from "../lib/links";
+import NextLink from "next/link";
 import logo from "public//navigation/augenblick.png";
 import { useSpring, animated } from "react-spring";
 
@@ -34,11 +35,13 @@ const Navigation = () => {
                     className={`absolute inset-0 mt-4 flex h-full justify-center lg:hidden`}
                   >
                     <div className="relative z-40 mt-2 aspect-video w-52 md:w-64">
-                      <NextImage
-                        src={logo}
-                        alt="Augenblick Logo"
-                        className="block lg:hidden"
-                      />
+                      <NextLink href="/">
+                        <NextImage
+                          src={logo}
+                          alt="Augenblick Logo"
+                          className="block lg:hidden"
+                        />
+                      </NextLink>
                     </div>
                   </div>
                   <MenuDesk close={close} />
@@ -59,11 +62,13 @@ const MenuDesk = ({ close }: { close: () => void }) => {
   return (
     <div className={`flex max-w-7xl flex-1 md:justify-start lg:items-stretch`}>
       <div className="relative hidden pt-2 lg:block">
-        <NextImage
-          src={logo}
-          alt="Augenblick Logo"
-          className="mr-12 hidden w-52 lg:block "
-        />
+        <NextLink href="/">
+          <NextImage
+            src={logo}
+            alt="Augenblick Logo"
+            className="mr-12 hidden w-52 lg:block "
+          />
+        </NextLink>
       </div>
       <div className="hidden   flex-shrink-0 items-center justify-center lg:ml-6  lg:flex lg:space-x-6">
         {navigationLinks.map((link) => {

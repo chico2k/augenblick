@@ -7,15 +7,15 @@ const HeroSection: React.FunctionComponent = () => {
   return (
     <section className="relative flex h-screen  items-center overflow-hidden lg:h-[1200px]  ">
       <div className="absolute inset-0  ">
-        <div className="h-screen after:absolute after:inset-0 after:z-10 after:bg-fuchsia-100 after:opacity-70 lg:h-[1200px]">
-          <NextImage
-            placeholder="blur"
-            priority={true}
-            alt="Bild von Sandra beim Arbeiten"
-            src={imageHero}
-            className=" h-full  w-full object-cover object-center "
-          />
-        </div>
+        {/* <div className="h-screen after:absolute after:inset-0 after:z-10 after:bg-fuchsia-100 after:opacity-70 lg:h-[1200px]"> */}
+        <NextImage
+          placeholder="blur"
+          priority={true}
+          alt="Bild von Sandra beim Arbeiten"
+          src={imageHero}
+          className="h-[100px] max-h-screen w-[100px] object-cover object-center "
+        />
+        {/* </div> */}
       </div>
 
       <div className="z-40 mx-auto w-full max-w-7xl">

@@ -19,9 +19,9 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <>
-      <Script
+      {/* <Script
         id="gtag"
-        strategy="afterInteractive"
+        strategy="lazyOnload"
         dangerouslySetInnerHTML={{
           __html: `
           window.dataLayer = window.dataLayer || [];
@@ -46,7 +46,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       {consent.ad_storage === "granted" && (
         <Script
           id="consupd"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
           dangerouslySetInnerHTML={{
             __html: `
 
@@ -55,7 +55,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           `,
           }}
         />
-      )}
+      )} */}
       <Navigation />
       <Component {...pageProps} />
       <ToastContainer />

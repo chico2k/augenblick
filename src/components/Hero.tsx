@@ -1,21 +1,22 @@
 import React from "react";
 import NextImage from "next/image";
 import imageHero from "/public/hero/bg.png";
-// import { Link } from "react-scroll";
+import imageHero2 from "/public/hero/bg_2.png";
+import { Link } from "react-scroll";
 
 const HeroSection: React.FunctionComponent = () => {
   return (
-    <section className="relative flex h-screen  items-center overflow-hidden lg:h-[1200px]  ">
-      <div className="absolute inset-0  ">
-        {/* <div className="h-screen after:absolute after:inset-0 after:z-10 after:bg-fuchsia-100 after:opacity-70 lg:h-[1200px]"> */}
-        <NextImage
-          placeholder="blur"
-          priority={true}
-          alt="Bild von Sandra beim Arbeiten"
-          src={imageHero}
-          className="h-[100px] max-h-screen w-[100px] object-cover object-center "
-        />
-        {/* </div> */}
+    <section className="relative flex h-screen w-full  items-center overflow-hidden   ">
+      <div className="absolute inset-0   ">
+        <div className="h-screen after:absolute after:inset-0 after:z-10 after:bg-fuchsia-100 after:opacity-70 ">
+          <NextImage
+            placeholder="blur"
+            priority={true}
+            alt="Bild von Sandra beim Arbeiten"
+            src={imageHero2}
+            className="h-full w-full object-cover object-center "
+          />
+        </div>
       </div>
 
       <div className="z-40 mx-auto w-full max-w-7xl">
@@ -30,16 +31,18 @@ const HeroSection: React.FunctionComponent = () => {
           Wimpernverlängerung im Chiemgau
         </div>
         <div className="ml-5 mt-8 flex space-x-2 md:mt-16 lg:space-x-6 lg:text-xl">
-          <button
-            type="button"
-            id="click-buchung"
-            className="click-buchung hbover:via-fuchsia-800 inline-flex cursor-pointer items-center rounded-md border 
+          <Link to={"buchung"} spy={true} smooth={true} duration={500}>
+            <button
+              type="button"
+              id="click-buchung"
+              className="click-buchung hbover:via-fuchsia-800 inline-flex cursor-pointer items-center rounded-md border 
             border-transparent bg-gradient-to-tl from-fuchsia-500 via-fuchsia-600 to-fuchsia-700 px-4 py-2 text-xl font-medium text-white shadow-sm transition-all
             duration-300 ease-in-out hover:bg-gradient-to-l hover:from-fuchsia-900
             hover:to-fuchsia-900 focus:outline-none focus:ring-2 focus:ring-indigo-500  focus:ring-offset-2 md:px-6 md:text-2xl"
-          >
-            Buchung
-          </button>
+            >
+              Buchung
+            </button>
+          </Link>
         </div>
       </div>
     </section>

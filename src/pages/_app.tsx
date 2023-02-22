@@ -10,7 +10,6 @@ import { useConsent } from "../lib/hooks/useConsent";
 import dynamic from "next/dynamic";
 
 const DynamicConsent = dynamic(() => import("../components/CookieConsent"), {
-  loading: () => null,
   ssr: false,
 });
 

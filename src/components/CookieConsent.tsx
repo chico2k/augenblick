@@ -14,9 +14,7 @@ function Consent() {
       <div className="flex  flex-col items-start space-y-2 bg-gray-200 px-3 py-2 md:flex-row md:items-stretch md:space-y-0 md:space-x-2 md:py-3">
         <div className="mx-auto flex max-w-6xl flex-grow items-center text-gray-900">
           <p className="mb-1 text-xs md:mb-2 md:text-sm ">
-            Diese Website nutzt Dienste, die Cookies verwenden, um ein besseres
-            Erlebnis zu bieten. Mehr über die von uns genutzten Dienste erfahren
-            Sie in unserer{" "}
+            Diese Website nutzt Dienste, die Cookies verwenden. Mehr in der{" "}
             <Link
               href="/datenschutz"
               className="hover:text-lightAccent underline"

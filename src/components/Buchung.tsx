@@ -3,14 +3,16 @@ import { Element } from "react-scroll";
 import React from "react";
 import * as z from "zod";
 import dynamic from "next/dynamic";
-import useContactSubmit from "../../lib/hooks/useContactSubmit";
+import useContactSubmit from "../lib/hooks/useContactSubmit";
 import NextImage from "next/image";
 import eye from "/public/form/Auge-Form.png";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { ExclamationCircleIcon } from "@heroicons/react/outline";
 
-const ReCAPTCHA = dynamic(() => import("react-google-recaptcha"));
+const ReCAPTCHA = dynamic(() => import("react-google-recaptcha"), {
+  ssr: false,
+});
 
 export const validationSchemaBuchung = z.object({
   name: z

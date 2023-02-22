@@ -5,14 +5,20 @@ import imageHero from "/public/hero/bg.png";
 
 const HeroSection: React.FunctionComponent = () => {
   return (
-    <section className="relative flex h-screen items-center overflow-hidden">
-      <div className="absolute inset-0 z-10 bg-fuchsia-100 opacity-70"></div>
-      <NextImage
-        alt="Bild von Sandra beim Arbeiten"
-        src={imageHero}
-        className="absolute inset-0 h-screen object-cover"
-      />
-      <div className="container  z-40 mx-auto w-full max-w-7xl">
+    <section className="relative flex h-screen  items-center overflow-hidden lg:h-[1200px]  ">
+      <div className="absolute inset-0  ">
+        <div className="h-screen after:absolute after:inset-0 after:z-10 after:bg-fuchsia-100 after:opacity-70 lg:h-[1200px]">
+          <NextImage
+            placeholder="blur"
+            priority={true}
+            alt="Bild von Sandra beim Arbeiten"
+            src={imageHero}
+            className=" h-full  w-full object-cover object-center "
+          />
+        </div>
+      </div>
+
+      <div className="z-40 mx-auto w-full max-w-7xl">
         <div className="sm:comtainer relative z-10 mb-2 pl-5 text-5xl tracking-tight  text-fuchsia-500 sm:text-7xl sm:tracking-normal md:text-9xl">
           Dein
         </div>

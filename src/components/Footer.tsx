@@ -1,12 +1,8 @@
+import { Link } from "react-scroll";
+import { navigationLinks } from "../lib/links";
+
 const navigation = {
-  main: [
-    { name: "Angebot", href: "#" },
-    { name: "Meine Arbeit", href: "#" },
-    { name: "Kundenmeinungen", href: "#" },
-    { name: "Newsletter", href: "#" },
-    { name: "Buchung", href: "#" },
-    { name: "Partners", href: "#" },
-  ],
+  main: navigationLinks,
   social: [
     {
       name: "Instagram",
@@ -33,13 +29,12 @@ export default function Footer() {
           aria-label="Footer"
         >
           {navigation.main.map((item) => (
-            <div key={item.name} className="pb-6">
-              <a
-                href={item.href}
-                className="text-sm leading-6 hover:text-fuchsia-200"
-              >
-                {item.name}
-              </a>
+            <div className="pb-6" key={item.name}>
+              <Link to={item.href} spy={true} smooth={true} duration={500}>
+                <span className="cursor-pointer text-sm leading-6 hover:text-fuchsia-200">
+                  {item.name}
+                </span>
+              </Link>
             </div>
           ))}
         </nav>

@@ -3,40 +3,37 @@ import { MenuIcon, XIcon } from "@heroicons/react/outline";
 import React from "react";
 import NextImage from "next/image";
 import { Link } from "react-scroll";
-import { navigationLinks } from "./links";
+import { navigationLinks } from "../lib/links";
 import logo from "public//navigation/augenblick.png";
 import { useSpring, animated } from "react-spring";
 
 const Navigation = () => {
   return (
     <header className="absolute inset-x-0 z-50">
-      <Disclosure as="nav" className="mb-2 max-w-7xl mx-auto">
-        {({ open }) => {
+      <Disclosure as="nav" className="mx-auto mb-2 max-w-7xl">
+        {({ open, close }) => {
           return (
             <>
-              <div
-                className="mx-auto mt-4 pl-5
-                sm:container sm:mt-10"
-              >
-                <div className="flex justify-between">
-                  <Disclosure.Button className="inline-flex items-center  rounded-md text-fuchsia-500  z-40 hover:text-fuchsia-600 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 lg:hidden ">
+              <div className="mx-auto mt-4 max-w-7xl px-6 ">
+                <div className="flex justify-between ">
+                  <Disclosure.Button className="z-40  inline-flex items-center rounded-md text-fuchsia-500 hover:text-fuchsia-600 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-fuchsia-300 lg:hidden ">
                     <span className="sr-only">Open main menu</span>
                     {open ? (
                       <XIcon
-                        className="block h-10 w-10 mt-3  md:h-14 md:w-14"
+                        className="mt-3 block h-10 w-10 md:h-14 md:w-14"
                         aria-hidden="true"
                       />
                     ) : (
                       <MenuIcon
-                        className="block h-10 w-10 mt-3 md:h-14 md:w-14"
+                        className="mt-3 block h-10 w-10 md:h-14 md:w-14"
                         aria-hidden="true"
                       />
                     )}
                   </Disclosure.Button>
                   <div
-                    className={`absolute inset-0 flex justify-center h-full mt-4 lg:hidden`}
+                    className={`absolute inset-0 mt-4 flex h-full justify-center lg:hidden`}
                   >
-                    <div className="w-52 aspect-video relative mt-2 z-40 ">
+                    <div className="relative z-40 mt-2 aspect-video w-52 md:w-64">
                       <NextImage
                         src={logo}
                         alt="Augenblick Logo"
@@ -44,7 +41,7 @@ const Navigation = () => {
                       />
                     </div>
                   </div>
-                  <MenuDesk />
+                  <MenuDesk close={close} />
                 </div>
                 <MenuMobil open={open} />
               </div>
@@ -58,22 +55,25 @@ const Navigation = () => {
 
 export default Navigation;
 
-const MenuDesk = () => {
+const MenuDesk = ({ close }: { close: () => void }) => {
   return (
-    <div className={`flex-1 flex container lg:items-stretch md:justify-start`}>
-      <div className="hidden lg:block relative">
+    <div className={`flex max-w-7xl flex-1 md:justify-start lg:items-stretch`}>
+      <div className="relative hidden pt-2 lg:block">
         <NextImage
           src={logo}
           alt="Augenblick Logo"
-          className="hidden lg:block w-44 mr-12 "
+          className="mr-12 hidden w-52 lg:block "
         />
       </div>
-      <div className="hidden lg:ml-6 lg:flex lg:space-x-6  justify-center items-center">
+      <div className="hidden   flex-shrink-0 items-center justify-center lg:ml-6  lg:flex lg:space-x-6">
         {navigationLinks.map((link) => {
           return (
             <div key={link.name}>
               <Link to={link.href} spy={true} smooth={true} duration={500}>
-                <span className="cursor-pointer border-transparent text-gray-800 px-1 pt-2 text-sm  block uppercase hover:text-fuchsia-500 lg:text-sm xl:text-base 2xl:text-lg">
+                <span
+                  className="block cursor-pointer border-transparent px-1 pt-2 text-sm uppercase text-gray-800 hover:text-fuchsia-500 lg:text-base xl:text-lg"
+                  onClick={() => close()}
+                >
                   {link.name}
                 </span>
               </Link>
@@ -102,17 +102,21 @@ const MenuMobil: React.FC<{ open: boolean }> = ({ open }) => {
         key={link.name}
         as="a"
         href={link.href}
-        className="border-transparent text-gray-700 block py-2 text-3xl "
+        className="block border-transparent py-2 text-3xl text-gray-700 "
       >
-        <animated.div style={styles}>{link.name}</animated.div>
+        <animated.div style={styles}>
+          <Link to={link.href} spy={true} smooth={true} duration={500}>
+            <Disclosure.Button>{link.name}</Disclosure.Button>
+          </Link>
+        </animated.div>
       </Disclosure.Button>
     );
   });
 
   return (
     <animated.div style={styles2}>
-      <Disclosure.Panel className="fixed inset-0 h-screen w-full z-30 flex pl-12 items-center bg-fuchsia-100 lg:hidden">
-        <div className="pt-2 pb-4 space-y-4">{links}</div>
+      <Disclosure.Panel className="fixed inset-0 z-30  flex h-screen items-center justify-center bg-fuchsia-100 pl-12 text-center lg:hidden">
+        <div className="space-y-4 pt-2 pb-4">{links}</div>
       </Disclosure.Panel>
     </animated.div>
   );

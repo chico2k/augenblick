@@ -1,7 +1,7 @@
 import React from "react";
-import { Element } from "react-scroll";
 import background from "public/angebot/background.png";
 import NextImage from "next/image";
+import { Element } from "react-scroll";
 
 const products = [
   {
@@ -45,8 +45,8 @@ const MostPopular: React.FC<{ mostPopular: boolean }> = ({ mostPopular }) => {
 
 const AngebotSection = () => {
   return (
-    <section id="angebot">
-      <Element name="angebot">
+    <Element name="angebot">
+      <section id="angebot">
         <div className="relative mx-auto overflow-hidden bg-gradient-to-tr from-fuchsia-100 via-fuchsia-300 to-fuchsia-500  px-5 pb-32">
           <div className="absolute inset-0 h-full w-full overflow-hidden">
             <NextImage
@@ -89,8 +89,8 @@ const AngebotSection = () => {
             </div>
           </div>
         </div>
-      </Element>
-    </section>
+      </section>
+    </Element>
   );
 };
 

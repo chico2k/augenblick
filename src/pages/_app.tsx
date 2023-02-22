@@ -2,11 +2,17 @@ import "../styles/globals.css";
 import "keen-slider/keen-slider.min.css";
 import type { AppProps } from "next/app";
 import Footer from "../components/Footer";
-import Navigation from "../components/Header/Navigation";
+import Navigation from "../components/Navigation";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Script from "next/script";
-import Consent, { useConsent } from "../components/CookieConsent";
+import { useConsent } from "../lib/hooks/useConsent";
+import dynamic from "next/dynamic";
+
+const DynamicConsent = dynamic(() => import("../components/CookieConsent"), {
+  loading: () => null,
+  ssr: false,
+});
 
 function MyApp({ Component, pageProps }: AppProps) {
   const { consent } = useConsent();
@@ -50,11 +56,10 @@ function MyApp({ Component, pageProps }: AppProps) {
           }}
         />
       )}
-
       <Navigation />
       <Component {...pageProps} />
       <ToastContainer />
-      <Consent />
+      <DynamicConsent />
       <Footer />
     </>
   );

@@ -28,6 +28,7 @@
     "react-hook-form": "^7.43.1",
     "react-spring": "^9.3.3",
     "react-toastify": "^9.0.5",
+    "sharp": "^0.31.3",
     "winston": "^3.8.2",
     "zod": "^3.20.2"
   },

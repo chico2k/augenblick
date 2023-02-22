@@ -5,7 +5,7 @@ import partner from "/public/partner/partner.png";
 
 const PartnerSection = () => {
   return (
-    <section className=" relative isolate my-40 after:absolute after:inset-0 after:-z-10 after:-skew-y-2 after:bg-gradient-to-b  after:from-fuchsia-500  after:via-fuchsia-300 md:after:bg-gradient-to-r md:after:to-fuchsia-100">
+    <section className=" relative isolate my-40 after:absolute after:inset-0 after:-z-10 after:-skew-y-2 after:bg-gradient-to-b after:from-fuchsia-500  after:via-fuchsia-300  md:after:bg-gradient-to-r md:after:to-fuchsia-100 lg:mt-72">
       <div className="mx-auto max-w-7xl pt-16 pb-12  md:grid md:grid-cols-2">
         <div className="px-6 pt-12 md:px-12 md:pr-16">
           <h2 className="mb-3 text-4xl text-white md:text-3xl xl:text-5xl">
@@ -17,7 +17,6 @@ const PartnerSection = () => {
           </p>
 
           <div className="fill-gray-800 text-gray-800">
-            1
             <dl className="mt-8 space-y-4 text-xs md:mt-12">
               <a
                 href="https://goo.gl/maps/aqDVwsuGj7JGUbrj7"

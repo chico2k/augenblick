@@ -18,7 +18,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <>
-      {/* <Script
+      <Script
         id="gtag"
         strategy="lazyOnload"
         dangerouslySetInnerHTML={{
@@ -54,7 +54,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           `,
           }}
         />
-      )} */}
+      )}
       <Navigation />
       <Component {...pageProps} />
       <ToastContainer />

@@ -231,11 +231,11 @@ const BuchungsSection = () => {
                   {/* Message FIELD END */}
 
                   <div className="my-1 mt-4">
-                    {/* <ReCAPTCHA
+                    <ReCAPTCHA
                       sitekey="6LePoBsgAAAAANy765Nz0Jl4gtYgXsJego5D8nHT"
                       onChange={() => setValue("robot", false)}
                       theme={"light"}
-                    /> */}
+                    />
                   </div>
                   <p className="mb-4 text-sm text-red-600" id="robot-error">
                     {errors["robot"] ? errors["robot"].message : " "}

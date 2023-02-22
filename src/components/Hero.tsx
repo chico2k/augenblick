@@ -1,7 +1,6 @@
 import React from "react";
 import NextImage from "next/image";
-import imageHero from "/public/hero/bg.png";
-import imageHero2 from "/public/hero/bg_2.png";
+import imageHero from "/public/hero/bg_2.png";
 import { Link } from "react-scroll";
 
 const HeroSection: React.FunctionComponent = () => {
@@ -13,7 +12,7 @@ const HeroSection: React.FunctionComponent = () => {
             placeholder="blur"
             priority={true}
             alt="Bild von Sandra beim Arbeiten"
-            src={imageHero2}
+            src={imageHero}
             className="h-full w-full object-cover object-center "
           />
         </div>

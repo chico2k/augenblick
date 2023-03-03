@@ -89,6 +89,7 @@ const BuchungsSection = () => {
                         {...register("name")}
                         id={"name"}
                         name={"name"}
+                        aria-label="Name"
                         className={`
                           ${
                             errors["name"]
@@ -129,6 +130,7 @@ const BuchungsSection = () => {
                         {...register("email")}
                         id={"email"}
                         name={"email"}
+                        aria-label="Email Buchung"
                         className={`
         ${
           errors["email"]

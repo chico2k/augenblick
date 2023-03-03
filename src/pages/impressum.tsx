@@ -7,6 +7,10 @@ const ImpressumPage = () => {
     <>
       <Head>
         <title>Impressum - Augenblick Chiemgau</title>
+        <meta
+          name="description"
+          content="Augenblick Chiemgau - Wimperverlängerung Lashlift Traunreut Impressum"
+        />
       </Head>
       <Impressum />
     </>

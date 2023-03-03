@@ -7,6 +7,10 @@ const DatenSchutzPage = () => {
     <>
       <Head>
         <title>Datenschutz - Augenblick Chiemgau</title>
+        <meta
+          name="description"
+          content="Augenblick Chiemgau - Wimperverlängerung Lashlift Traunreut Datenschutz  "
+        />
       </Head>
       <DateschutzComponent />;
     </>

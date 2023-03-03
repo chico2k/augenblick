@@ -37,6 +37,10 @@ const Home: NextPage = () => {
     <>
       <Head>
         <title>Augenblick Chiemgau</title>
+        <meta
+          name="description"
+          content="Augenblick Chiemgau - Wimperverlängerung Lashlift Traunreut"
+        />
       </Head>
       <section className="relative font-sans">
         <HeroSection />

@@ -115,7 +115,13 @@ const MenuMobil: React.FC<{ open: boolean }> = ({ open }) => {
         className="block border-transparent py-2 text-2xl text-gray-700 md:text-3xl "
       >
         <animated.div style={styles}>
-          <Link to={link.href} spy={true} smooth={true} duration={500}>
+          <Link
+            to={link.href}
+            href={"/"}
+            spy={true}
+            smooth={true}
+            duration={500}
+          >
             <Disclosure.Button>{link.name}</Disclosure.Button>
           </Link>
         </animated.div>

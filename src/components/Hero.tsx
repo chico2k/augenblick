@@ -30,7 +30,7 @@ const HeroSection: React.FunctionComponent = () => {
           Wimpernverlängerung im Chiemgau
         </div>
         <div className="ml-5 mt-8 flex space-x-2 md:mt-16 lg:space-x-6 lg:text-xl">
-          <Link to={"buchung"} spy={true} smooth={true} duration={500}>
+          <Link to={"buchung"} spy={true} smooth={true} duration={500} href="/">
             <button
               type="button"
               id="click-buchung"

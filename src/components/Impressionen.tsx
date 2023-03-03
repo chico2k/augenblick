@@ -91,6 +91,7 @@ const Slider: React.FunctionComponent = () => {
             {loaded && instanceRef.current && (
               <>
                 <button
+                  aria-label="zurück in den Bildern"
                   type="button"
                   className="transparent group absolute left-0 h-full w-10 cursor-pointer md:w-20 "
                   onClick={(e) => {
@@ -107,6 +108,7 @@ const Slider: React.FunctionComponent = () => {
                   </svg>
                 </button>
                 <button
+                  aria-label="vor in den Bildern"
                   type="button"
                   className="transparent group absolute right-0 h-full w-10 cursor-pointer md:w-20  "
                   onClick={(e) => {

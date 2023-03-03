@@ -11,12 +11,12 @@ const SandraComponent: React.FunctionComponent = () => {
         id="sandra"
       >
         <div className="relative px-5 ">
-          <h2 className="mb-8 w-full text-6xl text-fuchsia-500 md:mb-12 lg:text-8xl">
+          <h2 className="mb-8 w-full text-6xl text-fuchsia-600 md:mb-12 lg:text-8xl">
             Sandra
           </h2>
           <p className="mb-9 text-base md:pr-3 md:text-base lg:pr-6 lg:text-xl ">
             Ich bin{" "}
-            <span className="text-fuchsia-500">
+            <span className="text-fuchsia-600">
               zertifizierte Wimpernstylistin
             </span>{" "}
             aus Traunreut. Mit Liebe und Leidenschaft, möchte ich für meinen
@@ -24,10 +24,10 @@ const SandraComponent: React.FunctionComponent = () => {
             <br />
             <br />
             Für meine Kundinnen nehmen ich mir gerne ausreichend Zeit, um das
-            <span className="text-fuchsia-500"> perfekt Ergebnis</span> zu
+            <span className="text-fuchsia-600"> perfekt Ergebnis</span> zu
             erzielen. <br />
             <br /> Deine{" "}
-            <span className="text-fuchsia-500">
+            <span className="text-fuchsia-600">
               Wünsche und eine professionelle Beratung{" "}
             </span>
             stehen immer im Vordergrund.

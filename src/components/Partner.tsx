@@ -17,14 +17,14 @@ const PartnerSection = () => {
           </p>
 
           <div className="fill-gray-800 text-gray-800">
-            <dl className="mt-8 space-y-4 text-xs md:mt-12">
+            <div className="mt-8 space-y-4 text-xs md:mt-12">
               <a
                 href="https://goo.gl/maps/aqDVwsuGj7JGUbrj7"
                 target="_blank"
                 rel="noreferrer"
                 className="group flex cursor-pointer"
               >
-                <dd className="flex items-center group-hover:text-gray-600">
+                <div className="flex items-center group-hover:text-gray-600">
                   <svg
                     className="h-6 w-6 flex-shrink-0"
                     xmlns="http://www.w3.org/2000/svg"
@@ -48,7 +48,7 @@ const PartnerSection = () => {
                   <span className="ml-4  flex  items-center text-base lg:text-xl">
                     Carl-Orff-Straße 7, 83374 Traunreut
                   </span>
-                </dd>
+                </div>
               </a>
               <a
                 href="https://www.instagram.com/premiumcosmetic_elli/"
@@ -56,7 +56,7 @@ const PartnerSection = () => {
                 rel="noreferrer"
                 className="group flex cursor-pointer "
               >
-                <dd className="t flex items-center group-hover:text-gray-600">
+                <div className="t flex items-center group-hover:text-gray-600">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
@@ -71,9 +71,9 @@ const PartnerSection = () => {
                   <span className="ml-4 flex items-center justify-center text-base lg:text-xl">
                     premiumcosmetic_elli
                   </span>
-                </dd>
+                </div>
               </a>
-            </dl>
+            </div>
           </div>
         </div>
         <div className="relative mt-12 overflow-hidden md:-my-36 md:shadow-2xl md:shadow-gray-700/30 lg:rounded-2xl ">

@@ -87,8 +87,6 @@ const BuchungsSection = () => {
                     <div className="relative mt-1 rounded-md shadow-sm">
                       <input
                         {...register("name")}
-                        id={"name"}
-                        name={"name"}
                         className={`
                           ${
                             errors["name"]
@@ -127,8 +125,6 @@ const BuchungsSection = () => {
                     <div className="relative mt-1 rounded-md shadow-sm">
                       <input
                         {...register("email")}
-                        id={"name"}
-                        name={"email"}
                         className={`
         ${
           errors["email"]
@@ -167,8 +163,6 @@ const BuchungsSection = () => {
                     <div className="relative mt-1 rounded-md shadow-sm">
                       <input
                         {...register("phone")}
-                        id={"phone"}
-                        name={"phone"}
                         className={`
         ${
           errors["phone"]

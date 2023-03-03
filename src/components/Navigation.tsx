@@ -79,7 +79,13 @@ const MenuDesk = ({ close }: { close: () => void }) => {
         {navigationLinks.map((link) => {
           return (
             <div key={link.name}>
-              <Link to={link.href} spy={true} smooth={true} duration={500}>
+              <Link
+                to={link.href}
+                href={"/"}
+                spy={true}
+                smooth={true}
+                duration={500}
+              >
                 <span
                   className="block cursor-pointer border-transparent px-1 pt-2 text-sm uppercase text-gray-800 hover:text-fuchsia-500 lg:text-base xl:text-lg"
                   onClick={() => close()}

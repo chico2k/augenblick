@@ -56,8 +56,8 @@ export default function Newsletter() {
               </label>
               <input
                 {...register("email")}
-                id="email-newsletter"
-                name="email-newsletter"
+                id="email"
+                name="email"
                 type="email"
                 autoComplete="email"
                 required

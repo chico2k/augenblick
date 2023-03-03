@@ -2,7 +2,7 @@ import React from "react";
 
 const DateschutzComponent = () => {
   return (
-    <section className="mx-auto max-w-4xl py-32">
+    <section className="auto max-w-4xl break-words py-32 px-6">
       <h1 className="py-2 text-2xl">Datenschutz&shy;erkl&auml;rung</h1>
       <h2 className="mt-4 pt-2 text-xl">1. Datenschutz auf einen Blick</h2>
       <h3 className="py-1 text-base font-semibold">Allgemeine Hinweise</h3>{" "}
@@ -114,7 +114,7 @@ const DateschutzComponent = () => {
         <br />
         Walnut, CA 91789
         <br />
-        privacy@vercel.com100
+        privacy@vercel.com
       </p>
       <h4 className="py-1 font-semibold">Auftragsverarbeitung</h4>{" "}
       <p>

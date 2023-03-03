@@ -10,9 +10,14 @@ import { useSpring, animated } from "react-spring";
 
 const Navigation = () => {
   return (
-    <header className="absolute inset-x-0 z-50">
+    <header className="absolute inset-x-0 z-50 overscroll-auto ">
       <Disclosure as="nav" className="mx-auto mb-2 max-w-7xl">
         {({ open, close }) => {
+          if (typeof window !== "undefined" && open)
+            document.body.style.overflow = "hidden";
+          if (typeof window !== "undefined" && !open)
+            document.body.style.overflow = "auto";
+
           return (
             <>
               <div className="mx-auto mt-4 max-w-7xl px-6 ">
@@ -34,7 +39,7 @@ const Navigation = () => {
                   <div
                     className={`absolute inset-0 mt-4 flex h-full justify-center lg:hidden`}
                   >
-                    <div className="relative z-40 mt-2 aspect-video w-52 md:w-64">
+                    <div className="relative z-40 mt-4 aspect-video w-36 md:w-64">
                       <NextLink href="/">
                         <NextImage
                           src={logo}
@@ -107,7 +112,7 @@ const MenuMobil: React.FC<{ open: boolean }> = ({ open }) => {
         key={link.name}
         as="a"
         href={link.href}
-        className="block border-transparent py-2 text-3xl text-gray-700 "
+        className="block border-transparent py-2 text-2xl text-gray-700 md:text-3xl "
       >
         <animated.div style={styles}>
           <Link to={link.href} spy={true} smooth={true} duration={500}>
@@ -120,7 +125,7 @@ const MenuMobil: React.FC<{ open: boolean }> = ({ open }) => {
 
   return (
     <animated.div style={styles2}>
-      <Disclosure.Panel className="fixed inset-0 z-30  flex h-screen items-center justify-center bg-fuchsia-100 pl-12 text-center lg:hidden">
+      <Disclosure.Panel className="fixed inset-0 z-30  flex h-screen max-h-screen items-center justify-center bg-fuchsia-100 text-center lg:hidden">
         <div className="space-y-4 pt-2 pb-4">{links}</div>
       </Disclosure.Panel>
     </animated.div>

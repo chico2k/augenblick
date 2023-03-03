@@ -4,6 +4,7 @@ import SandraComponent from "../components/Sandra";
 import HeroSection from "../components/Hero";
 import Testimonials from "../components/Testimonials";
 import dynamic from "next/dynamic";
+import Head from "next/head";
 
 const Newsletter = dynamic(() => import("../components/Newsletter"), {
   ssr: false,
@@ -33,19 +34,24 @@ const Augenblick = dynamic(() => import("../components/Augenblick"), {
 
 const Home: NextPage = () => {
   return (
-    <div className="relative font-sans">
-      <HeroSection />
-      <SandraComponent />
-      <AngebotSection />
-      <Slider />
-      <Testimonials />
-      <Newsletter />
-      <Augenblick />
-      <BuchungsSection />
-      <PartnerSection />
-      <StrongLash />
-      <AnfahrtSection />
-    </div>
+    <>
+      <Head>
+        <title>Augenblick Chiemgau</title>
+      </Head>
+      <section className="relative font-sans">
+        <HeroSection />
+        <SandraComponent />
+        <AngebotSection />
+        <Slider />
+        <Testimonials />
+        <Newsletter />
+        <Augenblick />
+        <BuchungsSection />
+        <PartnerSection />
+        <StrongLash />
+        <AnfahrtSection />
+      </section>
+    </>
   );
 };
 

@@ -24,7 +24,7 @@ const PartnerSection = () => {
                 rel="noreferrer"
                 className="group flex cursor-pointer"
               >
-                <dd className="flex group-hover:text-gray-600">
+                <dd className="flex items-center group-hover:text-gray-600">
                   <svg
                     className="h-6 w-6 flex-shrink-0"
                     xmlns="http://www.w3.org/2000/svg"
@@ -56,7 +56,7 @@ const PartnerSection = () => {
                 rel="noreferrer"
                 className="group flex cursor-pointer "
               >
-                <dd className="flex group-hover:text-gray-600">
+                <dd className="t flex items-center group-hover:text-gray-600">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"

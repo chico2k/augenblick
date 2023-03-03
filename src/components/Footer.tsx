@@ -1,5 +1,6 @@
 import { Link } from "react-scroll";
 import { navigationLinks } from "../lib/links";
+import NextLink from "next/link";
 
 const navigation = {
   main: navigationLinks,
@@ -55,9 +56,24 @@ export default function Footer() {
             </a>
           ))}
         </div>
-        <p className="mt-10 text-center text-xs leading-5 text-white">
-          &copy; 2023 Augenblick
-        </p>
+        <div className="flex justify-center">
+           
+          <a className="mt-10 mr-2 text-center text-xs leading-5 text-white">
+            &copy; 2023 Augenblick
+          </a>
+          <NextLink
+            href="/impressum"
+            className="mt-10 mr-2 text-center text-xs leading-5 text-white hover:text-fuchsia-300"
+          >
+            <span>Impressum</span>
+          </NextLink>
+          <NextLink
+            href="/datenschutz"
+            className="mt-10  text-center text-xs leading-5 text-white hover:text-fuchsia-300"
+          >
+            <span>Datenschutz</span>
+          </NextLink>
+        </div>
       </div>
     </footer>
   );

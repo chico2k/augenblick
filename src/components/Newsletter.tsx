@@ -25,7 +25,7 @@ export default function Newsletter() {
   return (
     <Element name="newsletter">
       <section className="bg-gradient-to-tl from-fuchsia-500 via-fuchsia-600 to-fuchsia-700 ">
-        <div className=" mx-auto max-w-7xl py-20 px-12 lg:flex lg:items-center lg:py-32 lg:px-8">
+        <div className=" mx-auto max-w-7xl py-20 px-8 md:px-12 lg:flex lg:items-center lg:py-32 lg:px-8">
           <div className=" lg:w-0 lg:flex-1">
             <h2 className="text-3xl font-semibold tracking-tight text-white sm:text-3xl lg:text-4xl">
               Melde dich für meinen Newsletter an.

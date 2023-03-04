@@ -2,6 +2,7 @@ import React from "react";
 import background from "public/angebot/background.png";
 import NextImage from "next/image";
 import { Element } from "react-scroll";
+import NextLink from "next/link";
 
 const products = [
   {
@@ -11,6 +12,7 @@ const products = [
     price: 49,
     popular: false,
     footer: "",
+    href: "/lashlift",
   },
   {
     id: 2,
@@ -19,6 +21,7 @@ const products = [
     price: 75,
     popular: true,
     footer: "Auffüllen 35€ (bis zu drei Wochen nach Termin)",
+    href: "/lashextension-1-zu-1-technik",
   },
   {
     id: 3,
@@ -27,6 +30,7 @@ const products = [
     price: 95,
     popular: false,
     footer: "Auffüllen 50€ (bis zu drei Wochen nach Termin)",
+    href: "/lashextension-volumentechnik",
   },
 ];
 
@@ -72,11 +76,16 @@ const AngebotSection = () => {
                         <div className="mt-1 text-center text-base font-light text-fuchsia-700 lg:text-lg">
                           {product.subTitle}
                         </div>
-                        <div className="my-6 text-center">
+                        <div className="mt-6 text-center">
                           <span className="align-center flex items-start justify-center px-3 text-6xl tracking-tight text-gray-900">
                             <span className="text-6xl">{product.price}</span>
                             <span className="text-3xl font-medium">€</span>
                           </span>
+                        </div>
+                        <div className="my-3 cursor-pointer text-sm font-semibold leading-6 text-fuchsia-600 hover:text-fuchsia-700">
+                          <NextLink href={product.href}>
+                            Erfahre mehr <span aria-hidden="true">→</span>
+                          </NextLink>
                         </div>
                         <div className="absolute bottom-0 mt-8 w-full px-4 py-2 text-xs ">
                           {product.footer}

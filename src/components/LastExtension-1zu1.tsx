@@ -183,11 +183,6 @@ const LashExtension1zu1 = () => {
           </div>
         </div>
       </div>
-      <Slider />
-
-      <div className="my-32">
-        <BuchungsSection />
-      </div>
     </section>
   );
 };

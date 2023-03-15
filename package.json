@@ -1,11 +1,12 @@
 {
   "name": "augenblick",
+  "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
     "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "dev": "next dev",
+    "lint": "next lint",
+    "start": "next start"
   },
   "dependencies": {
     "@axiomhq/axiom-node": "^0.11.0",
@@ -15,6 +16,7 @@
     "@hookform/resolvers": "^2.9.11",
     "@sendgrid/client": "^7.7.0",
     "@sendgrid/mail": "^7.7.0",
+    "augenblick": "link:",
     "cookies-next": "^2.1.1",
     "googleapis": "^92.0.0",
     "keen-slider": "^6.6.2",
@@ -24,34 +26,34 @@
     "react-dom": "18.2.0",
     "react-google-recaptcha": "^2.1.0",
     "react-hook-form": "^7.43.1",
-    "react-scroll": "^1.8.4",
     "react-spring": "^9.3.3",
     "react-toastify": "^9.0.5",
+    "sharp": "^0.31.3",
     "winston": "^3.8.2",
-    "zod": "^3.17.3"
+    "zod": "^3.20.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.16.5",
-    "@babel/preset-env": "^7.16.5",
-    "@babel/preset-typescript": "^7.18.6",
+    "@next/bundle-analyzer": "^13.1.6",
     "@types/gtag.js": "^0.0.12",
-    "@types/jest": "^27.0.3",
-    "@types/node": "17.0.5",
-    "@types/react": "17.0.38",
+    "@types/node": "^18.11.18",
+    "@types/prettier": "^2.7.2",
+    "@types/react": "^18.0.26",
+    "@types/react-dom": "^18.0.10",
     "@types/react-google-recaptcha": "^2.1.5",
-    "@types/react-scroll": "^1.8.3",
-    "@types/rellax": "^1.7.4",
-    "@types/sharp": "^0.29.5",
-    "autoprefixer": "^10.4.0",
-    "babel-jest": "^27.4.5",
-    "eslint": "8.5.0",
+    "@types/react-scroll": "^1.8.6",
+    "@typescript-eslint/eslint-plugin": "^5.47.1",
+    "@typescript-eslint/parser": "^5.47.1",
+    "autoprefixer": "^10.4.7",
+    "eslint": "^8.30.0",
     "eslint-config-next": "13.1.6",
-    "jest": "^27.4.5",
-    "postcss": "^8.4.5",
-    "prettier-plugin-tailwindcss": "^0.2.3",
-    "sharp": "^0.29.3",
-    "tailwindcss": "^3.0.7",
-    "ts-node": "^10.4.0",
-    "typescript": "4.5.4"
+    "postcss": "^8.4.14",
+    "prettier": "^2.8.1",
+    "prettier-plugin-tailwindcss": "^0.2.1",
+    "react-scroll": "^1.8.9",
+    "tailwindcss": "^3.2.0",
+    "typescript": "^4.9.4"
+  },
+  "ct3aMetadata": {
+    "initVersion": "7.5.0"
   }
 }

@@ -154,11 +154,6 @@ const LastLift = () => {
           </div>
         </div>
       </div>
-      <Slider />
-
-      <div className="my-32">
-        <BuchungsSection />
-      </div>
     </section>
   );
 };

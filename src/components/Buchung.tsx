@@ -234,9 +234,7 @@ const BuchungsSection = () => {
 
                   <div className="my-1 mt-4">
                     <ReCAPTCHA
-                      sitekey={
-                        process.env.NEXT_PUBLIC_GOOGLE_RECAPTCHA as string
-                      }
+                      sitekey={"6Lf08AQlAAAAAO3_LaTiGH8H6liAn5NHp0OZxseP"}
                       onChange={() => setValue("robot", false)}
                       theme={"light"}
                     />

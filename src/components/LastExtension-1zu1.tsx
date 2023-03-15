@@ -23,9 +23,9 @@ const LashExtension1zu1 = () => {
             Lashextensions sind eine großartige Möglichkeit, um deinen Augen
             einen wunderschönen und ausdrucksstarken Look zu verleihen. Sie
             verlängern und verdichten deine natürlichen Wimpern, ohne dass du
-            Mascara oder falsche Wimpern verwenden musst. Wenn du einen
-            natürlichen, aber dennoch dramatischen Augenaufschlag möchtest, dann
-            sind Lashextensions definitiv einen Versuch wert.
+            Mascara verwenden musst. Wenn du einen natürlichen, aber dennoch
+            dramatischen Augenaufschlag möchtest, dann sind Lashextensions
+            definitiv einen Versuch wert.
           </p>
           <div className="mt-10 max-w-2xl">
             <h2 className="mt-16 text-2xl font-bold tracking-tight text-gray-900">
@@ -39,11 +39,11 @@ const LashExtension1zu1 = () => {
               Wimpern-Stylisten durchgeführt.
               <br /> <br />
               Die künstlichen Wimpern sind in verschiedenen Größen, Krümmungen
-              und Materialien erhältlich, wie z.B. Synthetik, Seide oder
-              Nerzhaar. Die Wimpern werden dann mit einem speziellen Kleber auf
-              deine natürlichen Wimpern geklebt, wodurch sie länger und
-              voluminöser erscheinen. Das Ergebnis sieht natürlich aus und
-              verleiht deinen Augen einen wachen und ausdrucksstarken Look.
+              und Materialien erhältlich. Die Wimpern werden dann mit einem
+              speziellen Kleber auf deine natürlichen Wimpern geklebt, wodurch
+              sie länger und voluminöser erscheinen. Das Ergebnis sieht
+              natürlich aus und verleiht deinen Augen einen wachen und
+              ausdrucksstarken Look.
             </p>
           </div>
           <figure className="mt-6">
@@ -77,30 +77,16 @@ const LashExtension1zu1 = () => {
               Techniken, da sie nur eine zusätzliche Wimper pro natürlicher
               Wimper hinzufügt.
               <br /> <br />
-              Nach dem Einwirken wird das Lifting-Gel entfernt und die Wimpern
-              werden vorsichtig in die gewünschte Form gebracht und mit einem
-              Fixierungsmittel fixiert. Das Fixierungsmittel enthält ebenfalls
-              pflegende Inhaltsstoffe, um deine Wimpern zu stärken und zu
-              schützen. Nach dem Fixieren wird das Fixierungsmittel ebenfalls
-              für etwa 8 bis 12 Minuten einwirken gelassen.
-              <br /> <br />
               Die 1:1 Technik eignet sich besonders für Kunden, die einen
               subtilen Look wünschen und die natürliche Schönheit ihrer Wimpern
-              hervorheben möchten. Da diese Methode eine längere Anwendungsdauer
-              erfordert, ist sie möglicherweise nicht so schnell wie andere
-              Methoden, aber sie erzeugt ein sehr natürliches und schönes
-              Ergebnis.
+              hervorheben möchten.
             </p>
           </div>
           <div className="mt-16 max-w-2xl">
             <h2 className="text-2xl font-bold tracking-tight text-gray-900">
               Was sind die Vorteile von Lashextension?
             </h2>
-            <p className="mt-6">
-              Lashlifting hat viele Vorteile im Vergleich zu künstlichen
-              Wimpernverlängerungen oder Mascara. Hier sind einige der Vorteile
-              von Lashlifting:
-            </p>
+
             <ul role="list" className="mt-8 max-w-xl space-y-6 text-gray-600">
               <li className="flex gap-x-3">
                 <CheckCircleIcon
@@ -112,9 +98,9 @@ const LashExtension1zu1 = () => {
                     Längere und vollere Wimpern:{" "}
                   </strong>{" "}
                   Lashextensions verleihen deinen Wimpern mehr Länge und
-                  Volumen, ohne dass du Mascara oder falsche Wimpern verwenden
-                  musst. Sie machen deinen Augenaufschlag dramatischer und
-                  verleihen deinem Gesicht eine wunderschöne Ausstrahlung.
+                  Volumen, ohne dass du Mascara verwenden musst. Sie machen
+                  deinen Augenaufschlag dramatischer und verleihen deinem
+                  Gesicht eine wunderschöne Ausstrahlung.
                 </span>
               </li>
               <li className="flex gap-x-3">
@@ -158,8 +144,8 @@ const LashExtension1zu1 = () => {
                   </strong>{" "}
                   Im Gegensatz zu Mascara, die im Laufe des Tages abblättern
                   oder verschmieren kann, halten Lashextensions länger. Je nach
-                  Wachstumszyklus deiner natürlichen Wimpern können sie bis zu 4
-                  bis 6 Wochen halten, bevor sie nachgebessert werden müssen.
+                  Wachstumszyklus deiner natürlichen Wimpern können sie bis zu 3
+                  bis 4 Wochen halten, bevor sie aufgefüllt werden müssen.
                 </span>
               </li>
             </ul>
@@ -180,11 +166,9 @@ const LashExtension1zu1 = () => {
               aufzutragen.
               <br /> <br />
               Die Wimpernverlängerungen werden mit einem speziellen
-              Wimpernkleber auf die natürlichen Wimpern geklebt. Der Kleber ist
-              hautfreundlich und unsichtbar, so dass er nicht irritiert oder zu
-              Allergien führt. Der Prozess kann zwischen 1,5 und 2,5 Stunden
-              dauern, abhängig von der Anzahl der Wimpern, die aufgetragen
-              werden sollen.
+              Wimpernkleber auf die natürlichen Wimpern geklebt. Der Prozess
+              kann zwischen 1,5 und 2,5 Stunden dauern, abhängig von der Anzahl
+              der Wimpern, die aufgetragen werden sollen.
               <br /> <br />
               Nach Abschluss der Behandlung solltest du vermeiden, deine Wimpern
               für mindestens 24 Stunden nass zu machen, um sicherzustellen, dass

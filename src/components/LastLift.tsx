@@ -22,9 +22,9 @@ const LastLift = () => {
           <p className="mt-6 text-xl leading-8">
             Wer träumt nicht von langen, voluminösen Wimpern, die perfekt
             geschwungen sind? Lashlifting, auch bekannt als Wimpernlifting, ist
-            eine großartige Möglichkeit, Ihre natürlichen Wimpern zu betonen und
-            zu akzentuieren, ohne sich auf künstliche Extensions verlassen zu
-            müssen.
+            eine großartige Möglichkeit, deine natürlichen Wimpern zu betonen
+            und zu akzentuieren, ohne sich auf künstliche Extensions verlassen
+            zu müssen.
           </p>
           <div className="mt-10 max-w-2xl">
             <h2 className="mt-16 text-2xl font-bold tracking-tight text-gray-900">
@@ -32,11 +32,9 @@ const LastLift = () => {
             </h2>
             <p className="mt-6">
               Lashlifting ist eine kosmetische Behandlung, die dazu dient, deine
-              natürlichen Wimpern anzuheben und zu formen, um eine perfekte
-              Krümmung zu erzeugen. Im Gegensatz zu künstlichen
-              Wimpernverlängerungen oder Mascara, betont Lashlifting deine
-              natürlichen Wimpern, ohne dass zusätzliche Wimpern erforderlich
-              sind.
+              natürlichen Wimpern anzuheben und zu formen, um einen perfekten
+              Schwung zu erzeugen. Es ist eine großartige Alternative zur
+              Wimpernverlängerung.
             </p>
           </div>
           <figure className="mt-6">
@@ -74,7 +72,7 @@ const LastLift = () => {
                     Natürlicher Look:{" "}
                   </strong>{" "}
                   Lashlifting betont Ihre natürlichen Wimpern und verleiht ihnen
-                  eine perfekte Krümmung, ohne dass künstliche Wimpern
+                  einen perfekten Schwung, ohne dass künstliche Wimpern
                   erforderlich sind.
                 </span>
               </li>
@@ -87,8 +85,7 @@ const LastLift = () => {
                   <strong className="font-semibold text-gray-900">
                     Langanhaltende Wirkung:
                   </strong>{" "}
-                  Das Ergebnis hält bis zu 6 Wochen an, sodass Sie nicht jeden
-                  Tag Make-up auftragen müssen.
+                  Das Ergebnis hält bis zu 6 Wochen an.
                 </span>
               </li>
               <li className="flex gap-x-3">
@@ -100,7 +97,7 @@ const LastLift = () => {
                   <strong className="font-semibold text-gray-900">
                     Pflegeleicht:
                   </strong>{" "}
-                  Es erfordert keine besondere Pflege und Sie können Ihre
+                  Es erfordert keine besondere Pflege und Du kannste deine
                   Wimpern wie gewohnt waschen und schminken.
                 </span>
               </li>
@@ -114,8 +111,8 @@ const LastLift = () => {
                     Keine Allergien:
                   </strong>{" "}
                   Im Gegensatz zu künstlichen Wimpernverlängerungen verursacht
-                  Lashlifting keine allergischen Reaktionen, da keine Klebstoffe
-                  verwendet werden.
+                  Lashlifting keine allergischen Reaktionen, da keine
+                  Kleberdämpfe entstehen.
                 </span>
               </li>
             </ul>
@@ -142,8 +139,7 @@ const LastLift = () => {
               werden vorsichtig in die gewünschte Form gebracht und mit einem
               Fixierungsmittel fixiert. Das Fixierungsmittel enthält ebenfalls
               pflegende Inhaltsstoffe, um deine Wimpern zu stärken und zu
-              schützen. Nach dem Fixieren wird das Fixierungsmittel ebenfalls
-              für etwa 8 bis 12 Minuten einwirken gelassen.
+              schützen.
               <br /> <br />
               Sobald das Fixierungsmittel entfernt wurde, werden deine Wimpern
               mit einem Nährstoff-Serum behandelt, um sie zu stärken und zu
@@ -151,9 +147,8 @@ const LastLift = () => {
               gesünder aussehen und glänzen.
               <br /> <br />
               Die Behandlung dauert in der Regel zwischen 45 Minuten bis zu
-              einer Stunde und ist schmerzfrei. Nach der Behandlung kannst du
-              deine Wimpern wie gewohnt waschen und schminken. Das Ergebnis des
-              Lashliftings hält in der Regel zwischen 4 bis 6 Wochen an, je nach
+              einer Stunde und ist schmerzfrei. Das Ergebnis des Lashliftings
+              hält in der Regel zwischen 4 bis 6 Wochen an, je nach
               Wachstumszyklus deiner Wimpern.
             </p>
           </div>

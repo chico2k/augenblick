@@ -81,7 +81,7 @@ const Slider: React.FunctionComponent = () => {
       <Element name="impressionen">
         <div id="impressionen">
           <div className="mx-auto max-w-2xl md:text-center lg:max-w-4xl">
-            <h2 className="font-display px-4 pt-40 pb-12 text-center text-4xl text-fuchsia-500 sm:text-4xl md:pb-24 md:text-left lg:text-6xl ">
+            <h2 className="font-display px-4 pt-40 pb-12 text-center text-4xl text-fuchsia-500 sm:text-4xl md:pb-24  lg:text-6xl ">
               Überzeuge dich selbst von meiner Arbeit.
             </h2>
           </div>

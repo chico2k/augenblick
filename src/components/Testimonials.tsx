@@ -51,7 +51,7 @@ export function Testimonials() {
         />
         <div className="container z-20 mx-auto max-w-7xl px-6">
           <div className="mx-auto max-w-2xl md:text-center lg:max-w-7xl">
-            <h2 className="font-display z-20 text-center text-4xl text-fuchsia-500 sm:text-4xl md:text-left lg:text-6xl ">
+            <h2 className="font-display z-20 text-center text-4xl text-fuchsia-500 sm:text-4xl  lg:text-6xl ">
               Meine Kundinnen lieben das Ergebnis.
             </h2>
           </div>

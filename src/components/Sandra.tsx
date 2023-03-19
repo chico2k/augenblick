@@ -19,8 +19,8 @@ const SandraComponent: React.FunctionComponent = () => {
             <span className="text-fuchsia-600">
               zertifizierte Wimpernstylistin
             </span>{" "}
-            aus Traunreut. Mit Liebe und Leidenschaft, möchte ich für meinen
-            Kundinnen einen perfektes Ergenbnis zielen.
+            aus Traunreut. Mit Liebe und Leidenschaft, möchte ich für meine
+            Kundinnen ein perfektes Ergenbnis zielen.
             <br />
             <br />
             Für meine Kundinnen nehmen ich mir gerne ausreichend Zeit, um das

@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://www.augenblick-chiemgau.com
+
+# Sitemaps
+Sitemap: https://www.augenblick-chiemgau.com/sitemap.xml

@@ -3,10 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build": "next build",
+    "build": "next build && next-sitemap",
     "dev": "next dev",
     "lint": "next lint",
-    "start": "next start"
+    "start": "next start",
+    "postbuild": "next-sitemap"
   },
   "dependencies": {
     "@axiomhq/axiom-node": "^0.11.0",
@@ -22,6 +23,7 @@
     "keen-slider": "^6.6.2",
     "next": "13.1.6",
     "next-axiom": "^0.17.0",
+    "next-sitemap": "^4.0.6",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-google-recaptcha": "^2.1.0",

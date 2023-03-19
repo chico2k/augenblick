@@ -27,6 +27,7 @@ specifiers:
   keen-slider: ^6.6.2
   next: 13.1.6
   next-axiom: ^0.17.0
+  next-sitemap: ^4.0.6
   postcss: ^8.4.14
   prettier: ^2.8.1
   prettier-plugin-tailwindcss: ^0.2.1
@@ -57,6 +58,7 @@ dependencies:
   keen-slider: 6.8.5
   next: 13.1.6_biqbaboplfbrettd7655fr4n2y
   next-axiom: 0.17.0_next@13.1.6
+  next-sitemap: 4.0.6_next@13.1.6
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
   react-google-recaptcha: 2.1.0_react@18.2.0
@@ -112,6 +114,10 @@ packages:
   /@colors/colors/1.5.0:
     resolution: {integrity: sha512-ooWCrlZP11i8GImSjTHYHLkvFDP48nS4+204nGb1RiX/WXYHmJA2III9/e2DWVabCESdW7hBAEzHRqUn9OUVvQ==}
     engines: {node: '>=0.1.90'}
+    dev: false
+
+  /@corex/deepmerge/4.0.37:
+    resolution: {integrity: sha512-PX90bEnrLdxd5e6rSFWsghExMuSw0Uov3fWJuuaoFuUQIS/446diu/4seExK5b+43L+SOBbd2uBGwYUkG1JfCw==}
     dev: false
 
   /@dabh/diagnostics/2.0.3:
@@ -2569,6 +2575,19 @@ packages:
     dependencies:
       next: 13.1.6_biqbaboplfbrettd7655fr4n2y
       whatwg-fetch: 3.6.2
+    dev: false
+
+  /next-sitemap/4.0.6_next@13.1.6:
+    resolution: {integrity: sha512-pZ9tynYe6mRR189qZqcOlWVgM1Gxo07BJQW0AjerKmLwQOt+6FQMdaDgifgCt6jDT3Y3EG/+NUDDZRcd0gbPkA==}
+    engines: {node: '>=14.18'}
+    hasBin: true
+    peerDependencies:
+      '@next/env': '*'
+      next: '*'
+    dependencies:
+      '@corex/deepmerge': 4.0.37
+      minimist: 1.2.8
+      next: 13.1.6_biqbaboplfbrettd7655fr4n2y
     dev: false
 
   /next/13.1.6_biqbaboplfbrettd7655fr4n2y:

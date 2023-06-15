@@ -35,7 +35,7 @@ const LashExtension1zu1Page = () => {
   return (
     <>
       <Head>
-        <title>Augenblick Chiemgau</title>
+        <title>Augenblick Chiemgau - Lashextension 1 zu 1 Technik</title>
         <meta
           name="description"
           content="Augenblick Chiemgau - Lashextension 1 zu 1 Technik"

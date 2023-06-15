@@ -36,7 +36,7 @@ const LasliftPage = () => {
   return (
     <>
       <Head>
-        <title>Augenblick Chiemgau</title>
+        <title>Augenblick Chiemgau - Lashlift</title>
         <meta name="description" content="Augenblick Chiemgau - Lashlift" />
       </Head>
       <LastLift />;

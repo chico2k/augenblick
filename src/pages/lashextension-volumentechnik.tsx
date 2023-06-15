@@ -36,7 +36,7 @@ const LashExtensionVolumenPage = () => {
   return (
     <>
       <Head>
-        <title>Augenblick Chiemgau</title>
+        <title>Augenblick Chiemgau - Lashextension Volumentechnik</title>
         <meta
           name="description"
           content="Augenblick Chiemgau - Lashextension Volumentechnik"

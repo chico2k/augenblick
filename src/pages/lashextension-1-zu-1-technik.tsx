@@ -4,6 +4,7 @@ import AngebotSection from "../components/Angebot";
 import SandraComponent from "../components/Sandra";
 import Testimonials from "../components/Testimonials";
 import dynamic from "next/dynamic";
+import Head from "next/head";
 
 const Newsletter = dynamic(() => import("../components/Newsletter"), {
   ssr: false,
@@ -33,6 +34,13 @@ const Augenblick = dynamic(() => import("../components/Augenblick"), {
 const LashExtension1zu1Page = () => {
   return (
     <>
+      <Head>
+        <title>Augenblick Chiemgau</title>
+        <meta
+          name="description"
+          content="Augenblick Chiemgau - Lashextension 1 zu 1 Technik"
+        />
+      </Head>
       <LashExtension1zu1 />;
       <SandraComponent />
       <AngebotSection />

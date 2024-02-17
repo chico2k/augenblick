@@ -5,7 +5,7 @@ import { Link } from "react-scroll";
 
 const HeroSection: React.FunctionComponent = () => {
   return (
-    <section className="relative flex h-screen w-full  items-center overflow-hidden   ">
+    <section className="relative flex h-screen w-full  items-center overflow-hidden ">
       <div className="absolute inset-0   ">
         <div className="h-screen after:absolute after:inset-0 after:z-10 after:bg-fuchsia-100 after:opacity-70 ">
           <NextImage

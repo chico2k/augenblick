@@ -157,10 +157,9 @@ const DateschutzComponent = () => {
         Website ist:
       </p>{" "}
       <p>
-        Sandra Rudic
+        Sandra Galla
         <br />
-        Carl-Orff-Stra&szlig;e 7<br />
-        83374 Traunreut
+        Hofer Str. 10 83301 Traunreut
       </p>
       <p>E-Mail: info@augenblick-chiemgau.com</p>
       <br />

@@ -21,9 +21,11 @@ const AnfahrtSection = dynamic(() => import("../components/Anfahrt"), {
 const StrongLash = dynamic(() => import("../components/StrongLash"), {
   ssr: false,
 });
+
 const BuchungsSection = dynamic(() => import("../components/Buchung"), {
   ssr: false,
 });
+
 const PartnerSection = dynamic(() => import("../components/Partner"), {
   ssr: false,
 });

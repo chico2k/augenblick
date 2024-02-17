@@ -80,7 +80,7 @@ const PartnerSection = () => {
           <NextImage
             className="aspect-square object-cover md:h-full"
             src={partner}
-            alt="Bild von Sandra Rudic"
+            alt="Bild von Sandra Galla"
             placeholder="blur"
           />
         </div>

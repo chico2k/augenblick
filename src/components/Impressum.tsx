@@ -8,12 +8,11 @@ export const Impressum = () => {
 
         <h2 className="mt-4">Angaben gem&auml;&szlig; &sect; 5 TMG</h2>
         <p>
-          Sandra Rudic
+          Sandra Galla
           <br />
           Augenblick Chiemgau
           <br />
-          Carl-Orff-Stra&szlig;e 7<br />
-          83374 Traunreut
+          Hofer Str. 10 83301 Traunreut
         </p>
 
         <h2 className="pt-4">Kontakt</h2>

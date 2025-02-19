@@ -13,10 +13,6 @@ const DynamicConsent = dynamic(() => import("../components/CookieConsent"), {
   ssr: false,
 });
 
-const Elternzeit = dynamic(() => import("../components/Elternzeit"), {
-  ssr: false,
-});
-
 function MyApp({ Component, pageProps }: AppProps) {
   const { consent } = useConsent();
 
@@ -60,7 +56,6 @@ function MyApp({ Component, pageProps }: AppProps) {
         />
       )}
       <Navigation />
-      <Elternzeit />
 
       <Component {...pageProps} />
       <ToastContainer />

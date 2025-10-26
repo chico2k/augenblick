@@ -140,7 +140,7 @@ const LashExtension1zu1 = () => {
             </h2>
             <p className="mt-6">
               Eine Lashextension-Behandlung beginnt mit einem kurzen
-              Beratungsgespräch. Dabei besprichen wir die gewünschte
+              Beratungsgespräch. Dabei besprechen wir die gewünschte
               Wimpernform, -länge und -krümmung.
               <br /> <br />
               Danach werden die unteren Wimpern mit einem speziellen Klebeband

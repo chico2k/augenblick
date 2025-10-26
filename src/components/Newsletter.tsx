@@ -14,6 +14,10 @@ export const schemaNewsLetter = z.object({
 });
 
 export default function Newsletter() {
+  // Temporarily disabled to avoid SendGrid costs
+  return null;
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { newsletterSubmitHandler } = useNewsletterSubmit();
 
   const { handleSubmit, register, reset } = useForm<

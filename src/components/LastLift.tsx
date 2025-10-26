@@ -97,7 +97,7 @@ const LastLift = () => {
                   <strong className="font-semibold text-gray-900">
                     Pflegeleicht:
                   </strong>{" "}
-                  Es erfordert keine besondere Pflege und Du kannste deine
+                  Es erfordert keine besondere Pflege und Du kannst deine
                   Wimpern wie gewohnt waschen und schminken.
                 </span>
               </li>

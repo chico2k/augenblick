@@ -1,0 +1,66 @@
+{
+  "task_description": "Implement cosmetics studio database schema with GDPR compliance, digital signatures, and comprehensive audit trail using Drizzle ORM with Neon Postgres.",
+  "scoped_services": ["main"],
+  "files_to_modify": {
+    "main": [
+      "src/lib/db/schema/index.ts",
+      "package.json"
+    ]
+  },
+  "files_to_create": {
+    "main": [
+      "src/lib/db/schema/auth.ts",
+      "src/lib/db/schema/customers.ts",
+      "src/lib/db/schema/gdpr-versions.ts",
+      "src/lib/db/schema/customer-signatures.ts",
+      "src/lib/db/schema/customer-audit.ts",
+      "src/lib/db/schema/relations.ts"
+    ]
+  },
+  "files_to_reference": [
+    "src/lib/db/schema/example.ts",
+    ".worktrees/004-implement-better-auth-with-email-password-for-sing/src/lib/db/schema/auth.ts",
+    "drizzle.config.ts"
+  ],
+  "patterns": {
+    "schema_pattern": "Use pgTable from drizzle-orm/pg-core with JSDoc comments. Export both $inferSelect and $inferInsert types. Use timestamp with { mode: 'date' }.",
+    "id_pattern": "Use text('id').primaryKey().$defaultFn(() => createId()) with cuid2 for ID generation",
+    "foreign_key_pattern": "Use .references(() => table.id, { onDelete: 'cascade|restrict|set null' }) based on relationship type",
+    "naming_convention": "camelCase for TypeScript properties, snake_case for database columns",
+    "file_structure": "One table per file, relations in separate file, index.ts exports all",
+    "eslint_pattern": "Add ESLint disable comments for drizzle-orm type inference: /* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access */"
+  },
+  "existing_implementations": {
+    "description": "Drizzle ORM schema structure already exists at src/lib/db/schema/ with example.ts as template. Better Auth schema exists in worktree 004 and needs to be copied.",
+    "relevant_files": [
+      {
+        "path": "src/lib/db/schema/example.ts",
+        "purpose": "Template for schema definitions with JSDoc comments and type exports"
+      },
+      {
+        "path": "src/lib/db/client.ts",
+        "purpose": "Neon serverless database client using HTTP adapter"
+      },
+      {
+        "path": "drizzle.config.ts",
+        "purpose": "Drizzle Kit configuration - already points to correct schema path"
+      },
+      {
+        "path": ".worktrees/004-implement-better-auth-with-email-password-for-sing/src/lib/db/schema/auth.ts",
+        "purpose": "Better Auth schema with user table - needed for customerAudit foreign key"
+      }
+    ]
+  },
+  "critical_notes": {
+    "schema_location": "IMPORTANT: Schema files go in src/lib/db/schema/, NOT db/schema/ as mentioned in PRD",
+    "auth_dependency": "customer-audit.ts requires user table from auth.ts - ensure auth.ts exists first",
+    "gdpr_constraint": "customerSignatures.gdprVersionId MUST use onDelete: 'restrict' to preserve legal records",
+    "audit_userId": "customerAudit.userId MUST use onDelete: 'set null' to preserve audit history when user deleted"
+  },
+  "dependencies": {
+    "installed": ["drizzle-orm", "@neondatabase/serverless", "drizzle-kit"],
+    "to_install": ["@paralleldrive/cuid2"]
+  },
+  "created_at": "2025-12-25T23:48:18.562651",
+  "updated_at": "2025-12-26T00:00:00.000000"
+}

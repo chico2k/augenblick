@@ -1,0 +1,296 @@
+{
+  "feature": "Cosmetics Studio Database Schema with Audit Trail",
+  "workflow_type": "feature",
+  "workflow_rationale": "This is a greenfield database schema implementation. All tables are new additions - no existing schema modifications required. The workflow follows a logical dependency order: independent tables first, then dependent tables with foreign keys, then relations.",
+  "phases": [
+    {
+      "id": "phase-1-setup",
+      "name": "Setup and Dependencies",
+      "type": "setup",
+      "description": "Install required dependencies and ensure auth schema exists",
+      "depends_on": [],
+      "parallel_safe": true,
+      "subtasks": [
+        {
+          "id": "subtask-1-1",
+          "description": "Install @paralleldrive/cuid2 dependency for ID generation",
+          "service": "main",
+          "files_to_modify": ["package.json"],
+          "files_to_create": [],
+          "patterns_from": [],
+          "verification": {
+            "type": "command",
+            "command": "grep -q 'cuid2' package.json && echo 'OK'",
+            "expected": "OK"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-1-2",
+          "description": "Copy or create Better Auth schema (auth.ts) from worktree if not present in main branch",
+          "service": "main",
+          "files_to_modify": [],
+          "files_to_create": ["src/lib/db/schema/auth.ts"],
+          "patterns_from": [".worktrees/004-implement-better-auth-with-email-password-for-sing/src/lib/db/schema/auth.ts"],
+          "verification": {
+            "type": "command",
+            "command": "test -f src/lib/db/schema/auth.ts && echo 'OK'",
+            "expected": "OK"
+          },
+          "notes": "The auth.ts file contains the Better Auth user table which is referenced by customer-audit for foreign key",
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "id": "phase-2-independent-tables",
+      "name": "Independent Table Schemas",
+      "type": "implementation",
+      "description": "Create tables with no foreign key dependencies (customers, gdprVersions)",
+      "depends_on": ["phase-1-setup"],
+      "parallel_safe": true,
+      "subtasks": [
+        {
+          "id": "subtask-2-1",
+          "description": "Create customers table schema with all master data fields",
+          "service": "main",
+          "files_to_modify": [],
+          "files_to_create": ["src/lib/db/schema/customers.ts"],
+          "patterns_from": ["src/lib/db/schema/example.ts", "src/lib/db/schema/auth.ts"],
+          "verification": {
+            "type": "command",
+            "command": "npx tsc --noEmit src/lib/db/schema/customers.ts 2>&1 | grep -q 'error' && echo 'FAIL' || echo 'OK'",
+            "expected": "OK"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-2-2",
+          "description": "Create gdprVersions table schema for versioned privacy policies",
+          "service": "main",
+          "files_to_modify": [],
+          "files_to_create": ["src/lib/db/schema/gdpr-versions.ts"],
+          "patterns_from": ["src/lib/db/schema/example.ts", "src/lib/db/schema/auth.ts"],
+          "verification": {
+            "type": "command",
+            "command": "npx tsc --noEmit src/lib/db/schema/gdpr-versions.ts 2>&1 | grep -q 'error' && echo 'FAIL' || echo 'OK'",
+            "expected": "OK"
+          },
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "id": "phase-3-dependent-tables",
+      "name": "Dependent Table Schemas",
+      "type": "implementation",
+      "description": "Create tables with foreign key references to customers/gdprVersions/user",
+      "depends_on": ["phase-2-independent-tables"],
+      "parallel_safe": true,
+      "subtasks": [
+        {
+          "id": "subtask-3-1",
+          "description": "Create customerSignatures table with foreign keys to customers (cascade) and gdprVersions (restrict)",
+          "service": "main",
+          "files_to_modify": [],
+          "files_to_create": ["src/lib/db/schema/customer-signatures.ts"],
+          "patterns_from": ["src/lib/db/schema/auth.ts"],
+          "verification": {
+            "type": "command",
+            "command": "npx tsc --noEmit src/lib/db/schema/customer-signatures.ts 2>&1 | grep -q 'error' && echo 'FAIL' || echo 'OK'",
+            "expected": "OK"
+          },
+          "notes": "Critical: onDelete 'restrict' for gdprVersionId to preserve legal records",
+          "status": "pending"
+        },
+        {
+          "id": "subtask-3-2",
+          "description": "Create customerAudit table with foreign keys to customers (cascade) and user (set null)",
+          "service": "main",
+          "files_to_modify": [],
+          "files_to_create": ["src/lib/db/schema/customer-audit.ts"],
+          "patterns_from": ["src/lib/db/schema/auth.ts"],
+          "verification": {
+            "type": "command",
+            "command": "npx tsc --noEmit src/lib/db/schema/customer-audit.ts 2>&1 | grep -q 'error' && echo 'FAIL' || echo 'OK'",
+            "expected": "OK"
+          },
+          "notes": "Must export AuditChanges type for JSONB typing. userId uses 'set null' to preserve audit history when user deleted.",
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "id": "phase-4-relations",
+      "name": "Relations and Exports",
+      "type": "implementation",
+      "description": "Create Drizzle relations and update barrel export file",
+      "depends_on": ["phase-3-dependent-tables"],
+      "parallel_safe": false,
+      "subtasks": [
+        {
+          "id": "subtask-4-1",
+          "description": "Create relations.ts with all Drizzle ORM relationships between tables",
+          "service": "main",
+          "files_to_modify": [],
+          "files_to_create": ["src/lib/db/schema/relations.ts"],
+          "patterns_from": [],
+          "verification": {
+            "type": "command",
+            "command": "npx tsc --noEmit src/lib/db/schema/relations.ts 2>&1 | grep -q 'error' && echo 'FAIL' || echo 'OK'",
+            "expected": "OK"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-4-2",
+          "description": "Update schema index.ts to export all new schemas and relations",
+          "service": "main",
+          "files_to_modify": ["src/lib/db/schema/index.ts"],
+          "files_to_create": [],
+          "patterns_from": ["src/lib/db/schema/index.ts"],
+          "verification": {
+            "type": "command",
+            "command": "grep -q 'customers' src/lib/db/schema/index.ts && grep -q 'relations' src/lib/db/schema/index.ts && echo 'OK'",
+            "expected": "OK"
+          },
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "id": "phase-5-integration",
+      "name": "Integration and Migration",
+      "type": "integration",
+      "description": "Verify full schema compiles and generate database migrations",
+      "depends_on": ["phase-4-relations"],
+      "parallel_safe": false,
+      "subtasks": [
+        {
+          "id": "subtask-5-1",
+          "description": "Run TypeScript compilation to verify all schema types",
+          "service": "main",
+          "files_to_modify": [],
+          "files_to_create": [],
+          "patterns_from": [],
+          "verification": {
+            "type": "command",
+            "command": "npx tsc --noEmit",
+            "expected": "no errors"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-5-2",
+          "description": "Generate Drizzle migration files",
+          "service": "main",
+          "files_to_modify": [],
+          "files_to_create": ["drizzle/"],
+          "patterns_from": [],
+          "verification": {
+            "type": "command",
+            "command": "npx drizzle-kit generate",
+            "expected": "migration files created in ./drizzle"
+          },
+          "notes": "This only generates SQL files. Does NOT apply to database. QA will verify migration structure.",
+          "status": "pending"
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "total_phases": 5,
+    "total_subtasks": 9,
+    "services_involved": ["main"],
+    "parallelism": {
+      "max_parallel_phases": 1,
+      "parallel_groups": [
+        {
+          "phases": ["subtask-2-1", "subtask-2-2"],
+          "reason": "Independent tables with no dependencies can be created simultaneously"
+        },
+        {
+          "phases": ["subtask-3-1", "subtask-3-2"],
+          "reason": "Dependent tables only share common parent tables, no file conflicts"
+        }
+      ],
+      "recommended_workers": 1,
+      "speedup_estimate": "Sequential - single service with file dependencies"
+    },
+    "startup_command": "source auto-claude/.venv/bin/activate && python auto-claude/run.py --spec 005 --parallel 1"
+  },
+  "verification_strategy": {
+    "risk_level": "medium",
+    "skip_validation": false,
+    "test_creation_phase": "post_implementation",
+    "test_types_required": ["unit", "integration"],
+    "security_scanning_required": false,
+    "staging_deployment_required": false,
+    "acceptance_criteria": [
+      "All schema files created with correct table definitions",
+      "All foreign key constraints properly defined (cascade/restrict/set null)",
+      "All TypeScript types exported correctly ($inferSelect, $inferInsert)",
+      "Relations properly defined between all tables",
+      "npx drizzle-kit generate succeeds without errors",
+      "TypeScript compilation passes (npx tsc --noEmit)",
+      "No regressions in existing functionality"
+    ],
+    "verification_steps": [
+      {
+        "name": "TypeScript Compilation",
+        "command": "npx tsc --noEmit",
+        "expected_outcome": "No TypeScript errors",
+        "type": "test",
+        "required": true,
+        "blocking": true
+      },
+      {
+        "name": "Migration Generation",
+        "command": "npx drizzle-kit generate",
+        "expected_outcome": "Migration files created in ./drizzle",
+        "type": "integration",
+        "required": true,
+        "blocking": true
+      },
+      {
+        "name": "Schema Import Verification",
+        "command": "node -e \"require('./src/lib/db/schema/index.ts')\" 2>&1 || npx tsx -e \"import * as schema from './src/lib/db/schema/index'; console.log(Object.keys(schema).join(', '))\"",
+        "expected_outcome": "All exports resolve correctly",
+        "type": "test",
+        "required": true,
+        "blocking": false
+      }
+    ],
+    "reasoning": "Database schema changes are medium risk - they affect data structure but no runtime code changes. Verification focuses on TypeScript compilation and migration generation."
+  },
+  "qa_acceptance": {
+    "unit_tests": {
+      "required": true,
+      "commands": ["npx tsc --noEmit"],
+      "minimum_coverage": null
+    },
+    "integration_tests": {
+      "required": true,
+      "commands": ["npx drizzle-kit generate"],
+      "services_to_test": ["main"]
+    },
+    "e2e_tests": {
+      "required": false,
+      "commands": [],
+      "flows": []
+    },
+    "browser_verification": {
+      "required": false,
+      "pages": []
+    },
+    "database_verification": {
+      "required": true,
+      "checks": [
+        "migrations-exist",
+        "schema-valid",
+        "foreign-keys-correct"
+      ]
+    }
+  },
+  "qa_signoff": null
+}

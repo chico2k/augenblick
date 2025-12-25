@@ -162,8 +162,9 @@
             "command": "cd /Users/mariogalla/development/augenblick && head -1 src/components/CookieConsent.tsx",
             "expected": "'use client'"
           },
-          "notes": "Add 'use client' as first line - component uses hooks and event handlers",
-          "status": "pending"
+          "notes": "Added 'use client' directive as first line of CookieConsent.tsx. This is required because the component uses the useConsent hook and event handlers (onClick).",
+          "status": "completed",
+          "updated_at": "2025-12-25T21:00:18.492973+00:00"
         }
       ]
     },
@@ -198,8 +199,9 @@
               "No console errors"
             ]
           },
-          "notes": "Convert next/head to metadata export, keep dynamic imports for client components (Newsletter, Slider, etc). Page is Server Component by default.",
-          "status": "pending"
+          "notes": "Created src/app/page.tsx migrating from src/pages/index.tsx. Removed Head component (metadata in layout.tsx), used function export instead of NextPage type, preserved dynamic imports with ssr: false for client-only components. Committed as 9ddcfb4.",
+          "status": "completed",
+          "updated_at": "2025-12-25T21:02:34.011038+00:00"
         },
         {
           "id": "subtask-4-2",
@@ -220,8 +222,9 @@
               "LastLift component visible"
             ]
           },
-          "notes": "Convert to App Router page with metadata export. Same structure as home but with LastLift hero.",
-          "status": "pending"
+          "notes": "Created lashlift page at src/app/lashlift/page.tsx following App Router patterns. Used metadata export instead of Head component, maintained dynamic imports with ssr: false.",
+          "status": "completed",
+          "updated_at": "2025-12-25T21:04:32.166649+00:00"
         },
         {
           "id": "subtask-4-3",
@@ -242,8 +245,9 @@
               "Content visible"
             ]
           },
-          "notes": "Convert to App Router page with appropriate metadata.",
-          "status": "pending"
+          "notes": "Created App Router page at src/app/lashextension-1-zu-1-technik/page.tsx. Migrated from pages router with: metadata export instead of Head, adjusted import paths, wrapped content in section element. Page verified accessible at HTTP 200.",
+          "status": "completed",
+          "updated_at": "2025-12-25T21:09:11.264622+00:00"
         },
         {
           "id": "subtask-4-4",
@@ -632,5 +636,5 @@
     }
   },
   "qa_signoff": null,
-  "last_updated": "2025-12-25T20:59:34.242083+00:00"
+  "last_updated": "2025-12-25T21:09:11.264632+00:00"
 }

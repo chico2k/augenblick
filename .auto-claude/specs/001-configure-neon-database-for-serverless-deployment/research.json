@@ -1,0 +1,297 @@
+{
+  "integrations_researched": [
+    {
+      "name": "@neondatabase/serverless",
+      "type": "library",
+      "verified_package": {
+        "name": "@neondatabase/serverless",
+        "install_command": "npm install @neondatabase/serverless",
+        "version": "latest",
+        "verified": true
+      },
+      "api_patterns": {
+        "imports": [
+          "import { neon } from '@neondatabase/serverless'",
+          "import { Pool, Client, neonConfig } from '@neondatabase/serverless'"
+        ],
+        "initialization": {
+          "http_driver": "const sql = neon(process.env.DATABASE_URL);",
+          "websocket_pool": "const pool = new Pool({ connectionString: process.env.DATABASE_URL });",
+          "websocket_client": "const client = new Client(process.env.DATABASE_URL); await client.connect();"
+        },
+        "key_functions": [
+          "sql`SELECT * FROM table WHERE id = ${id}` (tagged template for HTTP queries)",
+          "sql.query('SELECT * FROM table WHERE id = $1', [id]) (parameterized query)",
+          "sql.transaction([...queries], options) (non-interactive HTTP transactions)",
+          "pool.query('SELECT ...', params) (WebSocket pool query)",
+          "pool.connect() -> client (acquire client from pool)",
+          "client.query('BEGIN/COMMIT/ROLLBACK') (interactive transactions)",
+          "client.release() (return client to pool)",
+          "pool.end() / client.end() (close connections)"
+        ],
+        "verified_against": "Context7 MCP: /neondatabase/serverless"
+      },
+      "configuration": {
+        "env_vars": [
+          "DATABASE_URL (Neon connection string: postgres://user:pass@ep-xxx.region.aws.neon.tech/dbname)"
+        ],
+        "config_options": {
+          "arrayMode": "Return rows as arrays instead of objects",
+          "fullResults": "Include metadata (fields, rowCount, command)",
+          "fetchOptions": "Custom fetch options like { priority: 'high' }",
+          "webSocketConstructor": "Required for Node.js v21 and below (use 'ws' package)",
+          "pipelineConnect": "Pipeline startup messages ('password' mode)",
+          "coalesceWrites": "Batch multiple writes",
+          "useSecureWebSocket": "Use wss:// protocol (default true)",
+          "poolQueryViaFetch": "Route Pool.query() over HTTP for lower latency"
+        },
+        "dependencies": [
+          "ws (only for Node.js v21 and below with WebSocket/Pool usage)"
+        ]
+      },
+      "driver_options": {
+        "http_neon_function": {
+          "description": "Uses HTTP-based fetch for one-shot queries - best for serverless with simple queries",
+          "pros": [
+            "Lower latency for simple queries",
+            "No connection management needed",
+            "Works everywhere (edge, serverless)"
+          ],
+          "cons": [
+            "No interactive transactions",
+            "No session support"
+          ],
+          "use_case": "Simple queries, SELECT/INSERT/UPDATE without multi-statement transactions"
+        },
+        "websocket_pool_client": {
+          "description": "Uses WebSocket for persistent connections - needed for interactive transactions",
+          "pros": [
+            "Full interactive transaction support (BEGIN/COMMIT/ROLLBACK)",
+            "Session variables",
+            "Compatible with node-postgres ecosystem"
+          ],
+          "cons": [
+            "Requires WebSocket setup in older Node.js",
+            "Must manage connection lifecycle in serverless"
+          ],
+          "use_case": "Interactive transactions, complex multi-statement operations"
+        }
+      },
+      "gotchas": [
+        "CRITICAL: In serverless environments, create Pool/Client INSIDE request handlers, not at module level",
+        "CRITICAL: Always call pool.end() or client.end() inside the same request handler (use ctx.waitUntil() if available)",
+        "Node.js v21 and below requires ws package: neonConfig.webSocketConstructor = ws",
+        "HTTP driver (neon function) does not support interactive transactions - use Pool/Client for BEGIN/COMMIT",
+        "Connection strings must use the format: postgres://user:password@ep-xxx.region.aws.neon.tech/dbname",
+        "For Vercel Edge, use regions: ['iad1'] or nearest region to Neon DB for lowest latency"
+      ],
+      "research_sources": [
+        "Context7 MCP: /neondatabase/serverless",
+        "https://github.com/neondatabase/serverless/blob/main/README.md",
+        "https://github.com/neondatabase/serverless/blob/main/CONFIG.md"
+      ]
+    },
+    {
+      "name": "drizzle-orm",
+      "type": "library",
+      "verified_package": {
+        "name": "drizzle-orm",
+        "install_command": "npm install drizzle-orm",
+        "version": "latest",
+        "verified": true
+      },
+      "api_patterns": {
+        "imports": {
+          "neon_http_driver": "import { drizzle } from 'drizzle-orm/neon-http'",
+          "neon_serverless_driver": "import { drizzle } from 'drizzle-orm/neon-serverless'",
+          "pg_core_schema": "import { pgTable, text, serial, integer, varchar, timestamp } from 'drizzle-orm/pg-core'",
+          "operators": "import { eq, and, or, sql } from 'drizzle-orm'"
+        },
+        "initialization": {
+          "simple_http": "export const db = drizzle(process.env.DATABASE_URL!);",
+          "with_neon_client_http": "const sql = neon(process.env.DATABASE_URL!); export const db = drizzle({ client: sql });",
+          "with_pool_websocket": "const pool = new Pool({ connectionString: process.env.DATABASE_URL }); export const db = drizzle({ client: pool });"
+        },
+        "key_functions": [
+          "db.select().from(table)",
+          "db.select({ id: table.id, name: table.name }).from(table)",
+          "db.insert(table).values({ ... }).returning()",
+          "db.update(table).set({ ... }).where(eq(table.id, id))",
+          "db.delete(table).where(eq(table.id, id))",
+          "db.execute('raw SQL')",
+          "db.batch([...queries]) (for neon-http driver)",
+          "db.query.tableName.findMany({ where: ..., with: ... }) (relational queries)"
+        ],
+        "verified_against": "Context7 MCP: /drizzle-team/drizzle-orm-docs"
+      },
+      "configuration": {
+        "env_vars": [
+          "DATABASE_URL (Neon connection string)"
+        ],
+        "required_files": [
+          "src/db/schema.ts (or schema directory)",
+          "drizzle.config.ts (for drizzle-kit)",
+          "src/db/index.ts (database client export)"
+        ],
+        "dependencies": [
+          "@neondatabase/serverless (required for Neon connection)",
+          "drizzle-kit (dev dependency for migrations)",
+          "dotenv (for loading environment variables)"
+        ]
+      },
+      "neon_driver_options": {
+        "drizzle-orm/neon-http": {
+          "description": "Uses Neon HTTP driver - recommended for serverless",
+          "init_pattern": "import { drizzle } from 'drizzle-orm/neon-http'; const db = drizzle(process.env.DATABASE_URL!);",
+          "supports_batch": true,
+          "supports_transactions": "non-interactive only via batch"
+        },
+        "drizzle-orm/neon-serverless": {
+          "description": "Uses Neon WebSocket Pool - for interactive transactions",
+          "init_pattern": "import { drizzle } from 'drizzle-orm/neon-serverless'; const db = drizzle(process.env.DATABASE_URL!);",
+          "supports_batch": false,
+          "supports_transactions": "full interactive transactions"
+        }
+      },
+      "schema_patterns": {
+        "table_definition": "export const users = pgTable('users', { id: serial('id').primaryKey(), name: text('name').notNull(), email: text('email').unique() });",
+        "type_inference": "export type User = typeof users.$inferSelect; export type NewUser = typeof users.$inferInsert;"
+      },
+      "gotchas": [
+        "drizzle-orm/neon-http vs drizzle-orm/neon-serverless: Use neon-http for simple serverless, neon-serverless only if you need interactive transactions",
+        "Schema file must be imported in drizzle.config.ts for migrations to work",
+        "Type inference: use $inferSelect and $inferInsert for TypeScript types",
+        "For batch operations with neon-http, use db.batch([...queries])",
+        "Environment variables must be loaded before drizzle initialization (use dotenv.config())"
+      ],
+      "research_sources": [
+        "Context7 MCP: /drizzle-team/drizzle-orm-docs",
+        "https://github.com/drizzle-team/drizzle-orm-docs"
+      ]
+    },
+    {
+      "name": "drizzle-kit",
+      "type": "library",
+      "verified_package": {
+        "name": "drizzle-kit",
+        "install_command": "npm install -D drizzle-kit",
+        "version": "latest",
+        "verified": true
+      },
+      "api_patterns": {
+        "commands": [
+          "npx drizzle-kit generate (generate SQL migration files from schema)",
+          "npx drizzle-kit migrate (apply migrations to database)",
+          "npx drizzle-kit push (push schema directly without migrations)",
+          "npx drizzle-kit studio (open Drizzle Studio GUI)",
+          "npx drizzle-kit generate --custom --name=seed-users (custom migration)"
+        ],
+        "config_file_example": "import { defineConfig } from 'drizzle-kit'; export default defineConfig({ schema: './src/db/schema.ts', out: './migrations', dialect: 'postgresql', dbCredentials: { url: process.env.DATABASE_URL! } });",
+        "verified_against": "Context7 MCP: /drizzle-team/drizzle-orm-docs"
+      },
+      "configuration": {
+        "config_file": "drizzle.config.ts",
+        "config_options": {
+          "schema": "Path to schema file(s) - './src/db/schema.ts' or './src/db/schema' for directory",
+          "out": "Output directory for migrations - './migrations' or './drizzle'",
+          "dialect": "'postgresql' for Neon/PostgreSQL",
+          "dbCredentials": "{ url: process.env.DATABASE_URL! }",
+          "strict": "Enable strict mode for safer migrations",
+          "verbose": "Enable verbose logging",
+          "breakpoints": "Add statement breakpoints in migrations (default true)"
+        },
+        "env_vars": [
+          "DATABASE_URL (connection string for migration commands)"
+        ]
+      },
+      "package_json_scripts": {
+        "generate": "drizzle-kit generate",
+        "migrate": "drizzle-kit migrate",
+        "push": "drizzle-kit push",
+        "studio": "drizzle-kit studio"
+      },
+      "gotchas": [
+        "drizzle.config.ts must load dotenv before accessing process.env",
+        "Schema file path in config must match actual schema location",
+        "Run 'generate' before 'migrate' to create migration files",
+        "Use 'push' for rapid prototyping (skips migration files), 'generate + migrate' for production"
+      ],
+      "research_sources": [
+        "Context7 MCP: /drizzle-team/drizzle-orm-docs"
+      ]
+    },
+    {
+      "name": "dotenv",
+      "type": "library",
+      "verified_package": {
+        "name": "dotenv",
+        "install_command": "npm install dotenv",
+        "version": "latest",
+        "verified": true
+      },
+      "api_patterns": {
+        "imports": [
+          "import { config } from 'dotenv'"
+        ],
+        "initialization": "config({ path: '.env' }); // or .env.local",
+        "key_functions": [
+          "config() (load .env file)",
+          "config({ path: '.env.local' }) (specify path)"
+        ],
+        "verified_against": "Context7 MCP: Drizzle ORM documentation references"
+      },
+      "configuration": {
+        "env_files": [
+          ".env",
+          ".env.local"
+        ]
+      },
+      "gotchas": [
+        "Must call config() before accessing process.env",
+        "In drizzle.config.ts, import and call config() at the top",
+        ".env files should be in .gitignore"
+      ],
+      "research_sources": [
+        "Context7 MCP: Referenced in Drizzle ORM tutorials"
+      ]
+    }
+  ],
+  "unverified_claims": [],
+  "recommendations": [
+    {
+      "topic": "Driver Selection",
+      "recommendation": "Use drizzle-orm/neon-http for most serverless use cases - it has lower latency and simpler connection management. Only use drizzle-orm/neon-serverless if you need interactive transactions (BEGIN/COMMIT/ROLLBACK)."
+    },
+    {
+      "topic": "SOLID Architecture",
+      "recommendation": "Create a database abstraction layer: 1) DatabaseClient interface for dependency inversion, 2) Separate repository classes per entity following single responsibility, 3) Use generic names like 'DatabaseClient', 'DataProvider', 'Repository' instead of 'NeonClient' for provider-agnostic design."
+    },
+    {
+      "topic": "Project Structure",
+      "recommendation": "Organize database code as: src/db/index.ts (client export), src/db/schema.ts (table definitions), src/db/repositories/ (entity repositories), src/db/types.ts (inferred types)."
+    },
+    {
+      "topic": "Environment Configuration",
+      "recommendation": "Store DATABASE_URL in .env.local for Next.js or .env for other frameworks. Ensure the connection string uses Neon's serverless endpoint format."
+    },
+    {
+      "topic": "Migrations",
+      "recommendation": "Use drizzle-kit generate + migrate workflow for production. Add scripts to package.json: \"db:generate\": \"drizzle-kit generate\", \"db:migrate\": \"drizzle-kit migrate\", \"db:studio\": \"drizzle-kit studio\"."
+    }
+  ],
+  "implementation_patterns": {
+    "serverless_http_pattern": {
+      "description": "Recommended pattern for serverless with Neon HTTP driver",
+      "files": {
+        "src/db/schema.ts": "// Schema definitions\nimport { pgTable, serial, text, timestamp } from 'drizzle-orm/pg-core';\n\nexport const users = pgTable('users', {\n  id: serial('id').primaryKey(),\n  name: text('name').notNull(),\n  email: text('email').unique().notNull(),\n  createdAt: timestamp('created_at').defaultNow()\n});\n\nexport type User = typeof users.$inferSelect;\nexport type NewUser = typeof users.$inferInsert;",
+        "src/db/index.ts": "// Database client (provider-agnostic naming)\nimport { drizzle } from 'drizzle-orm/neon-http';\nimport * as schema from './schema';\n\nexport const db = drizzle(process.env.DATABASE_URL!, { schema });",
+        "drizzle.config.ts": "import { config } from 'dotenv';\nimport { defineConfig } from 'drizzle-kit';\n\nconfig({ path: '.env.local' });\n\nexport default defineConfig({\n  schema: './src/db/schema.ts',\n  out: './migrations',\n  dialect: 'postgresql',\n  dbCredentials: {\n    url: process.env.DATABASE_URL!\n  }\n});"
+      }
+    }
+  },
+  "context7_libraries_used": [
+    "/neondatabase/serverless",
+    "/drizzle-team/drizzle-orm-docs"
+  ],
+  "created_at": "2025-01-06T10:00:00Z"
+}

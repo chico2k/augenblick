@@ -1,0 +1,43 @@
+{
+  "task_description": "Configure Neon PostgreSQL for serverless Next.js deployment with Drizzle ORM, following SOLID principles and provider-agnostic naming",
+  "scoped_services": ["main"],
+  "files_to_modify": {
+    "main": [
+      "package.json",
+      "src/env.mjs",
+      ".env.example",
+      ".env"
+    ]
+  },
+  "files_to_create": {
+    "main": [
+      "src/lib/db/index.ts",
+      "src/lib/db/client.ts",
+      "src/lib/db/schema/index.ts",
+      "src/lib/db/schema/example.ts",
+      "src/lib/db/types.ts",
+      "drizzle.config.ts"
+    ]
+  },
+  "files_to_reference": [
+    "src/lib/logger/index.ts",
+    "src/env.mjs",
+    "src/lib/email/template-renderer.ts"
+  ],
+  "patterns": {
+    "env_validation": "Zod schema in src/env.mjs with server/client separation and processEnv mapping",
+    "module_structure": "Single responsibility with default export pattern from src/lib/logger/index.ts",
+    "interface_pattern": "Exported interfaces with optional properties from src/lib/email/template-renderer.ts"
+  },
+  "existing_implementations": {
+    "description": "No existing database patterns in codebase - this is greenfield database setup",
+    "relevant_files": []
+  },
+  "technical_constraints": {
+    "node_version": "v20.19.6 - requires ws package for WebSocket support",
+    "serverless": "Must use neon-http adapter, not WebSocket, for serverless optimization",
+    "naming": "Avoid 'neon' in any file/variable/type names - use generic db/client/schema"
+  },
+  "created_at": "2025-12-25T19:29:45.905691",
+  "updated_at": "2025-12-25T21:00:00.000000"
+}

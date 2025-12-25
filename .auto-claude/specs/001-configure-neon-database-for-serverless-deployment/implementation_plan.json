@@ -1,0 +1,446 @@
+{
+  "feature": "Neon Database Setup for Serverless Deployment",
+  "workflow_type": "feature",
+  "workflow_rationale": "This is a new feature implementation adding database infrastructure to an existing Next.js application. It requires creating new files for database client, schema definitions, and configuration - adding new functionality rather than modifying existing behavior.",
+  "phases": [
+    {
+      "id": "phase-1-setup",
+      "name": "Dependency Installation",
+      "type": "setup",
+      "description": "Install required npm packages for Neon serverless database and Drizzle ORM",
+      "depends_on": [],
+      "parallel_safe": true,
+      "subtasks": [
+        {
+          "id": "subtask-1-1",
+          "description": "Install database dependencies (drizzle-orm, @neondatabase/serverless, ws) and dev dependencies (drizzle-kit)",
+          "service": "main",
+          "files_to_modify": [
+            "package.json"
+          ],
+          "files_to_create": [],
+          "patterns_from": [],
+          "verification": {
+            "type": "command",
+            "command": "cd /Users/mariogalla/development/augenblick && pnpm list drizzle-orm @neondatabase/serverless ws drizzle-kit 2>/dev/null | grep -E 'drizzle-orm|@neondatabase|ws|drizzle-kit' | wc -l",
+            "expected": "4"
+          },
+          "status": "completed",
+          "notes": "Added drizzle-orm (^0.38.3), @neondatabase/serverless (^0.10.4), ws (^8.18.0) as dependencies and drizzle-kit (^0.30.2) as dev dependency to package.json. Committed as 4f7e659.",
+          "updated_at": "2025-12-25T18:40:26.432847+00:00"
+        }
+      ]
+    },
+    {
+      "id": "phase-2-configuration",
+      "name": "Environment Configuration",
+      "type": "implementation",
+      "description": "Configure environment variables and Drizzle migration settings",
+      "depends_on": [
+        "phase-1-setup"
+      ],
+      "parallel_safe": true,
+      "subtasks": [
+        {
+          "id": "subtask-2-1",
+          "description": "Add DATABASE_URL to environment validation schema in src/env.mjs with z.string().url() validation",
+          "service": "main",
+          "files_to_modify": [
+            "src/env.mjs"
+          ],
+          "files_to_create": [],
+          "patterns_from": [
+            "src/env.mjs"
+          ],
+          "verification": {
+            "type": "command",
+            "command": "grep -c 'DATABASE_URL' /Users/mariogalla/development/augenblick/src/env.mjs",
+            "expected": "2"
+          },
+          "status": "pending",
+          "notes": "Add to both 'server' schema (with z.string().url()) AND 'processEnv' object"
+        },
+        {
+          "id": "subtask-2-2",
+          "description": "Add DATABASE_URL template to .env.example file",
+          "service": "main",
+          "files_to_modify": [
+            ".env.example"
+          ],
+          "files_to_create": [],
+          "patterns_from": [
+            ".env.example"
+          ],
+          "verification": {
+            "type": "command",
+            "command": "grep -c 'DATABASE_URL' /Users/mariogalla/development/augenblick/.env.example",
+            "expected": "1"
+          },
+          "status": "pending",
+          "notes": "Add placeholder: DATABASE_URL=postgres://user:pass@ep-xxx.region.aws.neon.tech/dbname"
+        },
+        {
+          "id": "subtask-2-3",
+          "description": "Create drizzle.config.ts for migration configuration",
+          "service": "main",
+          "files_to_modify": [],
+          "files_to_create": [
+            "drizzle.config.ts"
+          ],
+          "patterns_from": [],
+          "verification": {
+            "type": "command",
+            "command": "test -f /Users/mariogalla/development/augenblick/drizzle.config.ts && echo 'exists'",
+            "expected": "exists"
+          },
+          "status": "pending",
+          "notes": "Configure schema path, output directory, and database credentials"
+        }
+      ]
+    },
+    {
+      "id": "phase-3-types",
+      "name": "Type Definitions",
+      "type": "implementation",
+      "description": "Create TypeScript interfaces following SOLID principles for database abstraction",
+      "depends_on": [
+        "phase-1-setup"
+      ],
+      "parallel_safe": true,
+      "subtasks": [
+        {
+          "id": "subtask-3-1",
+          "description": "Create src/lib/db/types.ts with TypeScript interfaces for database client abstraction",
+          "service": "main",
+          "files_to_modify": [],
+          "files_to_create": [
+            "src/lib/db/types.ts"
+          ],
+          "patterns_from": [
+            "src/lib/email/template-renderer.ts"
+          ],
+          "verification": {
+            "type": "command",
+            "command": "test -f /Users/mariogalla/development/augenblick/src/lib/db/types.ts && echo 'exists'",
+            "expected": "exists"
+          },
+          "status": "pending",
+          "notes": "Define DatabaseConfig, QueryResult, and other SOLID-compliant interfaces. Avoid 'neon' in any names."
+        }
+      ]
+    },
+    {
+      "id": "phase-4-client",
+      "name": "Database Client",
+      "type": "implementation",
+      "description": "Create the database client with neon-http adapter following SOLID principles",
+      "depends_on": [
+        "phase-2-configuration",
+        "phase-3-types"
+      ],
+      "parallel_safe": false,
+      "subtasks": [
+        {
+          "id": "subtask-4-1",
+          "description": "Create src/lib/db/client.ts with Drizzle client using neon-http adapter",
+          "service": "main",
+          "files_to_modify": [],
+          "files_to_create": [
+            "src/lib/db/client.ts"
+          ],
+          "patterns_from": [
+            "src/lib/logger/index.ts"
+          ],
+          "verification": {
+            "type": "command",
+            "command": "grep -c 'drizzle' /Users/mariogalla/development/augenblick/src/lib/db/client.ts 2>/dev/null || echo '0'",
+            "expected": "1"
+          },
+          "status": "pending",
+          "notes": "Use drizzle-orm/neon-http adapter. Single responsibility - only handles connection. DO NOT use 'neon' in any variable names."
+        }
+      ]
+    },
+    {
+      "id": "phase-5-schema",
+      "name": "Schema Definition",
+      "type": "implementation",
+      "description": "Create database schema structure with example table for verification",
+      "depends_on": [
+        "phase-4-client"
+      ],
+      "parallel_safe": true,
+      "subtasks": [
+        {
+          "id": "subtask-5-1",
+          "description": "Create src/lib/db/schema/example.ts with example table using Drizzle pgTable",
+          "service": "main",
+          "files_to_modify": [],
+          "files_to_create": [
+            "src/lib/db/schema/example.ts"
+          ],
+          "patterns_from": [],
+          "verification": {
+            "type": "command",
+            "command": "grep -c 'pgTable' /Users/mariogalla/development/augenblick/src/lib/db/schema/example.ts 2>/dev/null || echo '0'",
+            "expected": "1"
+          },
+          "status": "pending",
+          "notes": "Create example table with id, name, createdAt fields. Export $inferSelect and $inferInsert types."
+        },
+        {
+          "id": "subtask-5-2",
+          "description": "Create src/lib/db/schema/index.ts as barrel export for all schemas",
+          "service": "main",
+          "files_to_modify": [],
+          "files_to_create": [
+            "src/lib/db/schema/index.ts"
+          ],
+          "patterns_from": [],
+          "verification": {
+            "type": "command",
+            "command": "grep -c 'export' /Users/mariogalla/development/augenblick/src/lib/db/schema/index.ts 2>/dev/null || echo '0'",
+            "expected": "1"
+          },
+          "status": "pending",
+          "notes": "Re-export all schemas from this file for clean imports"
+        }
+      ]
+    },
+    {
+      "id": "phase-6-export",
+      "name": "Public API Export",
+      "type": "implementation",
+      "description": "Create the main barrel export file for the database module",
+      "depends_on": [
+        "phase-4-client",
+        "phase-5-schema"
+      ],
+      "parallel_safe": false,
+      "subtasks": [
+        {
+          "id": "subtask-6-1",
+          "description": "Create src/lib/db/index.ts as the public API exporting db client, schemas, and types",
+          "service": "main",
+          "files_to_modify": [],
+          "files_to_create": [
+            "src/lib/db/index.ts"
+          ],
+          "patterns_from": [
+            "src/lib/logger/index.ts"
+          ],
+          "verification": {
+            "type": "command",
+            "command": "grep -E 'export.*db|export.*schema' /Users/mariogalla/development/augenblick/src/lib/db/index.ts 2>/dev/null | wc -l | tr -d ' '",
+            "expected": "2"
+          },
+          "status": "pending",
+          "notes": "Export db client as default, re-export schemas and types. This is the main entry point."
+        }
+      ]
+    },
+    {
+      "id": "phase-7-verification",
+      "name": "Integration Verification",
+      "type": "integration",
+      "description": "Verify the complete database setup works end-to-end",
+      "depends_on": [
+        "phase-6-export"
+      ],
+      "parallel_safe": false,
+      "subtasks": [
+        {
+          "id": "subtask-7-1",
+          "description": "Verify TypeScript compilation with new database module",
+          "service": "main",
+          "files_to_modify": [],
+          "files_to_create": [],
+          "patterns_from": [],
+          "verification": {
+            "type": "command",
+            "command": "cd /Users/mariogalla/development/augenblick && pnpm exec tsc --noEmit 2>&1 | head -5",
+            "expected": ""
+          },
+          "status": "pending",
+          "notes": "TypeScript should compile without errors"
+        },
+        {
+          "id": "subtask-7-2",
+          "description": "Verify no 'neon' terminology in created code",
+          "service": "main",
+          "files_to_modify": [],
+          "files_to_create": [],
+          "patterns_from": [],
+          "verification": {
+            "type": "command",
+            "command": "grep -ri 'neon' /Users/mariogalla/development/augenblick/src/lib/db/ 2>/dev/null | grep -v 'neon-http' | grep -v '@neondatabase' | wc -l | tr -d ' '",
+            "expected": "0"
+          },
+          "status": "pending",
+          "notes": "Only imports from @neondatabase/serverless should contain 'neon', not variable/type names"
+        },
+        {
+          "id": "subtask-7-3",
+          "description": "Verify drizzle-kit commands are functional",
+          "service": "main",
+          "files_to_modify": [],
+          "files_to_create": [],
+          "patterns_from": [],
+          "verification": {
+            "type": "command",
+            "command": "cd /Users/mariogalla/development/augenblick && pnpm exec drizzle-kit --help 2>&1 | head -1",
+            "expected": "Usage: drizzle-kit"
+          },
+          "status": "pending",
+          "notes": "Drizzle-kit should be properly installed and accessible"
+        },
+        {
+          "id": "subtask-7-4",
+          "description": "Verify ESLint passes on new files",
+          "service": "main",
+          "files_to_modify": [],
+          "files_to_create": [],
+          "patterns_from": [],
+          "verification": {
+            "type": "command",
+            "command": "cd /Users/mariogalla/development/augenblick && pnpm lint 2>&1 | tail -3",
+            "expected": ""
+          },
+          "status": "pending",
+          "notes": "All new files should pass linting"
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "total_phases": 7,
+    "total_subtasks": 12,
+    "services_involved": [
+      "main"
+    ],
+    "parallelism": {
+      "max_parallel_phases": 2,
+      "parallel_groups": [
+        {
+          "phases": [
+            "phase-2-configuration",
+            "phase-3-types"
+          ],
+          "reason": "Both only depend on phase-1, different file sets (env vs types)"
+        },
+        {
+          "phases": [
+            "subtask-5-1",
+            "subtask-5-2"
+          ],
+          "reason": "Schema files can be created in parallel within phase-5"
+        }
+      ],
+      "recommended_workers": 1,
+      "speedup_estimate": "Minimal - single service with sequential dependencies"
+    },
+    "startup_command": "source auto-claude/.venv/bin/activate && python auto-claude/run.py --spec 001 --parallel 1"
+  },
+  "verification_strategy": {
+    "risk_level": "medium",
+    "skip_validation": false,
+    "test_creation_phase": "post_implementation",
+    "test_types_required": [
+      "unit",
+      "integration"
+    ],
+    "security_scanning_required": false,
+    "staging_deployment_required": false,
+    "acceptance_criteria": [
+      "All dependencies installed correctly",
+      "TypeScript compiles without errors",
+      "ESLint passes on all new files",
+      "No 'neon' terminology in variable/type names",
+      "drizzle-kit commands execute successfully",
+      "Environment validation works for DATABASE_URL"
+    ],
+    "verification_steps": [
+      {
+        "name": "TypeScript Compilation",
+        "command": "pnpm exec tsc --noEmit",
+        "expected_outcome": "No type errors",
+        "type": "test",
+        "required": true,
+        "blocking": true
+      },
+      {
+        "name": "ESLint Check",
+        "command": "pnpm lint",
+        "expected_outcome": "No linting errors",
+        "type": "test",
+        "required": true,
+        "blocking": true
+      },
+      {
+        "name": "Drizzle-Kit Verify",
+        "command": "pnpm exec drizzle-kit --help",
+        "expected_outcome": "Help text displays",
+        "type": "test",
+        "required": true,
+        "blocking": false
+      },
+      {
+        "name": "Naming Convention Check",
+        "command": "grep -ri 'neon' src/lib/db/ | grep -v 'neon-http' | grep -v '@neondatabase' | wc -l",
+        "expected_outcome": "0 matches",
+        "type": "test",
+        "required": true,
+        "blocking": true
+      }
+    ],
+    "reasoning": "Medium risk database infrastructure change requires type checking and linting verification. Integration tests recommended for actual database connection verification (requires valid DATABASE_URL)."
+  },
+  "qa_acceptance": {
+    "unit_tests": {
+      "required": false,
+      "commands": [],
+      "minimum_coverage": null,
+      "notes": "Unit tests are optional for this infrastructure setup - TypeScript compilation serves as primary validation"
+    },
+    "integration_tests": {
+      "required": true,
+      "commands": [
+        "Manual: verify database connection with valid DATABASE_URL"
+      ],
+      "services_to_test": [
+        "main"
+      ],
+      "notes": "Requires user to configure actual Neon DATABASE_URL to verify connection"
+    },
+    "e2e_tests": {
+      "required": false,
+      "commands": [],
+      "flows": []
+    },
+    "browser_verification": {
+      "required": false,
+      "pages": [],
+      "notes": "No browser UI changes in this task"
+    },
+    "database_verification": {
+      "required": true,
+      "checks": [
+        "drizzle-kit-accessible",
+        "config-valid",
+        "schema-compiles"
+      ],
+      "notes": "Verify drizzle-kit commands work, migrations can be generated when DATABASE_URL is configured"
+    },
+    "code_quality": {
+      "required": true,
+      "checks": [
+        "TypeScript compiles without errors",
+        "ESLint passes on new files",
+        "No 'neon' in variable/type names (only in imports)",
+        "SOLID principles followed in client structure"
+      ]
+    }
+  },
+  "qa_signoff": null,
+  "last_updated": "2025-12-25T18:40:26.432867+00:00"
+}

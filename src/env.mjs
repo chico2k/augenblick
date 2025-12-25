@@ -7,6 +7,7 @@ import { z } from "zod";
  */
 const server = z.object({
   NODE_ENV: z.enum(["development", "test", "production"]),
+  DATABASE_URL: z.string().url(),
   SENDGRID_API_KEY: z.string().optional(), // Keep for newsletter until migrated
   SMTP2GO_USERNAME: z.string(),
   SMTP2GO_PASSWORD: z.string(),
@@ -30,6 +31,7 @@ const client = z.object({
  */
 const processEnv = {
   NODE_ENV: process.env.NODE_ENV,
+  DATABASE_URL: process.env.DATABASE_URL,
   AXIOM_DATASET: process.env.AXIOM_DATASET,
   AXIOM_TOKEN: process.env.AXIOM_TOKEN,
   SENDGRID_API_KEY: process.env.SENDGRID_API_KEY,

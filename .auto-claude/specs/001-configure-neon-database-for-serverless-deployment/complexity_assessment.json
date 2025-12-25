@@ -1,0 +1,66 @@
+{
+  "complexity": "standard",
+  "workflow_type": "feature",
+  "confidence": 0.85,
+  "reasoning": "This is a new feature adding database infrastructure to a Next.js app that currently has no database. It involves 1 external integration (Neon + Drizzle stack), requires serverless-specific configuration research, and needs ~5-8 new files with SOLID abstraction layers. Not complex because it's a single service with well-documented technologies and no Docker/infrastructure changes.",
+
+  "analysis": {
+    "scope": {
+      "estimated_files": 7,
+      "estimated_services": 1,
+      "is_cross_cutting": false,
+      "notes": "New database layer: client abstraction (2 files), Drizzle schema (1), Drizzle config (1), env updates (1-2), types/interfaces (1). Single Next.js service."
+    },
+    "integrations": {
+      "external_services": ["Neon (PostgreSQL serverless)"],
+      "new_dependencies": ["@neondatabase/serverless", "drizzle-orm", "drizzle-kit"],
+      "research_needed": true,
+      "notes": "Neon serverless requires specific HTTP/WebSocket driver setup (not standard pg connection). User emphasized 'correct setup for serverless' - needs research on connection pooling and cold start optimization."
+    },
+    "infrastructure": {
+      "docker_changes": false,
+      "database_changes": true,
+      "config_changes": true,
+      "notes": "No Docker needed (Neon is managed serverless). Will need new DATABASE_URL env var and possibly pooling configuration. No schema migrations yet - this is initial setup."
+    },
+    "knowledge": {
+      "patterns_exist": false,
+      "research_required": true,
+      "unfamiliar_tech": ["@neondatabase/serverless", "drizzle-orm"],
+      "notes": "No existing database patterns in codebase. Need to research Neon serverless driver (different from standard postgres), Drizzle ORM setup patterns, and SOLID abstraction layer design."
+    },
+    "risk": {
+      "level": "low",
+      "concerns": ["Correct serverless connection handling", "Environment variable security", "SOLID abstraction correctness"],
+      "notes": "Low risk because no existing functionality to break. Main risk is incorrect serverless config leading to connection issues in production."
+    }
+  },
+
+  "recommended_phases": [
+    "discovery",
+    "requirements",
+    "research",
+    "context",
+    "spec_writing",
+    "planning",
+    "validation"
+  ],
+
+  "flags": {
+    "needs_research": true,
+    "needs_self_critique": false,
+    "needs_infrastructure_setup": false
+  },
+
+  "validation_recommendations": {
+    "risk_level": "medium",
+    "skip_validation": false,
+    "minimal_mode": false,
+    "test_types_required": ["unit", "integration"],
+    "security_scan_required": false,
+    "staging_deployment_required": false,
+    "reasoning": "Database client abstraction requires unit tests for SOLID compliance. Integration tests needed to verify Neon connection works correctly in serverless context. No auth/payment involved, so no security scan needed."
+  },
+
+  "created_at": "2025-12-25T12:00:00.000Z"
+}

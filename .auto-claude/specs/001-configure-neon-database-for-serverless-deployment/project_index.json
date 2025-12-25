@@ -1,0 +1,139 @@
+{
+  "project_root": "/Users/mariogalla/development/augenblick",
+  "project_type": "single",
+  "services": {
+    "main": {
+      "name": "main",
+      "path": "/Users/mariogalla/development/augenblick",
+      "language": "TypeScript",
+      "framework": "Next.js",
+      "type": "frontend",
+      "package_manager": "pnpm",
+      "default_port": 3000,
+      "styling": "Tailwind CSS",
+      "dev_command": "npm run dev",
+      "key_directories": {
+        "src": {
+          "path": "src",
+          "purpose": "Source code"
+        },
+        "tests": {
+          "path": "tests",
+          "purpose": "Tests"
+        }
+      },
+      "dependencies": [
+        "@axiomhq/axiom-node",
+        "@google-cloud/local-auth",
+        "@headlessui/react",
+        "@heroicons/react",
+        "@hookform/resolvers",
+        "@radix-ui/react-dialog",
+        "@sendgrid/client",
+        "@sendgrid/mail",
+        "class-variance-authority",
+        "clsx",
+        "cookies-next",
+        "googleapis",
+        "handlebars",
+        "keen-slider",
+        "lucide-react",
+        "next",
+        "next-axiom",
+        "next-sitemap",
+        "nodemailer",
+        "react"
+      ],
+      "dev_dependencies": [
+        "@next/bundle-analyzer",
+        "@types/dotenv",
+        "@types/gtag.js",
+        "@types/handlebars",
+        "@types/node",
+        "@types/nodemailer",
+        "@types/prettier",
+        "@types/react",
+        "@types/react-dom",
+        "@types/react-google-recaptcha"
+      ],
+      "test_directory": "tests",
+      "environment": {
+        "variables": {
+          "SENDGRID_API_KEY": {
+            "value": "<REDACTED>",
+            "source": ".env",
+            "type": "string",
+            "sensitive": true,
+            "required": true
+          },
+          "AXIOM_DATASET": {
+            "value": "winston",
+            "source": ".env",
+            "type": "string",
+            "sensitive": false,
+            "required": true
+          },
+          "AXIOM_TOKEN": {
+            "value": "<REDACTED>",
+            "source": ".env",
+            "type": "string",
+            "sensitive": true,
+            "required": true
+          },
+          "SMTP2GO_API_KEY": {
+            "value": "<REDACTED>",
+            "source": ".env",
+            "type": "string",
+            "sensitive": true,
+            "required": false
+          },
+          "SMTP2GO_USERNAME": {
+            "value": "augenblick",
+            "source": ".env",
+            "type": "string",
+            "sensitive": false,
+            "required": true
+          },
+          "SMTP2GO_PASSWORD": {
+            "value": "<REDACTED>",
+            "source": ".env",
+            "type": "string",
+            "sensitive": true,
+            "required": true
+          }
+        },
+        "required_count": 5,
+        "optional_count": 0,
+        "detected_count": 6
+      },
+      "services": {
+        "email": [
+          {
+            "provider": "sendgrid",
+            "client": "@sendgrid/mail"
+          },
+          {
+            "provider": "smtp",
+            "client": "nodemailer"
+          }
+        ],
+        "monitoring": [
+          {
+            "type": "logging",
+            "client": "winston"
+          }
+        ]
+      },
+      "monitoring": {
+        "apm_tools": [
+          "logging"
+        ]
+      }
+    }
+  },
+  "infrastructure": {},
+  "conventions": {
+    "js_linting": "ESLint",
+    "typescript": true
+  }
+}

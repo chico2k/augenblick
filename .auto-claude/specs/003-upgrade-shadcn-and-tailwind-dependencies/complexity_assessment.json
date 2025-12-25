@@ -1,0 +1,97 @@
+{
+  "complexity": "standard",
+  "workflow_type": "refactor",
+  "confidence": 0.85,
+  "reasoning": "Dependency upgrade task with limited scope (1 Shadcn UI component, standard Tailwind config). Tailwind 3→4 migration has documented breaking changes requiring research. Patterns already exist in codebase, no new integrations or infrastructure changes needed.",
+
+  "analysis": {
+    "scope": {
+      "estimated_files": 6,
+      "estimated_services": 1,
+      "is_cross_cutting": false,
+      "notes": "Changes limited to: package.json, tailwind.config.js, components.json, dialog.tsx, utils.ts, global.css"
+    },
+    "integrations": {
+      "external_services": [],
+      "new_dependencies": [],
+      "research_needed": true,
+      "notes": "No new external services. Research needed for Tailwind v4 migration path and Shadcn CLI updates."
+    },
+    "infrastructure": {
+      "docker_changes": false,
+      "database_changes": false,
+      "config_changes": true,
+      "notes": "Tailwind config format may change between v3 and v4. components.json schema may need updating."
+    },
+    "knowledge": {
+      "patterns_exist": true,
+      "research_required": true,
+      "unfamiliar_tech": [],
+      "notes": "Shadcn and Tailwind already in use. Research needed for breaking changes in newer versions - Tailwind v4 has significant config format changes."
+    },
+    "risk": {
+      "level": "medium",
+      "concerns": [
+        "Tailwind v4 breaking changes in config format",
+        "Tailwind v4 CSS syntax changes",
+        "Shadcn component API changes",
+        "Potential visual regressions"
+      ],
+      "notes": "Medium risk due to potential breaking changes. Visual testing recommended post-upgrade."
+    }
+  },
+
+  "current_versions": {
+    "tailwindcss": "^3.2.0",
+    "tailwindcss-animate": "^1.0.7",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.0",
+    "tailwind-merge": "^2.2.1",
+    "lucide-react": "^0.331.0",
+    "@radix-ui/react-dialog": "^1.0.5"
+  },
+
+  "shadcn_components_found": ["dialog.tsx"],
+
+  "recommended_phases": [
+    "discovery",
+    "requirements",
+    "research",
+    "context",
+    "spec_writing",
+    "planning",
+    "validation"
+  ],
+
+  "flags": {
+    "needs_research": true,
+    "needs_self_critique": false,
+    "needs_infrastructure_setup": false
+  },
+
+  "validation_recommendations": {
+    "risk_level": "medium",
+    "skip_validation": false,
+    "minimal_mode": false,
+    "test_types_required": ["unit", "integration"],
+    "security_scan_required": false,
+    "staging_deployment_required": false,
+    "reasoning": "Dependency upgrade may cause visual or functional regressions. Build verification and visual testing of dialog component recommended. No security implications."
+  },
+
+  "upgrade_considerations": {
+    "tailwind_v4_notes": [
+      "Tailwind v4 uses CSS-first configuration (tailwind.config.ts → CSS @config)",
+      "New @theme directive replaces extend in theme config",
+      "Plugin syntax has changed",
+      "May need to run upgrade CLI tool"
+    ],
+    "shadcn_notes": [
+      "components.json missing 'aliases' key (required in newer versions)",
+      "May need to reinitialize with 'npx shadcn@latest init'",
+      "Single component (dialog) makes upgrade simpler"
+    ]
+  },
+
+  "created_at": "2025-12-25T16:30:00.000Z"
+}

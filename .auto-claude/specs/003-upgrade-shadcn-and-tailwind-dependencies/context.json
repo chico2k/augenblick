@@ -1,0 +1,53 @@
+{
+  "task_description": "Upgrade Tailwind CSS from v3 to v4 and update shadcn/ui for compatibility",
+  "scoped_services": ["main"],
+  "files_to_modify": {
+    "main": [
+      "package.json",
+      "tailwind.config.js",
+      "tailwind.config.cjs",
+      "postcss.config.cjs",
+      "components.json",
+      "src/styles/globals.css",
+      "src/style/global.css",
+      "src/components/ui/dialog.tsx",
+      "src/app/layout.tsx"
+    ]
+  },
+  "files_to_create": {
+    "main": [
+      "postcss.config.mjs"
+    ]
+  },
+  "files_to_delete": {
+    "main": [
+      "tailwind.config.cjs",
+      "postcss.config.cjs",
+      "src/style/global.css"
+    ]
+  },
+  "files_to_reference": [
+    "src/lib/utils.ts",
+    "src/components/ui/dialog.tsx"
+  ],
+  "patterns": {
+    "cn_utility": "Uses clsx + tailwind-merge, remains unchanged in v4",
+    "css_variables": "HSL values without wrapper (e.g., '222.2 84% 4.9%'), keeping HSL format",
+    "dark_mode": "Class-based dark mode via .dark selector",
+    "component_pattern": "forwardRef with Radix UI primitives"
+  },
+  "existing_implementations": {
+    "description": "Project uses shadcn/ui with only dialog component. Two CSS files exist - consolidation needed during migration.",
+    "relevant_files": [
+      "src/styles/globals.css - Actually imported in layout, has @tailwind directives only",
+      "src/style/global.css - Has shadcn CSS variables but NOT imported",
+      "components.json - Points to wrong CSS file (src/style/global.css)"
+    ]
+  },
+  "critical_notes": [
+    "CSS file discrepancy: layout.tsx imports from src/styles/globals.css but components.json references src/style/global.css",
+    "Must consolidate CSS files during migration",
+    "tailwind.config.cjs is redundant and should be deleted"
+  ],
+  "created_at": "2025-12-25T23:45:00.000Z"
+}

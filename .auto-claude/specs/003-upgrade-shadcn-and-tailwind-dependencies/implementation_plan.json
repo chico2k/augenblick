@@ -1,0 +1,361 @@
+{
+  "feature": "Upgrade Tailwind CSS v3 to v4 with shadcn/ui compatibility",
+  "workflow_type": "feature",
+  "workflow_rationale": "Tailwind v3 to v4 is a major architectural change requiring CSS-first configuration migration, plugin replacement, and breaking change handling. This is more than a simple version bump.",
+  "phases": [
+    {
+      "id": "phase-1-dependency-setup",
+      "name": "Dependency Setup",
+      "type": "implementation",
+      "description": "Run official upgrade tool and manually fix animation plugin swap",
+      "depends_on": [],
+      "parallel_safe": false,
+      "subtasks": [
+        {
+          "id": "subtask-1-1",
+          "description": "Run the official Tailwind CSS upgrade tool to auto-migrate configuration",
+          "service": "main",
+          "files_to_modify": ["package.json", "tailwind.config.js", "postcss.config.cjs", "src/styles/globals.css"],
+          "files_to_create": [],
+          "patterns_from": [],
+          "verification": {
+            "type": "command",
+            "command": "cd /Users/mariogalla/development/augenblick && pnpm list tailwindcss",
+            "expected": "tailwindcss 4"
+          },
+          "status": "pending",
+          "notes": "Run: npx @tailwindcss/upgrade - Review all changes before accepting. Tool may not handle all cases."
+        },
+        {
+          "id": "subtask-1-2",
+          "description": "Swap animation plugin: remove tailwindcss-animate, install tw-animate-css",
+          "service": "main",
+          "files_to_modify": ["package.json"],
+          "files_to_create": [],
+          "patterns_from": [],
+          "verification": {
+            "type": "command",
+            "command": "cd /Users/mariogalla/development/augenblick && pnpm list tw-animate-css && ! pnpm list tailwindcss-animate 2>/dev/null || echo 'old plugin removed'",
+            "expected": "tw-animate-css"
+          },
+          "status": "pending",
+          "notes": "Run: pnpm remove tailwindcss-animate && pnpm add -D tw-animate-css"
+        }
+      ]
+    },
+    {
+      "id": "phase-2-config-migration",
+      "name": "Configuration Migration",
+      "type": "implementation",
+      "description": "Update PostCSS and Tailwind configuration for v4 compatibility",
+      "depends_on": ["phase-1-dependency-setup"],
+      "parallel_safe": false,
+      "subtasks": [
+        {
+          "id": "subtask-2-1",
+          "description": "Create postcss.config.mjs with @tailwindcss/postcss plugin and remove old postcss.config.cjs",
+          "service": "main",
+          "files_to_modify": [],
+          "files_to_create": ["postcss.config.mjs"],
+          "files_to_delete": ["postcss.config.cjs"],
+          "patterns_from": [],
+          "verification": {
+            "type": "command",
+            "command": "cd /Users/mariogalla/development/augenblick && test -f postcss.config.mjs && ! test -f postcss.config.cjs && echo 'PostCSS config migrated'",
+            "expected": "PostCSS config migrated"
+          },
+          "status": "pending",
+          "notes": "New config uses @tailwindcss/postcss instead of tailwindcss + autoprefixer"
+        },
+        {
+          "id": "subtask-2-2",
+          "description": "Remove redundant tailwind.config.cjs file",
+          "service": "main",
+          "files_to_modify": [],
+          "files_to_create": [],
+          "files_to_delete": ["tailwind.config.cjs"],
+          "patterns_from": [],
+          "verification": {
+            "type": "command",
+            "command": "cd /Users/mariogalla/development/augenblick && ! test -f tailwind.config.cjs && echo 'Redundant config removed'",
+            "expected": "Redundant config removed"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-2-3",
+          "description": "Update components.json for Tailwind v4 compatibility",
+          "service": "main",
+          "files_to_modify": ["components.json"],
+          "files_to_create": [],
+          "patterns_from": [],
+          "verification": {
+            "type": "command",
+            "command": "cd /Users/mariogalla/development/augenblick && grep -q '\"config\": \"\"' components.json && echo 'components.json updated'",
+            "expected": "components.json updated"
+          },
+          "status": "pending",
+          "notes": "Set tailwind.config property to empty string for v4"
+        }
+      ]
+    },
+    {
+      "id": "phase-3-css-migration",
+      "name": "CSS Migration",
+      "type": "implementation",
+      "description": "Consolidate CSS files and update with Tailwind v4 syntax",
+      "depends_on": ["phase-2-config-migration"],
+      "parallel_safe": false,
+      "subtasks": [
+        {
+          "id": "subtask-3-1",
+          "description": "Consolidate CSS: merge src/style/global.css into src/styles/globals.css with v4 syntax",
+          "service": "main",
+          "files_to_modify": ["src/styles/globals.css"],
+          "files_to_create": [],
+          "files_to_delete": ["src/style/global.css"],
+          "patterns_from": ["src/style/global.css"],
+          "verification": {
+            "type": "command",
+            "command": "cd /Users/mariogalla/development/augenblick && grep -q '@import \"tailwindcss\"' src/styles/globals.css && grep -q '@theme' src/styles/globals.css && echo 'CSS migrated to v4'",
+            "expected": "CSS migrated to v4"
+          },
+          "status": "pending",
+          "notes": "Replace @tailwind directives with @import 'tailwindcss'; add @theme block for custom colors; add @import 'tw-animate-css'"
+        },
+        {
+          "id": "subtask-3-2",
+          "description": "Migrate container customization from JS config to CSS @utility directive",
+          "service": "main",
+          "files_to_modify": ["src/styles/globals.css"],
+          "files_to_create": [],
+          "patterns_from": ["tailwind.config.js"],
+          "verification": {
+            "type": "command",
+            "command": "cd /Users/mariogalla/development/augenblick && grep -q '@utility container' src/styles/globals.css && echo 'Container utility migrated'",
+            "expected": "Container utility migrated"
+          },
+          "status": "pending",
+          "notes": "Move container.center, container.padding, container.screens from JS to CSS @utility container block"
+        },
+        {
+          "id": "subtask-3-3",
+          "description": "Migrate custom keyframes (accordion) from JS config to CSS",
+          "service": "main",
+          "files_to_modify": ["src/styles/globals.css"],
+          "files_to_create": [],
+          "patterns_from": ["tailwind.config.js"],
+          "verification": {
+            "type": "command",
+            "command": "cd /Users/mariogalla/development/augenblick && grep -q '@keyframes accordion-down' src/styles/globals.css && echo 'Keyframes migrated'",
+            "expected": "Keyframes migrated"
+          },
+          "status": "pending",
+          "notes": "Move accordion-down and accordion-up keyframes from JS config to CSS"
+        },
+        {
+          "id": "subtask-3-4",
+          "description": "Update components.json to point to consolidated CSS file",
+          "service": "main",
+          "files_to_modify": ["components.json"],
+          "files_to_create": [],
+          "patterns_from": [],
+          "verification": {
+            "type": "command",
+            "command": "cd /Users/mariogalla/development/augenblick && grep -q 'src/styles/globals.css' components.json && echo 'CSS path updated'",
+            "expected": "CSS path updated"
+          },
+          "status": "pending",
+          "notes": "Change from src/style/global.css to src/styles/globals.css"
+        }
+      ]
+    },
+    {
+      "id": "phase-4-component-review",
+      "name": "Component Review",
+      "type": "implementation",
+      "description": "Review and update shadcn/ui components for v4 compatibility",
+      "depends_on": ["phase-3-css-migration"],
+      "parallel_safe": false,
+      "subtasks": [
+        {
+          "id": "subtask-4-1",
+          "description": "Review dialog.tsx for utility class changes (ring, outline-none, shadow-sm)",
+          "service": "main",
+          "files_to_modify": ["src/components/ui/dialog.tsx"],
+          "files_to_create": [],
+          "patterns_from": [],
+          "verification": {
+            "type": "command",
+            "command": "cd /Users/mariogalla/development/augenblick && pnpm exec tsc --noEmit 2>&1 | grep -v 'error' && echo 'TypeScript compiles'",
+            "expected": "TypeScript compiles"
+          },
+          "status": "pending",
+          "notes": "Check for: ring (now 1px default), outline-none -> outline-hidden, shadow-sm -> shadow-xs. May not need changes if upgrade tool handled it."
+        },
+        {
+          "id": "subtask-4-2",
+          "description": "Minimize tailwind.config.js - remove migrated theme extensions",
+          "service": "main",
+          "files_to_modify": ["tailwind.config.js"],
+          "files_to_create": [],
+          "patterns_from": [],
+          "verification": {
+            "type": "command",
+            "command": "cd /Users/mariogalla/development/augenblick && test -f tailwind.config.js && echo 'Config exists'",
+            "expected": "Config exists"
+          },
+          "status": "pending",
+          "notes": "May be able to remove or significantly reduce tailwind.config.js since theme is now in CSS. Keep darkMode setting if needed."
+        }
+      ]
+    },
+    {
+      "id": "phase-5-verification",
+      "name": "Verification & Testing",
+      "type": "integration",
+      "description": "Build, test, and verify all changes work correctly",
+      "depends_on": ["phase-4-component-review"],
+      "parallel_safe": false,
+      "subtasks": [
+        {
+          "id": "subtask-5-1",
+          "description": "Run production build to verify CSS processing works",
+          "service": "main",
+          "files_to_modify": [],
+          "files_to_create": [],
+          "patterns_from": [],
+          "verification": {
+            "type": "command",
+            "command": "cd /Users/mariogalla/development/augenblick && pnpm build",
+            "expected": "Build complete"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-5-2",
+          "description": "Start development server and verify no errors",
+          "service": "main",
+          "files_to_modify": [],
+          "files_to_create": [],
+          "patterns_from": [],
+          "verification": {
+            "type": "browser",
+            "url": "http://localhost:3000",
+            "checks": [
+              "Page loads without errors",
+              "Styles render correctly",
+              "No console errors"
+            ]
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-5-3",
+          "description": "Verify dark mode and dialog component functionality",
+          "service": "main",
+          "files_to_modify": [],
+          "files_to_create": [],
+          "patterns_from": [],
+          "verification": {
+            "type": "browser",
+            "url": "http://localhost:3000",
+            "checks": [
+              "Dark mode toggle works (if available)",
+              "Dialog opens with animation",
+              "Dialog closes correctly",
+              "Container centering works"
+            ]
+          },
+          "status": "pending"
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "total_phases": 5,
+    "total_subtasks": 13,
+    "services_involved": ["main"],
+    "parallelism": {
+      "max_parallel_phases": 1,
+      "parallel_groups": [],
+      "recommended_workers": 1,
+      "speedup_estimate": "N/A - sequential dependency chain"
+    },
+    "startup_command": "source auto-claude/.venv/bin/activate && python auto-claude/run.py --spec 003 --parallel 1"
+  },
+  "verification_strategy": {
+    "risk_level": "medium",
+    "skip_validation": false,
+    "test_creation_phase": "post_implementation",
+    "test_types_required": ["integration"],
+    "security_scanning_required": false,
+    "staging_deployment_required": false,
+    "acceptance_criteria": [
+      "Production build completes successfully",
+      "Development server starts without CSS errors",
+      "All pages render with correct styling",
+      "Dark mode functions correctly",
+      "Dialog component works with animations",
+      "Container layout works correctly",
+      "No console errors in browser"
+    ],
+    "verification_steps": [
+      {
+        "name": "TypeScript Check",
+        "command": "cd /Users/mariogalla/development/augenblick && pnpm exec tsc --noEmit",
+        "expected_outcome": "No TypeScript errors",
+        "type": "lint",
+        "required": true,
+        "blocking": true
+      },
+      {
+        "name": "Production Build",
+        "command": "cd /Users/mariogalla/development/augenblick && pnpm build",
+        "expected_outcome": "Build completes without errors",
+        "type": "build",
+        "required": true,
+        "blocking": true
+      },
+      {
+        "name": "Dependency Verification",
+        "command": "cd /Users/mariogalla/development/augenblick && pnpm list tailwindcss tw-animate-css @tailwindcss/postcss",
+        "expected_outcome": "All required packages installed",
+        "type": "dependency",
+        "required": true,
+        "blocking": false
+      }
+    ],
+    "reasoning": "Medium risk migration with potential visual regressions. Build verification critical to ensure CSS processing works. Browser testing required for visual confirmation."
+  },
+  "qa_acceptance": {
+    "unit_tests": {
+      "required": false,
+      "commands": [],
+      "minimum_coverage": null,
+      "notes": "No unit tests needed for CSS/config migration"
+    },
+    "integration_tests": {
+      "required": true,
+      "commands": ["pnpm build"],
+      "services_to_test": ["main"]
+    },
+    "e2e_tests": {
+      "required": false,
+      "commands": [],
+      "flows": []
+    },
+    "browser_verification": {
+      "required": true,
+      "pages": [
+        {"url": "http://localhost:3000/", "checks": ["renders", "no-console-errors", "styles-applied"]},
+        {"url": "http://localhost:3000/impressum", "checks": ["renders", "container-centered"]}
+      ]
+    },
+    "database_verification": {
+      "required": false,
+      "checks": []
+    }
+  },
+  "qa_signoff": null
+}

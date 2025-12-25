@@ -1,0 +1,316 @@
+{
+  "integrations_researched": [
+    {
+      "name": "Tailwind CSS",
+      "type": "library",
+      "current_version": {
+        "installed": "^3.2.0",
+        "actual_in_lockfile": "3.4.18"
+      },
+      "verified_package": {
+        "name": "tailwindcss",
+        "install_command": "npm install tailwindcss@latest",
+        "latest_version": "4.x",
+        "verified": true
+      },
+      "upgrade_path": {
+        "tool": "npx @tailwindcss/upgrade",
+        "requirements": [
+          "Node.js 20 or higher",
+          "Run in a new branch for safe testing"
+        ],
+        "browser_requirements": {
+          "safari": "16.4+",
+          "chrome": "111+",
+          "firefox": "128+"
+        }
+      },
+      "api_patterns": {
+        "imports_v3": ["@tailwind base;", "@tailwind components;", "@tailwind utilities;"],
+        "imports_v4": ["@import \"tailwindcss\";"],
+        "configuration_v3": "tailwind.config.js with module.exports",
+        "configuration_v4": "CSS-based using @theme directive",
+        "verified_against": "Context7 MCP: /websites/tailwindcss"
+      },
+      "configuration": {
+        "current_files": ["tailwind.config.js", "postcss.config.cjs"],
+        "v4_changes": {
+          "postcss_plugin": "@tailwindcss/postcss replaces tailwindcss",
+          "autoprefixer": "No longer needed (handled automatically)",
+          "vite_alternative": "@tailwindcss/vite plugin available",
+          "config_migration": "JS config migrates to CSS @theme directive"
+        },
+        "env_vars": [],
+        "dependencies_to_update": ["@tailwindcss/postcss", "tailwindcss"]
+      },
+      "breaking_changes": [
+        {
+          "issue": "Container configuration removed",
+          "current_usage": "theme.container.center and theme.container.padding in tailwind.config.js",
+          "migration": "Use @utility container { margin-inline: auto; padding-inline: 2rem; } in CSS"
+        },
+        {
+          "issue": "Default ring width changed",
+          "current": "ring utility adds 3px ring",
+          "new": "ring utility adds 1px ring",
+          "migration": "Use ring-3 for previous behavior"
+        },
+        {
+          "issue": "CSS imports changed",
+          "current": "@tailwind base/components/utilities",
+          "new": "@import 'tailwindcss';",
+          "migration": "Automatic via upgrade tool"
+        },
+        {
+          "issue": "outline-none renamed",
+          "current": "outline-none sets invisible outline",
+          "new": "outline-hidden (old behavior) or outline-none (style: none)",
+          "migration": "Rename outline-none to outline-hidden if needed"
+        },
+        {
+          "issue": "Shadow scale renamed",
+          "current": "shadow-sm",
+          "new": "shadow-xs",
+          "migration": "Update shadow-sm to shadow-xs in templates"
+        },
+        {
+          "issue": "PostCSS config format",
+          "current": "postcss.config.cjs with tailwindcss: {}",
+          "new": "postcss.config.mjs with @tailwindcss/postcss: {}",
+          "migration": "Automatic via upgrade tool"
+        }
+      ],
+      "gotchas": [
+        "Upgrade tool requires Node.js 20+, ensure environment is updated",
+        "Run upgrade in new branch and carefully review diff",
+        "Container customization must move to @utility directive in CSS",
+        "JavaScript config files no longer auto-detected, use @config directive if needed",
+        "Some PurgeCSS options not supported in v4",
+        "Vue/Svelte style blocks need @reference for theme access"
+      ],
+      "research_sources": [
+        "Context7 MCP: /websites/tailwindcss",
+        "Context7 MCP: /websites/v3_tailwindcss",
+        "https://tailwindcss.com/docs/upgrade-guide"
+      ]
+    },
+    {
+      "name": "shadcn/ui",
+      "type": "library",
+      "current_version": {
+        "installed": "Components via CLI (not npm package)",
+        "style": "default",
+        "components_found": ["dialog.tsx"]
+      },
+      "verified_package": {
+        "name": "shadcn (CLI tool)",
+        "install_command": "npx shadcn@latest",
+        "component_install": "npx shadcn@latest add [component]",
+        "verified": true
+      },
+      "upgrade_path": {
+        "tool": "npx shadcn@latest add --all --overwrite",
+        "migrations": "npx shadcn migrate",
+        "available_migrations": ["icons", "radix"]
+      },
+      "api_patterns": {
+        "component_location": "src/components/ui/",
+        "cli_commands": [
+          "npx shadcn@latest add [component]",
+          "npx shadcn@latest add --all --overwrite",
+          "npx shadcn migrate --list",
+          "npx shadcn migrate icons",
+          "npx shadcn migrate radix"
+        ],
+        "verified_against": "Context7 MCP: /shadcn-ui/ui, /websites/ui_shadcn"
+      },
+      "configuration": {
+        "current_files": ["components.json"],
+        "v4_changes": {
+          "tailwind_config": "Leave tailwind.config property empty for v4",
+          "color_format": "HSL colors converted to OKLCH",
+          "animation_plugin": "tailwindcss-animate replaced by tw-animate-css",
+          "css_structure": "Use @theme inline for easier variable access"
+        },
+        "components_json_updates": {
+          "current": "tailwind.config: 'tailwind.config.js'",
+          "v4": "tailwind.config: '' (empty for v4)"
+        }
+      },
+      "related_dependencies": {
+        "tailwindcss-animate": {
+          "status": "DEPRECATED for v4",
+          "replacement": "tw-animate-css",
+          "migration_steps": [
+            "Remove tailwindcss-animate from dependencies",
+            "Remove @plugin 'tailwindcss-animate' from globals.css",
+            "Install tw-animate-css as dev dependency",
+            "Add @import 'tw-animate-css' to globals.css"
+          ]
+        },
+        "class-variance-authority": {
+          "current_version": "^0.7.0",
+          "status": "Keep - still used"
+        },
+        "clsx": {
+          "current_version": "^2.1.0",
+          "status": "Keep - still used"
+        },
+        "tailwind-merge": {
+          "current_version": "^2.2.1",
+          "status": "Keep - still used"
+        },
+        "lucide-react": {
+          "current_version": "^0.331.0",
+          "status": "May need update - check for latest"
+        },
+        "@radix-ui/react-dialog": {
+          "current_version": "^1.0.5",
+          "status": "May need update via shadcn migrate radix"
+        }
+      },
+      "breaking_changes": [
+        {
+          "issue": "forwardRef removal",
+          "description": "Components no longer use forwardRef (React 19 compatibility)",
+          "impact": "Type definitions may change"
+        },
+        {
+          "issue": "data-slot attributes added",
+          "description": "Every primitive component now has data-slot attribute",
+          "impact": "Improved styling capabilities, no breaking changes"
+        },
+        {
+          "issue": "Button cursor",
+          "description": "Buttons now use default cursor",
+          "impact": "Visual change, may need to add cursor-pointer if needed"
+        },
+        {
+          "issue": "Animation plugin change",
+          "description": "tailwindcss-animate deprecated for tw-animate-css",
+          "impact": "Must migrate animation imports"
+        }
+      ],
+      "gotchas": [
+        "Run 'npx shadcn@latest add --all --overwrite' overwrites existing components - commit changes first",
+        "If you've customized components, you'll need to manually merge changes",
+        "The CLI doesn't detect v3 vs v4 automatically for existing projects - you decide",
+        "Non-breaking: existing v3 projects continue to work, only new CLI installs default to v4",
+        "Dark mode colors updated - can be opted into via re-adding components"
+      ],
+      "research_sources": [
+        "Context7 MCP: /shadcn-ui/ui",
+        "Context7 MCP: /websites/ui_shadcn",
+        "https://ui.shadcn.com/docs/tailwind-v4",
+        "https://ui.shadcn.com/docs/changelog"
+      ]
+    },
+    {
+      "name": "tw-animate-css",
+      "type": "library",
+      "verified_package": {
+        "name": "tw-animate-css",
+        "install_command": "npm install -D tw-animate-css",
+        "verified": true,
+        "note": "Replacement for tailwindcss-animate in Tailwind v4"
+      },
+      "api_patterns": {
+        "imports": ["@import 'tw-animate-css';"],
+        "verified_against": "Context7 MCP: /shadcn-ui/ui (tailwind-v4.mdx)"
+      },
+      "configuration": {
+        "css_import": "@import 'tw-animate-css' in globals.css",
+        "replaces": "@plugin 'tailwindcss-animate'"
+      },
+      "research_sources": [
+        "Context7 MCP: /shadcn-ui/ui"
+      ]
+    },
+    {
+      "name": "autoprefixer",
+      "type": "library",
+      "current_version": "^10.4.7",
+      "verified_package": {
+        "name": "autoprefixer",
+        "verified": true
+      },
+      "v4_status": {
+        "required": false,
+        "reason": "Tailwind CSS v4 handles autoprefixing automatically",
+        "action": "Can be removed from devDependencies and postcss.config"
+      },
+      "research_sources": [
+        "Context7 MCP: /websites/tailwindcss"
+      ]
+    },
+    {
+      "name": "@tailwindcss/postcss",
+      "type": "library",
+      "verified_package": {
+        "name": "@tailwindcss/postcss",
+        "install_command": "npm install -D @tailwindcss/postcss",
+        "verified": true,
+        "note": "New PostCSS plugin for Tailwind CSS v4"
+      },
+      "api_patterns": {
+        "postcss_config": {
+          "format": "postcss.config.mjs",
+          "plugins": {"@tailwindcss/postcss": {}}
+        },
+        "verified_against": "Context7 MCP: /websites/tailwindcss"
+      },
+      "research_sources": [
+        "Context7 MCP: /websites/tailwindcss"
+      ]
+    }
+  ],
+  "unverified_claims": [
+    {
+      "claim": "Exact latest npm versions for tailwindcss and shadcn packages",
+      "reason": "Web search not available to verify exact version numbers on npm",
+      "risk_level": "low",
+      "mitigation": "Use @latest tag in install commands, or check npm directly before implementation"
+    }
+  ],
+  "recommendations": [
+    "Run upgrade in a new git branch to safely test changes",
+    "Ensure Node.js 20+ is installed before running Tailwind upgrade tool",
+    "Use the automatic upgrade tool: npx @tailwindcss/upgrade",
+    "After Tailwind v4 upgrade, update shadcn components: npx shadcn@latest add --all --overwrite",
+    "Migrate from tailwindcss-animate to tw-animate-css",
+    "Update components.json to leave tailwind.config empty for v4",
+    "Consider browser support requirements (v4 requires modern browsers)",
+    "Review container utility customization and migrate to @utility directive",
+    "Test thoroughly after upgrade as ring/shadow/outline defaults changed",
+    "Commit existing component changes before running overwrite commands"
+  ],
+  "project_specific_findings": {
+    "current_setup": {
+      "framework": "Next.js 15.5.9",
+      "react_version": "18.2.0",
+      "tailwind_config": "tailwind.config.js (CommonJS format)",
+      "postcss_config": "postcss.config.cjs",
+      "css_file": "src/style/global.css",
+      "shadcn_style": "default",
+      "color_format": "HSL via CSS variables"
+    },
+    "migration_complexity": "medium",
+    "estimated_changes": [
+      "tailwind.config.js -> CSS @theme directive or keep with @config",
+      "postcss.config.cjs -> postcss.config.mjs with @tailwindcss/postcss",
+      "global.css: @tailwind directives -> @import 'tailwindcss'",
+      "global.css: Add @import 'tw-animate-css'",
+      "package.json: Update tailwindcss, add @tailwindcss/postcss, swap animation plugins",
+      "components.json: Empty tailwind.config for v4",
+      "Container customization needs CSS @utility directive",
+      "All shadcn/ui components may need refresh"
+    ]
+  },
+  "context7_libraries_used": [
+    "/websites/tailwindcss",
+    "/websites/v3_tailwindcss",
+    "/shadcn-ui/ui",
+    "/websites/ui_shadcn"
+  ],
+  "created_at": "2025-12-25T00:00:00Z"
+}

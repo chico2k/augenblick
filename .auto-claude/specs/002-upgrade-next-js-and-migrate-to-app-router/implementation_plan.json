@@ -62,8 +62,9 @@
             "command": "cd /Users/mariogalla/development/augenblick && grep 'NEXT_PUBLIC_AXIOM' src/env.mjs",
             "expected": "NEXT_PUBLIC_AXIOM_DATASET"
           },
-          "notes": "Add NEXT_PUBLIC_AXIOM_DATASET and NEXT_PUBLIC_AXIOM_TOKEN to client schema for next-axiom 1.x",
-          "status": "pending"
+          "notes": "Added NEXT_PUBLIC_AXIOM_DATASET and NEXT_PUBLIC_AXIOM_TOKEN to client schema in src/env.mjs (both as optional strings). Added both variables to processEnv object for client-side access. Updated .env.example with the new client-side Axiom variables. These are required for next-axiom 1.x AxiomWebVitals component to work on the client side.",
+          "status": "completed",
+          "updated_at": "2025-12-25T20:54:17.121811+00:00"
         }
       ]
     },
@@ -93,8 +94,9 @@
             "command": "cd /Users/mariogalla/development/augenblick && head -1 src/components/GoogleAnalytics.tsx",
             "expected": "'use client'"
           },
-          "notes": "Extract GTM/gtag scripts from _app.tsx into dedicated client component with 'use client' directive. Uses useConsent hook for consent state.",
-          "status": "pending"
+          "notes": "Created GoogleAnalytics client component at src/components/GoogleAnalytics.tsx. Component includes 'use client' directive, uses useConsent hook, and extracts GTM/GA script logic from _app.tsx. Verification passed - file starts with 'use client'.",
+          "status": "completed",
+          "updated_at": "2025-12-25T20:55:48.181128+00:00"
         },
         {
           "id": "subtask-2-2",
@@ -112,8 +114,9 @@
             "command": "cd /Users/mariogalla/development/augenblick && cat src/app/layout.tsx | grep -E 'export default|html|body|Navigation|Footer'",
             "expected": "RootLayout with html, body, Navigation, Footer"
           },
-          "notes": "Migrate _app.tsx structure: html lang='de', AxiomWebVitals, Navigation, children, ToastContainer, DynamicConsent (ssr:false), Footer. Import globals.css and slider CSS here.",
-          "status": "pending"
+          "notes": "Created src/app/layout.tsx root layout with all required components: Navigation, Footer, ToastContainer, GoogleAnalytics, AxiomWebVitals, and dynamic CookieConsent. Includes metadata export and html/body structure with lang=\"de\". Committed as eb23cbc.",
+          "status": "completed",
+          "updated_at": "2025-12-25T20:58:12.871720+00:00"
         }
       ]
     },
@@ -141,8 +144,9 @@
             "command": "cd /Users/mariogalla/development/augenblick && grep 'cookies-next/client' src/lib/hooks/useConsent.ts",
             "expected": "cookies-next/client"
           },
-          "notes": "Add 'use client' directive, change import to 'cookies-next/client', keep same logic",
-          "status": "pending"
+          "notes": "Updated useConsent hook for cookies-next v6: Added 'use client' directive, changed import to 'cookies-next/client', removed console.log. Commit: 52ccf39",
+          "status": "completed",
+          "updated_at": "2025-12-25T20:59:34.242071+00:00"
         },
         {
           "id": "subtask-3-2",
@@ -628,5 +632,5 @@
     }
   },
   "qa_signoff": null,
-  "last_updated": "2025-12-25T20:52:48.367570+00:00"
+  "last_updated": "2025-12-25T20:59:34.242083+00:00"
 }

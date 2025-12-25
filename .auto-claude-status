@@ -3,23 +3,23 @@
   "spec": "002-upgrade-next-js-and-migrate-to-app-router",
   "state": "building",
   "subtasks": {
-    "completed": 2,
+    "completed": 6,
     "total": 19,
     "in_progress": 1,
     "failed": 0
   },
   "phase": {
-    "current": "Dependency Upgrades",
+    "current": "Hook Updates",
     "id": null,
-    "total": 3
+    "total": 2
   },
   "workers": {
     "active": 0,
     "max": 1
   },
   "session": {
-    "number": 3,
+    "number": 7,
     "started_at": "2025-12-25T21:46:05.308381"
   },
-  "last_update": "2025-12-25T21:53:07.441236"
+  "last_update": "2025-12-25T21:59:51.737231"
 }

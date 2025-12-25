@@ -57,8 +57,9 @@
             "command": "grep -c 'DATABASE_URL' /Users/mariogalla/development/augenblick/src/env.mjs",
             "expected": "2"
           },
-          "status": "pending",
-          "notes": "Add to both 'server' schema (with z.string().url()) AND 'processEnv' object"
+          "status": "completed",
+          "notes": "Added DATABASE_URL with z.string().url() validation to server schema and processEnv object. Verification passed with 2 occurrences as expected.",
+          "updated_at": "2025-12-25T18:41:30.733866+00:00"
         },
         {
           "id": "subtask-2-2",
@@ -76,8 +77,9 @@
             "command": "grep -c 'DATABASE_URL' /Users/mariogalla/development/augenblick/.env.example",
             "expected": "1"
           },
-          "status": "pending",
-          "notes": "Add placeholder: DATABASE_URL=postgres://user:pass@ep-xxx.region.aws.neon.tech/dbname"
+          "status": "completed",
+          "notes": "Added DATABASE_URL template to .env.example with section comment and format documentation. Verification passed with 1 occurrence as expected. Committed as ee99035.",
+          "updated_at": "2025-12-25T18:42:39.051801+00:00"
         },
         {
           "id": "subtask-2-3",
@@ -93,8 +95,9 @@
             "command": "test -f /Users/mariogalla/development/augenblick/drizzle.config.ts && echo 'exists'",
             "expected": "exists"
           },
-          "status": "pending",
-          "notes": "Configure schema path, output directory, and database credentials"
+          "status": "completed",
+          "notes": "Created drizzle.config.ts with PostgreSQL dialect for Neon, schema path set to ./src/lib/db/schema/index.ts, migration output to ./drizzle directory, DATABASE_URL loaded via dotenv. Committed as 87c6aa6.",
+          "updated_at": "2025-12-25T18:44:07.820093+00:00"
         }
       ]
     },
@@ -442,5 +445,5 @@
     }
   },
   "qa_signoff": null,
-  "last_updated": "2025-12-25T18:40:26.432867+00:00"
+  "last_updated": "2025-12-25T18:44:07.820105+00:00"
 }

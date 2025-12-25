@@ -1,0 +1,10 @@
+{
+  "discovered_files": {
+    "src/lib/db/schema/example.ts": {
+      "description": "Schema files use pgTable from drizzle-orm/pg-core with serial primary keys, and export types using $inferSelect (Example) and $inferInsert (NewExample) patterns for type-safe database operations.",
+      "category": "pattern",
+      "discovered_at": "2025-12-25T18:49:26.146974+00:00"
+    }
+  },
+  "last_updated": "2025-12-25T18:49:26.146992+00:00"
+}

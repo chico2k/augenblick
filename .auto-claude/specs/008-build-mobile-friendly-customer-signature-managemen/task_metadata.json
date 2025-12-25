@@ -1,0 +1,49 @@
+{
+  "sourceType": "manual",
+  "model": "opus",
+  "thinkingLevel": "high",
+  "isAutoProfile": true,
+  "phaseModels": {
+    "spec": "opus",
+    "planning": "opus",
+    "coding": "opus",
+    "qa": "opus"
+  },
+  "phaseThinking": {
+    "spec": "ultrathink",
+    "planning": "high",
+    "coding": "low",
+    "qa": "low"
+  },
+  "referencedFiles": [
+    {
+      "id": "afd9c5c5-706a-4eb8-a490-b816fa229ad7",
+      "path": "/lib/services/customer.service",
+      "name": "/lib/services/customer.service",
+      "isDirectory": false,
+      "addedAt": "2025-12-25T23:07:16.397Z"
+    },
+    {
+      "id": "a794aefb-5153-4bd3-a5ba-e58b45b7d258",
+      "path": "/lib/services/gdpr.service",
+      "name": "/lib/services/gdpr.service",
+      "isDirectory": false,
+      "addedAt": "2025-12-25T23:07:16.397Z"
+    },
+    {
+      "id": "267d17ba-945c-45a8-9863-0407c512b7f3",
+      "path": "/lib/services/audit.service",
+      "name": "/lib/services/audit.service",
+      "isDirectory": false,
+      "addedAt": "2025-12-25T23:07:16.397Z"
+    },
+    {
+      "id": "f71d5391-38cb-4e08-8f04-a2d06f791ca7",
+      "path": "/app/actions/gdpr.actions",
+      "name": "/app/actions/gdpr.actions",
+      "isDirectory": false,
+      "addedAt": "2025-12-25T23:07:16.397Z"
+    }
+  ],
+  "baseBranch": "admim-view"
+}

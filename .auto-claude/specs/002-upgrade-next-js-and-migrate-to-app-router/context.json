@@ -1,0 +1,95 @@
+{
+  "task_description": "Upgrade to latest Next.js stable version and migrate from Pages Router to App Router",
+  "scoped_services": ["main"],
+  "files_to_modify": {
+    "main": [
+      "package.json",
+      "next.config.mjs",
+      "src/env.mjs",
+      "src/lib/hooks/useConsent.ts",
+      "src/components/CookieConsent.tsx"
+    ]
+  },
+  "files_to_create": {
+    "main": [
+      "src/app/layout.tsx",
+      "src/app/page.tsx",
+      "src/app/lashlift/page.tsx",
+      "src/app/lashextension-1-zu-1-technik/page.tsx",
+      "src/app/lashextension-volumentechnik/page.tsx",
+      "src/app/impressum/page.tsx",
+      "src/app/datenschutz/page.tsx",
+      "src/app/not-found.tsx",
+      "src/app/api/newsletter/route.ts",
+      "src/app/api/email/route.ts",
+      "src/components/GoogleAnalytics.tsx"
+    ]
+  },
+  "files_to_delete": {
+    "main": [
+      "src/pages/_app.tsx",
+      "src/pages/index.tsx",
+      "src/pages/lashlift.tsx",
+      "src/pages/lashextension-1-zu-1-technik.tsx",
+      "src/pages/lashextension-volumentechnik.tsx",
+      "src/pages/impressum.tsx",
+      "src/pages/datenschutz.tsx",
+      "src/pages/404.tsx",
+      "src/pages/api/newsletter/index.ts",
+      "src/pages/api/email/index.ts"
+    ]
+  },
+  "files_to_reference": [
+    "src/pages/_app.tsx",
+    "src/pages/index.tsx",
+    "src/pages/api/email/index.ts",
+    "src/lib/hooks/useConsent.ts",
+    "src/components/CookieConsent.tsx"
+  ],
+  "patterns": {
+    "layout_pattern": "_app.tsx wraps Component with Navigation, Footer, ToastContainer, CookieConsent (dynamic import with ssr:false)",
+    "page_pattern": "Pages use NextPage type, next/head for metadata, dynamic imports for client components",
+    "api_route_pattern": "Default export function, NextApiRequest/NextApiResponse, withAxiom wrapper for logging",
+    "cookie_pattern": "useConsent hook in src/lib/hooks/useConsent.ts uses setCookie, getCookie, hasCookie from cookies-next",
+    "dynamic_import_pattern": "Client-only components imported with dynamic(() => import(...), { ssr: false })"
+  },
+  "existing_implementations": {
+    "description": "German beauty/aesthetics website with 7 pages, 2 API routes, cookie consent, Google Analytics, newsletter signup, booking form",
+    "relevant_files": [
+      "src/pages/_app.tsx",
+      "src/pages/index.tsx",
+      "src/pages/api/email/index.ts",
+      "src/pages/api/newsletter/index.ts",
+      "src/lib/hooks/useConsent.ts",
+      "src/components/CookieConsent.tsx",
+      "src/lib/logger/index.ts"
+    ]
+  },
+  "breaking_changes": {
+    "next_axiom": {
+      "from": "0.17.0",
+      "to": "1.x",
+      "changes": [
+        "Must call await req.log.flush() before all API responses",
+        "AxiomWebVitals component replaces reportWebVitals export",
+        "NEXT_PUBLIC_ prefix required for client vars"
+      ]
+    },
+    "cookies_next": {
+      "from": "2.1.1",
+      "to": "6.x",
+      "changes": [
+        "Import from cookies-next/client for client components",
+        "Import from cookies-next/server for server components",
+        "Requires Next.js 15+"
+      ]
+    },
+    "next_config": {
+      "changes": [
+        "Remove i18n config (incompatible with App Router)"
+      ]
+    }
+  },
+  "created_at": "2025-12-25T21:35:25.706517",
+  "updated_at": "2025-12-25T22:00:00.000000"
+}

@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import NextImage from "next/image";
 import imageHero from "/public/hero/bg.png";

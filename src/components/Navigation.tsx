@@ -1,3 +1,5 @@
+"use client";
+
 import { Disclosure } from "@headlessui/react";
 import { MenuIcon, XIcon } from "@heroicons/react/outline";
 import React from "react";
@@ -5,8 +7,7 @@ import NextImage from "next/image";
 import { Link } from "react-scroll";
 import { navigationLinks } from "../lib/links";
 import NextLink from "next/link";
-import logo from "public//navigation/augenblick.png";
-import { useSpring, animated } from "react-spring";
+import logo from "/public/navigation/augenblick.png";
 
 const Navigation = () => {
   return (
@@ -102,16 +103,6 @@ const MenuDesk = ({ close }: { close: () => void }) => {
 };
 
 const MenuMobil: React.FC<{ open: boolean }> = ({ open }) => {
-  const styles = useSpring({
-    to: { opacity: open ? 1 : 0, x: open ? 0 : 100 },
-    from: { opacity: 0, x: 0 },
-  });
-
-  const styles2 = useSpring({
-    to: { opacity: open ? 1 : 0 },
-    from: { opacity: 0 },
-  });
-
   const links = navigationLinks.map((link) => {
     return (
       <Disclosure.Button
@@ -120,7 +111,11 @@ const MenuMobil: React.FC<{ open: boolean }> = ({ open }) => {
         href={link.href}
         className="block border-transparent py-2 text-2xl text-gray-700 md:text-3xl "
       >
-        <animated.div style={styles}>
+        <div
+          className={`transform transition-all duration-300 ease-out ${
+            open ? "translate-x-0 opacity-100" : "translate-x-24 opacity-0"
+          }`}
+        >
           <Link
             to={link.href}
             href={"/"}
@@ -130,16 +125,20 @@ const MenuMobil: React.FC<{ open: boolean }> = ({ open }) => {
           >
             <Disclosure.Button>{link.name}</Disclosure.Button>
           </Link>
-        </animated.div>
+        </div>
       </Disclosure.Button>
     );
   });
 
   return (
-    <animated.div style={styles2}>
+    <div
+      className={`transition-opacity duration-300 ease-out ${
+        open ? "opacity-100" : "opacity-0"
+      }`}
+    >
       <Disclosure.Panel className="fixed inset-0 z-30  flex h-screen max-h-screen items-center justify-center bg-fuchsia-100 text-center lg:hidden">
         <div className="space-y-4 pt-2 pb-4">{links}</div>
       </Disclosure.Panel>
-    </animated.div>
+    </div>
   );
 };

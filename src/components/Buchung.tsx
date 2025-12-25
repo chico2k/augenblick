@@ -1,3 +1,5 @@
+"use client";
+
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import { Element } from "react-scroll";
 import React from "react";

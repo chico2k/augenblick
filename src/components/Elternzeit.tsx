@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 
 import {
   Dialog,
@@ -8,8 +10,6 @@ import {
   DialogTitle,
 } from "../components/ui/dialog";
 import { Link } from "react-scroll";
-
-import { useState } from "react";
 
 const Elternzeit = () => {
   const [openModal, setOpenModal] = useState(true);

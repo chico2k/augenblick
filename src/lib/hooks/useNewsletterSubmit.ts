@@ -1,9 +1,10 @@
-import type z from "zod";
-import type { schemaNewsLetter } from "../../components/Newsletter";
+interface NewsletterFormValues {
+  email: string;
+}
 
 const useNewsletterSubmit = () => {
   const newsletterSubmitHandler = async (
-    values: z.infer<typeof schemaNewsLetter>
+    values: NewsletterFormValues
   ): Promise<boolean> => {
     try {
       await fetch("/api/newsletter", {

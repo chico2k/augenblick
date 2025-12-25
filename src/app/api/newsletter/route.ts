@@ -1,14 +1,16 @@
 import client from "@sendgrid/client";
-import type { NextApiRequest, NextApiResponse } from "next";
-import type z from "zod";
-import type { schemaNewsLetter } from "../../../components/Newsletter";
+import { NextResponse } from "next/server";
 import Logger from "../../../lib/logger";
 
 client.setApiKey(process.env.SENDGRID_API_KEY as string);
 
-async function sendEmail(req: NextApiRequest, res: NextApiResponse) {
+interface NewsletterFormValues {
+  email: string;
+}
+
+export async function POST(request: Request) {
   try {
-    const formValues = req.body as z.infer<typeof schemaNewsLetter>;
+    const formValues = (await request.json()) as NewsletterFormValues;
 
     const data = {
       list_ids: ["be1bdc02-c8d0-4bf6-b3a4-b53055256db9"],
@@ -19,13 +21,13 @@ async function sendEmail(req: NextApiRequest, res: NextApiResponse) {
       ],
     };
 
-    const request = {
+    const sendGridRequest = {
       url: `/v3/marketing/contacts`,
       method: "PUT" as const,
       body: data,
     };
 
-    const resp = await client.request(request);
+    const resp = await client.request(sendGridRequest);
 
     process.env.NODE_ENV !== "production" &&
       Logger.log({
@@ -33,14 +35,12 @@ async function sendEmail(req: NextApiRequest, res: NextApiResponse) {
         message: JSON.stringify(resp),
       });
 
-    return res.status(200).json({ error: "" });
+    return NextResponse.json({ error: "" }, { status: 200 });
   } catch (error) {
     Logger.log({
       level: "error",
       message: JSON.stringify(error),
     });
-    return res.status(500).json({ error: "Mail Delivery failed" });
+    return NextResponse.json({ error: "Mail Delivery failed" }, { status: 500 });
   }
 }
-
-export default sendEmail;

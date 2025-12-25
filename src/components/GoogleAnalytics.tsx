@@ -1,19 +1,9 @@
-import "../styles/globals.css";
-import "keen-slider/keen-slider.min.css";
-import type { AppProps } from "next/app";
-import Footer from "../components/Footer";
-import Navigation from "../components/Navigation";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+'use client';
+
 import Script from "next/script";
 import { useConsent } from "../lib/hooks/useConsent";
-import dynamic from "next/dynamic";
 
-const DynamicConsent = dynamic(() => import("../components/CookieConsent"), {
-  ssr: false,
-});
-
-function MyApp({ Component, pageProps }: AppProps) {
+function GoogleAnalytics() {
   const { consent } = useConsent();
 
   return (
@@ -25,7 +15,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           __html: `
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
-          
+
           gtag('consent', 'default', {
             'ad_storage': 'denied',
             'analytics_storage': 'denied'
@@ -50,19 +40,13 @@ function MyApp({ Component, pageProps }: AppProps) {
             __html: `
 
             gtag('consent', 'update', ${JSON.stringify(consent)});
-            
+
           `,
           }}
         />
       )}
-      <Navigation />
-
-      <Component {...pageProps} />
-      <ToastContainer />
-      <DynamicConsent />
-      <Footer />
     </>
   );
 }
 
-export default MyApp;
+export default GoogleAnalytics;

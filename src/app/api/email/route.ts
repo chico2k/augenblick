@@ -1,10 +1,9 @@
 import nodemailer from "nodemailer";
-import type { NextApiResponse } from "next";
+import { NextResponse } from "next/server";
 import type z from "zod";
-import { withAxiom, type AxiomAPIRequest } from "next-axiom";
-import Logger from "../../../lib/logger";
 import type { validationSchemaBuchung } from "../../../components/Buchung";
 import { renderBookingEmail } from "../../../lib/email/template-renderer";
+import Logger from "../../../lib/logger";
 
 // Create SMTP2GO transporter
 const transporter = nodemailer.createTransport({
@@ -17,9 +16,9 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-async function sendEmail(req: AxiomAPIRequest, res: NextApiResponse) {
+export async function POST(request: Request) {
   try {
-    const formValues = req.body as z.infer<typeof validationSchemaBuchung>;
+    const formValues = (await request.json()) as z.infer<typeof validationSchemaBuchung>;
 
     // Render the email template with Handlebars
     const htmlContent = renderBookingEmail({
@@ -44,15 +43,13 @@ async function sendEmail(req: AxiomAPIRequest, res: NextApiResponse) {
         message: JSON.stringify(response),
       });
 
-    return res.status(200).json({ error: "" });
+    return NextResponse.json({ error: "" }, { status: 200 });
   } catch (error) {
     Logger.log({
       level: "error",
       message: JSON.stringify(error),
     });
 
-    return res.status(500).json({ error: "Mail Delivery failed" });
+    return NextResponse.json({ error: "Mail Delivery failed" }, { status: 500 });
   }
 }
-
-export default withAxiom(sendEmail);

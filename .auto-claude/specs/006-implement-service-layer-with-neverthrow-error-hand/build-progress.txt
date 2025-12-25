@@ -1,0 +1,99 @@
+=== AUTO-BUILD PROGRESS ===
+
+Project: Service Layer with neverthrow Error Handling
+Spec: 006-implement-service-layer-with-neverthrow-error-hand
+Workspace: managed by orchestrator
+Started: 2025-12-26
+
+Workflow Type: feature
+Rationale: This is a new architectural pattern introducing a 3-tier service layer
+with functional error handling using neverthrow. Requires creating multiple new
+files (services, error types, server actions) and installing new dependencies.
+
+Session 1 (Planner):
+- Created implementation_plan.json
+- Phases: 8
+- Total subtasks: 17
+- Created init.sh
+
+Phase Summary:
+- Phase 1 (Setup & Dependencies): 2 subtasks, depends on []
+  - Install neverthrow, pdfkit, @paralleldrive/cuid2
+  - Create lib/errors.ts with AppError class
+
+- Phase 2 (Database Schema Updates): 4 subtasks, depends on [phase-1]
+  - Add deletedAt to customers schema
+  - Create customer-signatures schema
+  - Create customer-audit schema
+  - Update schema index with relations
+
+- Phase 3 (Audit Service): 1 subtask, depends on [phase-2]
+  - Create audit.service.ts with logChange, getForCustomer
+
+- Phase 4 (Customer Service): 3 subtasks, depends on [phase-3]
+  - Create customer.service.ts with CRUD operations
+  - Add update, delete (soft), search methods
+  - Add getWithSignatureStatus method
+
+- Phase 5 (GDPR Service): 2 subtasks, depends on [phase-2]
+  - Create gdpr.service.ts with version management
+  - Add signature methods (can run parallel with phase-4)
+
+- Phase 6 (PDF Service): 1 subtask, depends on [phase-4, phase-5]
+  - Create pdf.service.ts with generateGdprPdf
+
+- Phase 7 (Server Actions): 3 subtasks, depends on [phase-4, phase-5, phase-6]
+  - Create customer.actions.ts
+  - Create gdpr.actions.ts
+  - Create pdf.actions.ts
+
+- Phase 8 (Integration): 3 subtasks, depends on [phase-7]
+  - TypeScript type check
+  - Dev server verification
+  - ESLint check
+
+Services Involved:
+- main (Next.js App): Primary service with Drizzle ORM
+
+Files to Create (11):
+- src/lib/errors.ts
+- src/lib/db/schema/customer-signatures.ts
+- src/lib/db/schema/customer-audit.ts
+- src/lib/services/audit.service.ts
+- src/lib/services/customer.service.ts
+- src/lib/services/gdpr.service.ts
+- src/lib/services/pdf.service.ts
+- src/app/actions/customer.actions.ts
+- src/app/actions/gdpr.actions.ts
+- src/app/actions/pdf.actions.ts
+
+Files to Modify (3):
+- package.json (add dependencies)
+- src/lib/db/schema/customers.ts (add deletedAt)
+- src/lib/db/schema/index.ts (update exports)
+
+Parallelism Analysis:
+- Max parallel phases: 2
+- Recommended workers: 1
+- Parallel groups: [phase-4-customer-service, phase-5-gdpr-service]
+- Speedup estimate: 1.2x faster than sequential
+
+Key Patterns to Follow:
+1. All services use ResultAsync<T, AppError> return types
+2. Use .andThen() for ResultAsync chains (not .map())
+3. Error messages in German for user-facing content
+4. Soft delete via deletedAt timestamp
+5. Audit logging on all customer mutations
+6. Server Actions marked with "use server"
+7. Zod .safeParse() for validation (not .parse())
+
+=== STARTUP COMMAND ===
+
+To continue building this spec, run:
+
+  source auto-claude/.venv/bin/activate && python auto-claude/run.py --spec 006 --parallel 1
+
+Example with specific phase:
+  source auto-claude/.venv/bin/activate && python auto-claude/run.py --spec 006 --phase phase-1-setup
+
+=== END SESSION 1 ===

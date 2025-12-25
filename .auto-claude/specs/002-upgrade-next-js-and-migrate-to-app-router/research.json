@@ -1,0 +1,491 @@
+{
+  "integrations_researched": [
+    {
+      "name": "Next.js",
+      "type": "library",
+      "verified_package": {
+        "name": "next",
+        "install_command": "npm install next@15",
+        "current_version": "13.1.6",
+        "target_version": "15.5.9",
+        "verified": true
+      },
+      "api_patterns": {
+        "imports": [
+          "import { headers, cookies } from 'next/headers'",
+          "import { useRouter, usePathname, useSearchParams } from 'next/navigation'",
+          "import { NextResponse, NextRequest } from 'next/server'",
+          "import type { Metadata } from 'next'"
+        ],
+        "initialization": "App Router uses file-based routing in app/ directory",
+        "key_functions": [
+          "export const metadata: Metadata = { title, description }",
+          "export default function Layout({ children })",
+          "export default function Page()",
+          "export async function GET(request: Request)",
+          "export async function POST(request: Request)"
+        ],
+        "verified_against": "Context7 MCP: /vercel/next.js"
+      },
+      "configuration": {
+        "env_vars": [],
+        "config_files": ["next.config.mjs"],
+        "dependencies": ["react@^18.2.0 || ^19.0.0", "react-dom@^18.2.0 || ^19.0.0"]
+      },
+      "migration_patterns": {
+        "pages_to_app": {
+          "index.tsx": "app/page.tsx",
+          "_app.tsx": "app/layout.tsx (Root Layout)",
+          "_document.tsx": "app/layout.tsx (html/body tags)",
+          "404.tsx": "app/not-found.tsx",
+          "[slug].tsx": "app/[slug]/page.tsx",
+          "api/route.ts": "app/api/route/route.ts"
+        },
+        "routing_hooks": {
+          "before": "import { useRouter } from 'next/router'",
+          "after": "import { useRouter, usePathname, useSearchParams } from 'next/navigation'"
+        },
+        "metadata": {
+          "before": "import Head from 'next/head'",
+          "after": "export const metadata: Metadata = { title, description }"
+        },
+        "data_fetching": {
+          "getServerSideProps": "Server Components fetch directly",
+          "getStaticProps": "Server Components with caching",
+          "getStaticPaths": "generateStaticParams()"
+        }
+      },
+      "infrastructure": {
+        "requires_docker": false
+      },
+      "gotchas": [
+        "App Router uses Server Components by default - add 'use client' directive for client components",
+        "useRouter from next/navigation has different API than next/router",
+        "next/head is replaced with Metadata API in App Router",
+        "i18n config in next.config.js must be removed for App Router (comment out)",
+        "Dynamic imports with ssr: false still work but pattern is same",
+        "getServerSideProps/getStaticProps are replaced with async Server Components",
+        "API routes move from pages/api/*.ts to app/api/*/route.ts",
+        "next/compat/router can be used during transition for shared components"
+      ],
+      "research_sources": [
+        "Context7 MCP: /vercel/next.js",
+        "https://nextjs.org/docs/app/building-your-application/upgrading/app-router-migration"
+      ]
+    },
+    {
+      "name": "next-axiom",
+      "type": "library",
+      "verified_package": {
+        "name": "next-axiom",
+        "install_command": "npm install next-axiom@latest",
+        "current_version": "0.17.0",
+        "target_version": "1.10.0",
+        "verified": true
+      },
+      "api_patterns": {
+        "imports": [
+          "import { withAxiom, AxiomRequest } from 'next-axiom'",
+          "import { Logger } from 'next-axiom'",
+          "import { useLogger } from 'next-axiom'",
+          "import { AxiomWebVitals } from 'next-axiom'"
+        ],
+        "initialization": "withAxiom wrapper in next.config.ts",
+        "key_functions": [
+          "withAxiom(routeHandler) - Route handler wrapper",
+          "new Logger({ source: 'component' }) - Server component logging",
+          "useLogger() - Client component hook",
+          "logger.middleware(request) - Middleware logging",
+          "await logger.flush() - Flush logs (required in server components)"
+        ],
+        "verified_against": "npm info next-axiom@1.10.0 readme"
+      },
+      "configuration": {
+        "env_vars": ["NEXT_PUBLIC_AXIOM_DATASET", "NEXT_PUBLIC_AXIOM_TOKEN"],
+        "config_files": ["next.config.mjs"],
+        "dependencies": ["next>=14.0", "react>=18.0.0"]
+      },
+      "migration_patterns": {
+        "api_routes": {
+          "before": "export default withAxiom(handler) with AxiomAPIRequest",
+          "after": "export const GET = withAxiom((req: AxiomRequest) => { ... })"
+        },
+        "web_vitals": {
+          "before": "export { reportWebVitals } from 'next-axiom' in _app.tsx",
+          "after": "<AxiomWebVitals /> component in app/layout.tsx"
+        },
+        "client_logging": {
+          "before": "import { log } from 'next-axiom'",
+          "after": "const log = useLogger() in client components"
+        },
+        "server_logging": {
+          "after": "const log = new Logger(); await log.flush();"
+        }
+      },
+      "infrastructure": {
+        "requires_docker": false
+      },
+      "gotchas": [
+        "Version 0.x only supports Pages Router - MUST upgrade to 1.x for App Router",
+        "Server Components require manual flush(): await log.flush()",
+        "Client components must use 'use client' directive with useLogger hook",
+        "Middleware logging requires event.waitUntil(logger.flush())",
+        "Environment variables now use NEXT_PUBLIC_ prefix"
+      ],
+      "research_sources": [
+        "npm info next-axiom@1.10.0 readme",
+        "https://github.com/axiomhq/next-axiom"
+      ]
+    },
+    {
+      "name": "next-sitemap",
+      "type": "library",
+      "verified_package": {
+        "name": "next-sitemap",
+        "install_command": "npm install next-sitemap@latest",
+        "current_version": "4.0.6",
+        "target_version": "latest",
+        "verified": true
+      },
+      "api_patterns": {
+        "imports": [
+          "import { getServerSideSitemap } from 'next-sitemap'",
+          "import { getServerSideSitemapIndex } from 'next-sitemap'"
+        ],
+        "initialization": "next-sitemap.config.js in project root",
+        "key_functions": [
+          "getServerSideSitemap([{ loc, lastmod }]) - Dynamic sitemap in App Router",
+          "getServerSideSitemapIndex([urls]) - Sitemap index",
+          "getServerSideSitemapLegacy(ctx, fields) - Pages Router (deprecated)"
+        ],
+        "verified_against": "Context7 MCP: /iamvishnusankar/next-sitemap"
+      },
+      "configuration": {
+        "env_vars": [],
+        "config_files": ["next-sitemap.config.js"],
+        "dependencies": []
+      },
+      "migration_patterns": {
+        "dynamic_sitemap": {
+          "before": "pages/server-sitemap.xml/index.tsx with getServerSideProps",
+          "after": "app/server-sitemap.xml/route.ts with GET handler"
+        },
+        "app_router_example": "export async function GET(request: Request) { return getServerSideSitemap([...]); }"
+      },
+      "infrastructure": {
+        "requires_docker": false
+      },
+      "gotchas": [
+        "Dynamic sitemaps use route.ts files in App Router",
+        "getServerSideSitemapLegacy is for Pages Router only",
+        "Static sitemap generation works same as before with postbuild script"
+      ],
+      "research_sources": [
+        "Context7 MCP: /iamvishnusankar/next-sitemap"
+      ]
+    },
+    {
+      "name": "cookies-next",
+      "type": "library",
+      "verified_package": {
+        "name": "cookies-next",
+        "install_command": "npm install cookies-next@latest",
+        "current_version": "2.1.1",
+        "target_version": "6.1.1",
+        "verified": true
+      },
+      "api_patterns": {
+        "imports": [
+          "import { getCookie, setCookie, deleteCookie } from 'cookies-next/client'",
+          "import { getCookie, setCookie, deleteCookie } from 'cookies-next/server'",
+          "import { useCookiesNext } from 'cookies-next'"
+        ],
+        "initialization": "Import from /client for client components, /server for server components",
+        "key_functions": [
+          "getCookie(key, { cookies }) - Server side",
+          "setCookie(key, value, { cookies }) - Server side",
+          "useCookiesNext() - Client component hook",
+          "useGetCookie(), useSetCookie() - Individual hooks"
+        ],
+        "verified_against": "Context7 MCP: /andreizanik/cookies-next"
+      },
+      "configuration": {
+        "env_vars": [],
+        "config_files": [],
+        "dependencies": ["next>=15.0.0", "react>=16.8.0"]
+      },
+      "migration_patterns": {
+        "server_components": {
+          "import": "import { cookies } from 'next/headers'; import { getCookie } from 'cookies-next/server'",
+          "usage": "await getCookie('key', { cookies })"
+        },
+        "client_components": {
+          "import": "import { useCookiesNext } from 'cookies-next'",
+          "usage": "const { getCookie, setCookie } = useCookiesNext()"
+        },
+        "server_actions": {
+          "import": "import { cookies } from 'next/headers'; import { setCookie } from 'cookies-next/server'",
+          "usage": "await setCookie('key', 'value', { cookies })"
+        }
+      },
+      "infrastructure": {
+        "requires_docker": false
+      },
+      "gotchas": [
+        "Version 6.x requires Next.js 15+ - must upgrade together",
+        "Separate imports for client (/client) and server (/server)",
+        "Server Components can only READ cookies, not write",
+        "Client components must use functions in useEffect or event handlers to avoid hydration mismatch",
+        "CookiesNextProvider needed for reactive hooks"
+      ],
+      "research_sources": [
+        "Context7 MCP: /andreizanik/cookies-next",
+        "npm view cookies-next@latest"
+      ]
+    },
+    {
+      "name": "eslint-config-next",
+      "type": "library",
+      "verified_package": {
+        "name": "eslint-config-next",
+        "install_command": "npm install eslint-config-next@15",
+        "current_version": "13.1.6",
+        "target_version": "15.x (match Next.js version)",
+        "verified": true
+      },
+      "api_patterns": {
+        "imports": [],
+        "initialization": ".eslintrc.json extends next/core-web-vitals",
+        "key_functions": [],
+        "verified_against": "npm view eslint-config-next@latest"
+      },
+      "configuration": {
+        "env_vars": [],
+        "config_files": [".eslintrc.json"],
+        "dependencies": ["eslint>=9.0.0", "typescript>=3.3.1"]
+      },
+      "infrastructure": {
+        "requires_docker": false
+      },
+      "gotchas": [
+        "Must match Next.js major version",
+        "ESLint 9.0+ is required for latest version"
+      ],
+      "research_sources": [
+        "npm view eslint-config-next@latest"
+      ]
+    },
+    {
+      "name": "@next/bundle-analyzer",
+      "type": "library",
+      "verified_package": {
+        "name": "@next/bundle-analyzer",
+        "install_command": "npm install @next/bundle-analyzer@15",
+        "current_version": "13.1.6",
+        "target_version": "15.x (match Next.js version)",
+        "verified": true
+      },
+      "api_patterns": {
+        "imports": ["const withBundleAnalyzer = require('@next/bundle-analyzer')({ enabled: true })"],
+        "initialization": "Wrap next.config in withBundleAnalyzer",
+        "key_functions": [],
+        "verified_against": "npm view @next/bundle-analyzer@latest"
+      },
+      "configuration": {
+        "env_vars": ["ANALYZE=true"],
+        "config_files": ["next.config.mjs"],
+        "dependencies": []
+      },
+      "infrastructure": {
+        "requires_docker": false
+      },
+      "gotchas": [
+        "Must match Next.js major version"
+      ],
+      "research_sources": [
+        "npm view @next/bundle-analyzer@latest"
+      ]
+    },
+    {
+      "name": "sharp",
+      "type": "library",
+      "verified_package": {
+        "name": "sharp",
+        "install_command": "npm install sharp@latest",
+        "current_version": "0.31.3",
+        "target_version": "0.34.5",
+        "verified": true
+      },
+      "api_patterns": {
+        "imports": [],
+        "initialization": "Next.js uses sharp automatically for image optimization",
+        "key_functions": [],
+        "verified_against": "npm view sharp@latest"
+      },
+      "configuration": {
+        "env_vars": [],
+        "config_files": [],
+        "dependencies": []
+      },
+      "infrastructure": {
+        "requires_docker": false,
+        "node_requirement": "^18.17.0 || ^20.3.0 || >=21.0.0"
+      },
+      "gotchas": [
+        "Requires Node.js 18.17.0+ or 20.3.0+",
+        "Binary package - may need rebuild after Node.js upgrade"
+      ],
+      "research_sources": [
+        "npm view sharp@latest"
+      ]
+    },
+    {
+      "name": "react-hook-form",
+      "type": "library",
+      "verified_package": {
+        "name": "react-hook-form",
+        "install_command": "npm install react-hook-form@latest",
+        "current_version": "7.43.1",
+        "target_version": "7.x (latest)",
+        "verified": true
+      },
+      "api_patterns": {
+        "imports": ["import { useForm } from 'react-hook-form'"],
+        "initialization": "const { register, handleSubmit } = useForm()",
+        "key_functions": ["useForm()", "register()", "handleSubmit()", "formState"],
+        "verified_against": "Context7 MCP: /react-hook-form/react-hook-form"
+      },
+      "configuration": {
+        "env_vars": [],
+        "config_files": [],
+        "dependencies": []
+      },
+      "infrastructure": {
+        "requires_docker": false
+      },
+      "gotchas": [
+        "Client component only - requires 'use client' directive in App Router",
+        "Works with React 18+ without issues"
+      ],
+      "research_sources": [
+        "Context7 MCP: /react-hook-form/react-hook-form"
+      ]
+    },
+    {
+      "name": "drizzle-orm",
+      "type": "library",
+      "verified_package": {
+        "name": "drizzle-orm",
+        "install_command": "npm install drizzle-orm@latest",
+        "current_version": "0.38.3",
+        "target_version": "0.45.1",
+        "verified": true
+      },
+      "api_patterns": {
+        "imports": ["import { drizzle } from 'drizzle-orm/neon-serverless'"],
+        "initialization": "const db = drizzle(connection)",
+        "key_functions": [],
+        "verified_against": "npm view drizzle-orm@latest"
+      },
+      "configuration": {
+        "env_vars": [],
+        "config_files": ["drizzle.config.ts"],
+        "dependencies": ["@neondatabase/serverless>=0.10.0"]
+      },
+      "infrastructure": {
+        "requires_docker": false
+      },
+      "gotchas": [
+        "Compatible with both Pages and App Router",
+        "Can be used in Server Components directly",
+        "Route Handlers can use drizzle-orm for database operations"
+      ],
+      "research_sources": [
+        "npm view drizzle-orm@latest"
+      ]
+    }
+  ],
+  "unverified_claims": [
+    {
+      "claim": "All existing dynamic imports with ssr: false will work without modification",
+      "reason": "Pattern should work, but SSR behavior may differ slightly in App Router Server Components",
+      "risk_level": "low"
+    },
+    {
+      "claim": "react-toastify will work in App Router without issues",
+      "reason": "Library uses DOM APIs - should work as client component but needs 'use client'",
+      "risk_level": "low"
+    },
+    {
+      "claim": "keen-slider will work without modification",
+      "reason": "Uses DOM/window APIs - requires 'use client' directive",
+      "risk_level": "low"
+    },
+    {
+      "claim": "@headlessui/react is compatible with App Router",
+      "reason": "Popular library, likely compatible but may need 'use client' for interactive components",
+      "risk_level": "low"
+    }
+  ],
+  "recommendations": [
+    {
+      "recommendation": "Upgrade to Next.js 15.x (not 16.x)",
+      "reason": "Next.js 15 is the latest LTS stable version with best ecosystem compatibility. next-axiom requires >=14.0, cookies-next@latest requires >=15.0.0"
+    },
+    {
+      "recommendation": "Upgrade next-axiom from 0.17.0 to 1.10.0",
+      "reason": "Version 0.x does NOT support App Router. Version 1.x has completely new API for App Router"
+    },
+    {
+      "recommendation": "Keep React at 18.2.0",
+      "reason": "Next.js 15.x supports React 18.2.0 - no need to upgrade to React 19 which may cause compatibility issues with other libraries"
+    },
+    {
+      "recommendation": "Remove i18n config from next.config.mjs",
+      "reason": "App Router does not support the i18n configuration option - must be removed or migration will fail"
+    },
+    {
+      "recommendation": "Use incremental migration approach",
+      "reason": "Next.js supports running Pages and App Router simultaneously during migration"
+    },
+    {
+      "recommendation": "Update cookies-next to 6.x only after Next.js upgrade",
+      "reason": "cookies-next 6.x requires Next.js 15+ - upgrade Next.js first"
+    }
+  ],
+  "dependency_upgrade_order": [
+    "1. Upgrade Next.js to 15.x (with eslint-config-next, @next/bundle-analyzer)",
+    "2. Upgrade next-axiom to 1.10.0",
+    "3. Upgrade sharp to 0.34.x",
+    "4. Upgrade drizzle-orm to 0.45.x",
+    "5. Upgrade cookies-next to 6.x (after migration starts)",
+    "6. Update ESLint to 9.x if needed"
+  ],
+  "breaking_changes_summary": {
+    "next_js": [
+      "useRouter API changed - pathname/query removed",
+      "getServerSideProps/getStaticProps removed",
+      "next/head replaced with Metadata API",
+      "i18n config not supported in App Router",
+      "All components are Server Components by default"
+    ],
+    "next_axiom": [
+      "Complete API rewrite for App Router",
+      "withAxiom wrapper signature changed",
+      "Web Vitals via component instead of export",
+      "Client/Server logging patterns different"
+    ],
+    "cookies_next": [
+      "Separate imports for client/server",
+      "Async API for server operations",
+      "Different hooks API for client components"
+    ]
+  },
+  "context7_libraries_used": [
+    "/vercel/next.js",
+    "/iamvishnusankar/next-sitemap",
+    "/andreizanik/cookies-next",
+    "/react-hook-form/react-hook-form"
+  ],
+  "created_at": "2025-12-25T10:00:00Z"
+}

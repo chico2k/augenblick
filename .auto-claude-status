@@ -1,0 +1,25 @@
+{
+  "active": true,
+  "spec": "002-upgrade-next-js-and-migrate-to-app-router",
+  "state": "building",
+  "subtasks": {
+    "completed": 2,
+    "total": 19,
+    "in_progress": 1,
+    "failed": 0
+  },
+  "phase": {
+    "current": "Dependency Upgrades",
+    "id": null,
+    "total": 3
+  },
+  "workers": {
+    "active": 0,
+    "max": 1
+  },
+  "session": {
+    "number": 3,
+    "started_at": "2025-12-25T21:46:05.308381"
+  },
+  "last_update": "2025-12-25T21:53:07.441236"
+}

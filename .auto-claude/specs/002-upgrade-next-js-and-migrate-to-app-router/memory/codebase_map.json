@@ -1,0 +1,10 @@
+{
+  "discovered_files": {
+    "package.json": {
+      "description": "Upgraded to Next.js 15.5.9, next-axiom 1.10.0, cookies-next 6.1.1. React stays at 18.2.0. Some peer dependency warnings from react-spring wanting React 19 but these are non-blocking.",
+      "category": "dependency_upgrade",
+      "discovered_at": "2025-12-25T20:51:28.749203+00:00"
+    }
+  },
+  "last_updated": "2025-12-25T20:51:28.749240+00:00"
+}

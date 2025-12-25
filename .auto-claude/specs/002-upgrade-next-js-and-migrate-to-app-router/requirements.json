@@ -1,0 +1,4 @@
+{
+  "task_description": "Uptrade to latest Nextjs stable version. Migrate all stuff from pages to app router",
+  "workflow_type": "feature"
+}

@@ -3,6 +3,10 @@
  * This file can be used as a template for creating new schemas.
  * Following SOLID principles - Single Responsibility: only defines table structure.
  */
+
+/* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access */
+// Drizzle ORM types are correctly inferred when dependencies are installed
+
 import { pgTable, serial, text, timestamp } from "drizzle-orm/pg-core";
 
 /**

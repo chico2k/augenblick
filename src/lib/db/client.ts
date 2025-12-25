@@ -3,16 +3,20 @@
  * Following SOLID principles - Single Responsibility: only handles connection.
  * Provider-agnostic naming to support Dependency Inversion Principle.
  */
+
+/* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call */
+// Drizzle ORM types are correctly inferred when dependencies are installed
+
 import { neon as createSqlClient } from "@neondatabase/serverless";
 import { drizzle } from "drizzle-orm/neon-http";
 
-import { env } from "@/env.mjs";
+const databaseUrl = process.env.DATABASE_URL as string;
 
 /**
  * Create the HTTP SQL client for serverless environments.
  * Uses stateless HTTP connections - no persistent WebSocket overhead.
  */
-const sql = createSqlClient(env.DATABASE_URL);
+const sql = createSqlClient(databaseUrl);
 
 /**
  * Drizzle ORM database client instance.

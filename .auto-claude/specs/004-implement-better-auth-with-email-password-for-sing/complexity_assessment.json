@@ -1,0 +1,70 @@
+{
+  "complexity": "standard",
+  "workflow_type": "feature",
+  "confidence": 0.85,
+  "reasoning": "Single external integration (Better Auth) with well-documented API. Database schema changes via CLI generator, ~8-10 files to create/modify. Security-sensitive but minimal attack surface due to single-user design with no public registration. The extensive PRD code samples significantly reduce implementation uncertainty.",
+
+  "analysis": {
+    "scope": {
+      "estimated_files": 10,
+      "estimated_services": 1,
+      "is_cross_cutting": false,
+      "notes": "Files: lib/auth.ts, lib/auth-client.ts, api/auth/[...all]/route.ts, proxy.ts, db/auth-schema.ts, db/schema modification, scripts/seed-admin.ts, app/login/page.tsx, app/office/page.tsx, .env additions. All contained within single Next.js app."
+    },
+    "integrations": {
+      "external_services": ["Better Auth"],
+      "new_dependencies": ["better-auth", "@tanstack/react-query"],
+      "research_needed": true,
+      "notes": "Better Auth is a newer library requiring research for correct API usage. However, comprehensive code samples provided in PRD reduce research burden. React Hook Form and Zod already in project."
+    },
+    "infrastructure": {
+      "docker_changes": false,
+      "database_changes": true,
+      "config_changes": true,
+      "notes": "Auth tables generated via @better-auth/cli. New env vars: BETTER_AUTH_SECRET, ADMIN_EMAIL, ADMIN_PASSWORD, ADMIN_NAME. Uses existing Neon Postgres database."
+    },
+    "knowledge": {
+      "patterns_exist": true,
+      "research_required": true,
+      "unfamiliar_tech": ["better-auth"],
+      "notes": "Drizzle ORM patterns exist in project. React Hook Form + Zod already used. Better Auth is new but PRD provides extensive implementation guidance with complete code samples."
+    },
+    "risk": {
+      "level": "medium",
+      "concerns": [
+        "Authentication is security-sensitive code",
+        "Session management must be implemented correctly",
+        "Database schema migration required"
+      ],
+      "notes": "Risk mitigated by: single-user design (no public registration), session-based auth (simpler than JWT), no password reset flow, Better Auth handles security internals."
+    }
+  },
+
+  "recommended_phases": [
+    "discovery",
+    "requirements",
+    "research",
+    "context",
+    "spec_writing",
+    "planning",
+    "validation"
+  ],
+
+  "flags": {
+    "needs_research": true,
+    "needs_self_critique": false,
+    "needs_infrastructure_setup": false
+  },
+
+  "validation_recommendations": {
+    "risk_level": "high",
+    "skip_validation": false,
+    "minimal_mode": false,
+    "test_types_required": ["unit", "integration", "e2e"],
+    "security_scan_required": true,
+    "staging_deployment_required": false,
+    "reasoning": "Authentication is security-sensitive code requiring comprehensive testing. Unit tests for auth config, integration tests for API routes and session handling, E2E tests for login flow. Security scan needed for auth-related code patterns. Staging not required due to single-user design and no external webhooks."
+  },
+
+  "created_at": "2025-12-25T00:00:00.000Z"
+}

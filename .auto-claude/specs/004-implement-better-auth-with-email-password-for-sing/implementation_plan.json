@@ -1,0 +1,517 @@
+{
+  "feature": "Better Auth Implementation with Email/Password",
+  "workflow_type": "feature",
+  "workflow_rationale": "This is a new feature implementation that adds authentication infrastructure to an existing Next.js application. It requires creating new files (auth config, API routes, middleware, login page), modifying existing database schema exports, and integrating with the existing Drizzle ORM setup. The feature follows a clear dependency order: database schema → auth config → API routes → middleware → UI.",
+  "phases": [
+    {
+      "id": "phase-1-setup",
+      "name": "Dependencies and Environment Setup",
+      "type": "setup",
+      "description": "Install Better Auth dependencies and configure environment variables",
+      "depends_on": [],
+      "parallel_safe": true,
+      "subtasks": [
+        {
+          "id": "subtask-1-1",
+          "description": "Install better-auth and @tanstack/react-query dependencies",
+          "service": "main",
+          "files_to_modify": ["package.json"],
+          "files_to_create": [],
+          "patterns_from": [],
+          "verification": {
+            "type": "command",
+            "command": "cd /Users/mariogalla/development/augenblick && grep -q 'better-auth' package.json && echo 'OK'",
+            "expected": "OK"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-1-2",
+          "description": "Add auth-related environment variables to .env.example and .env",
+          "service": "main",
+          "files_to_modify": [".env.example", ".env"],
+          "files_to_create": [],
+          "patterns_from": [".env.example"],
+          "verification": {
+            "type": "command",
+            "command": "cd /Users/mariogalla/development/augenblick && grep -q 'BETTER_AUTH_SECRET' .env.example && echo 'OK'",
+            "expected": "OK"
+          },
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "id": "phase-2-database",
+      "name": "Database Schema Setup",
+      "type": "implementation",
+      "description": "Generate and integrate Better Auth database schema with Drizzle ORM",
+      "depends_on": ["phase-1-setup"],
+      "parallel_safe": false,
+      "subtasks": [
+        {
+          "id": "subtask-2-1",
+          "description": "Generate Better Auth schema using CLI and create src/lib/db/schema/auth.ts",
+          "service": "main",
+          "files_to_modify": [],
+          "files_to_create": ["src/lib/db/schema/auth.ts"],
+          "patterns_from": ["src/lib/db/schema/example.ts"],
+          "verification": {
+            "type": "command",
+            "command": "cd /Users/mariogalla/development/augenblick && test -f src/lib/db/schema/auth.ts && echo 'OK'",
+            "expected": "OK"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-2-2",
+          "description": "Update schema barrel export to include auth schema",
+          "service": "main",
+          "files_to_modify": ["src/lib/db/schema/index.ts"],
+          "files_to_create": [],
+          "patterns_from": ["src/lib/db/schema/index.ts"],
+          "verification": {
+            "type": "command",
+            "command": "cd /Users/mariogalla/development/augenblick && grep -q 'auth' src/lib/db/schema/index.ts && echo 'OK'",
+            "expected": "OK"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-2-3",
+          "description": "Update database client to include schema for Better Auth adapter",
+          "service": "main",
+          "files_to_modify": ["src/lib/db/client.ts"],
+          "files_to_create": [],
+          "patterns_from": ["src/lib/db/client.ts"],
+          "verification": {
+            "type": "command",
+            "command": "cd /Users/mariogalla/development/augenblick && grep -q 'schema' src/lib/db/client.ts && echo 'OK'",
+            "expected": "OK"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-2-4",
+          "description": "Push database schema to Neon using Drizzle Kit",
+          "service": "main",
+          "files_to_modify": [],
+          "files_to_create": [],
+          "patterns_from": [],
+          "verification": {
+            "type": "command",
+            "command": "cd /Users/mariogalla/development/augenblick && npx drizzle-kit push 2>&1 | grep -q 'Changes applied' || echo 'OK'",
+            "expected": "OK"
+          },
+          "notes": "This command will create the user, session, account, and verification tables in Neon Postgres",
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "id": "phase-3-auth-config",
+      "name": "Auth Configuration",
+      "type": "implementation",
+      "description": "Create Better Auth server and client configuration files",
+      "depends_on": ["phase-2-database"],
+      "parallel_safe": false,
+      "subtasks": [
+        {
+          "id": "subtask-3-1",
+          "description": "Create server-side auth configuration (src/lib/auth.ts) with Drizzle adapter",
+          "service": "main",
+          "files_to_modify": [],
+          "files_to_create": ["src/lib/auth.ts"],
+          "patterns_from": ["src/lib/db/client.ts"],
+          "verification": {
+            "type": "command",
+            "command": "cd /Users/mariogalla/development/augenblick && grep -q 'betterAuth' src/lib/auth.ts && echo 'OK'",
+            "expected": "OK"
+          },
+          "notes": "Must include disabledPaths: ['/sign-up/email'] to prevent public registration",
+          "status": "pending"
+        },
+        {
+          "id": "subtask-3-2",
+          "description": "Create client-side auth utilities (src/lib/auth-client.ts)",
+          "service": "main",
+          "files_to_modify": [],
+          "files_to_create": ["src/lib/auth-client.ts"],
+          "patterns_from": ["src/lib/hooks/useContactSubmit.ts"],
+          "verification": {
+            "type": "command",
+            "command": "cd /Users/mariogalla/development/augenblick && grep -q 'createAuthClient' src/lib/auth-client.ts && echo 'OK'",
+            "expected": "OK"
+          },
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "id": "phase-4-api-routes",
+      "name": "API Route Handler",
+      "type": "implementation",
+      "description": "Create the Better Auth API route handler for authentication endpoints",
+      "depends_on": ["phase-3-auth-config"],
+      "parallel_safe": false,
+      "subtasks": [
+        {
+          "id": "subtask-4-1",
+          "description": "Create API route handler (src/app/api/auth/[...all]/route.ts)",
+          "service": "main",
+          "files_to_modify": [],
+          "files_to_create": ["src/app/api/auth/[...all]/route.ts"],
+          "patterns_from": ["src/app/api/email/route.ts"],
+          "verification": {
+            "type": "api",
+            "method": "GET",
+            "url": "http://localhost:3000/api/auth/session",
+            "expected_status": 200
+          },
+          "notes": "Uses toNextJsHandler from better-auth/next-js",
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "id": "phase-5-middleware",
+      "name": "Route Protection Middleware",
+      "type": "implementation",
+      "description": "Create middleware to protect /office/* routes and handle login redirects",
+      "depends_on": ["phase-4-api-routes"],
+      "parallel_safe": false,
+      "subtasks": [
+        {
+          "id": "subtask-5-1",
+          "description": "Create route protection middleware (middleware.ts)",
+          "service": "main",
+          "files_to_modify": [],
+          "files_to_create": ["middleware.ts"],
+          "patterns_from": [],
+          "verification": {
+            "type": "command",
+            "command": "cd /Users/mariogalla/development/augenblick && test -f middleware.ts && grep -q 'matcher' middleware.ts && echo 'OK'",
+            "expected": "OK"
+          },
+          "notes": "Protects /office/* routes, redirects /login when authenticated. Uses middleware.ts for Next.js 15.x (not proxy.ts which is for Next.js 16)",
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "id": "phase-6-seed-script",
+      "name": "Admin User Seeding",
+      "type": "implementation",
+      "description": "Create script to seed the admin user with hashed password",
+      "depends_on": ["phase-4-api-routes"],
+      "parallel_safe": true,
+      "subtasks": [
+        {
+          "id": "subtask-6-1",
+          "description": "Create admin seed script (scripts/seed-admin.ts)",
+          "service": "main",
+          "files_to_modify": [],
+          "files_to_create": ["scripts/seed-admin.ts"],
+          "patterns_from": ["src/lib/db/client.ts"],
+          "verification": {
+            "type": "command",
+            "command": "cd /Users/mariogalla/development/augenblick && test -f scripts/seed-admin.ts && grep -q 'hash' scripts/seed-admin.ts && echo 'OK'",
+            "expected": "OK"
+          },
+          "notes": "Uses better-auth/crypto for password hashing. Requires ADMIN_EMAIL, ADMIN_PASSWORD, ADMIN_NAME env vars",
+          "status": "pending"
+        },
+        {
+          "id": "subtask-6-2",
+          "description": "Add seed script npm command to package.json",
+          "service": "main",
+          "files_to_modify": ["package.json"],
+          "files_to_create": [],
+          "patterns_from": ["package.json"],
+          "verification": {
+            "type": "command",
+            "command": "cd /Users/mariogalla/development/augenblick && grep -q 'seed:admin' package.json && echo 'OK'",
+            "expected": "OK"
+          },
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "id": "phase-7-login-ui",
+      "name": "Login UI Components",
+      "type": "implementation",
+      "description": "Create login page and form components with React Hook Form + Zod validation",
+      "depends_on": ["phase-5-middleware"],
+      "parallel_safe": false,
+      "subtasks": [
+        {
+          "id": "subtask-7-1",
+          "description": "Create LoginForm component with React Hook Form + Zod validation",
+          "service": "main",
+          "files_to_modify": [],
+          "files_to_create": ["src/components/LoginForm.tsx"],
+          "patterns_from": ["src/components/Buchung.tsx"],
+          "verification": {
+            "type": "command",
+            "command": "cd /Users/mariogalla/development/augenblick && grep -q 'zodResolver' src/components/LoginForm.tsx && echo 'OK'",
+            "expected": "OK"
+          },
+          "notes": "German text: E-Mail, Passwort, Anmelden, Ungültige Anmeldedaten. NO forgot password or register links.",
+          "status": "pending"
+        },
+        {
+          "id": "subtask-7-2",
+          "description": "Create login page (src/app/login/page.tsx)",
+          "service": "main",
+          "files_to_modify": [],
+          "files_to_create": ["src/app/login/page.tsx"],
+          "patterns_from": ["src/app/page.tsx"],
+          "verification": {
+            "type": "browser",
+            "url": "http://localhost:3000/login",
+            "checks": ["Page renders", "LoginForm component visible", "No console errors"]
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-7-3",
+          "description": "Create login layout without navigation/footer (src/app/login/layout.tsx)",
+          "service": "main",
+          "files_to_modify": [],
+          "files_to_create": ["src/app/login/layout.tsx"],
+          "patterns_from": ["src/app/layout.tsx"],
+          "verification": {
+            "type": "command",
+            "command": "cd /Users/mariogalla/development/augenblick && test -f src/app/login/layout.tsx && echo 'OK'",
+            "expected": "OK"
+          },
+          "notes": "Login page should have minimal layout - no site navigation or footer",
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "id": "phase-8-protected-page",
+      "name": "Protected Office Page",
+      "type": "implementation",
+      "description": "Create the protected office page with server-side session validation",
+      "depends_on": ["phase-7-login-ui"],
+      "parallel_safe": false,
+      "subtasks": [
+        {
+          "id": "subtask-8-1",
+          "description": "Create protected office page with server-side session check (src/app/office/page.tsx)",
+          "service": "main",
+          "files_to_modify": [],
+          "files_to_create": ["src/app/office/page.tsx"],
+          "patterns_from": ["src/app/page.tsx"],
+          "verification": {
+            "type": "command",
+            "command": "cd /Users/mariogalla/development/augenblick && grep -q 'auth.api.getSession' src/app/office/page.tsx && echo 'OK'",
+            "expected": "OK"
+          },
+          "notes": "Server-side session validation as defense in depth (belt and suspenders with middleware)",
+          "status": "pending"
+        },
+        {
+          "id": "subtask-8-2",
+          "description": "Create office layout with sign-out button (src/app/office/layout.tsx)",
+          "service": "main",
+          "files_to_modify": [],
+          "files_to_create": ["src/app/office/layout.tsx"],
+          "patterns_from": ["src/app/layout.tsx"],
+          "verification": {
+            "type": "command",
+            "command": "cd /Users/mariogalla/development/augenblick && test -f src/app/office/layout.tsx && echo 'OK'",
+            "expected": "OK"
+          },
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "id": "phase-9-integration",
+      "name": "Integration and Verification",
+      "type": "integration",
+      "description": "Run the admin seed script and verify complete authentication flow",
+      "depends_on": ["phase-6-seed-script", "phase-8-protected-page"],
+      "parallel_safe": false,
+      "subtasks": [
+        {
+          "id": "subtask-9-1",
+          "description": "Run admin seed script to create admin user in database",
+          "service": "main",
+          "files_to_modify": [],
+          "files_to_create": [],
+          "patterns_from": [],
+          "verification": {
+            "type": "command",
+            "command": "cd /Users/mariogalla/development/augenblick && ADMIN_EMAIL=test@example.com ADMIN_PASSWORD=testpassword123 ADMIN_NAME=TestAdmin npx tsx scripts/seed-admin.ts 2>&1 | grep -q 'Admin user created' && echo 'OK'",
+            "expected": "OK"
+          },
+          "notes": "Creates admin user with hashed password. This is a one-time operation.",
+          "status": "pending"
+        },
+        {
+          "id": "subtask-9-2",
+          "description": "Verify protected route redirects unauthenticated user to /login",
+          "service": "main",
+          "all_services": false,
+          "files_to_modify": [],
+          "files_to_create": [],
+          "patterns_from": [],
+          "verification": {
+            "type": "e2e",
+            "steps": [
+              "Navigate to http://localhost:3000/office without login",
+              "Verify redirect to /login page",
+              "Verify no access to office content"
+            ]
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-9-3",
+          "description": "Verify complete login flow works end-to-end",
+          "service": "main",
+          "all_services": false,
+          "files_to_modify": [],
+          "files_to_create": [],
+          "patterns_from": [],
+          "verification": {
+            "type": "e2e",
+            "steps": [
+              "Navigate to /login",
+              "Enter valid email and password",
+              "Submit form",
+              "Verify redirect to /office",
+              "Verify session cookie is set",
+              "Verify /office content is accessible"
+            ]
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-9-4",
+          "description": "Verify sign-up endpoint is disabled",
+          "service": "main",
+          "all_services": false,
+          "files_to_modify": [],
+          "files_to_create": [],
+          "patterns_from": [],
+          "verification": {
+            "type": "api",
+            "method": "POST",
+            "url": "http://localhost:3000/api/auth/sign-up/email",
+            "body": {"email": "new@example.com", "password": "testpassword123", "name": "New User"},
+            "expected_status": 404
+          },
+          "notes": "Sign-up should be disabled via disabledPaths configuration",
+          "status": "pending"
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "total_phases": 9,
+    "total_subtasks": 18,
+    "services_involved": ["main"],
+    "parallelism": {
+      "max_parallel_phases": 2,
+      "parallel_groups": [
+        {
+          "phases": ["phase-5-middleware", "phase-6-seed-script"],
+          "reason": "Both depend on phase-4 API routes, different file sets"
+        }
+      ],
+      "recommended_workers": 1,
+      "speedup_estimate": "Sequential execution recommended due to auth dependencies"
+    },
+    "startup_command": "source auto-claude/.venv/bin/activate && python auto-claude/run.py --spec 004 --parallel 1"
+  },
+  "verification_strategy": {
+    "risk_level": "high",
+    "skip_validation": false,
+    "test_creation_phase": "post_implementation",
+    "test_types_required": ["unit", "integration", "e2e"],
+    "security_scanning_required": true,
+    "staging_deployment_required": false,
+    "acceptance_criteria": [
+      "All existing tests still pass",
+      "Login form validates email format and password length",
+      "Successful login creates session and redirects to /office",
+      "Failed login shows 'Ungültige Anmeldedaten' error",
+      "Protected routes redirect unauthenticated users to /login",
+      "Authenticated users on /login are redirected to /office",
+      "Sign-up endpoint is disabled (returns 404)",
+      "No console errors in development",
+      "Session persists across browser restarts",
+      "Password is hashed in database (not plaintext)"
+    ],
+    "verification_steps": [
+      {
+        "name": "Build Check",
+        "command": "cd /Users/mariogalla/development/augenblick && pnpm build",
+        "expected_outcome": "Build succeeds without errors",
+        "type": "build",
+        "required": true,
+        "blocking": true
+      },
+      {
+        "name": "Lint Check",
+        "command": "cd /Users/mariogalla/development/augenblick && pnpm lint",
+        "expected_outcome": "No linting errors",
+        "type": "lint",
+        "required": true,
+        "blocking": true
+      },
+      {
+        "name": "TypeScript Check",
+        "command": "cd /Users/mariogalla/development/augenblick && npx tsc --noEmit",
+        "expected_outcome": "No TypeScript errors",
+        "type": "typecheck",
+        "required": true,
+        "blocking": true
+      },
+      {
+        "name": "Auth Schema Validation",
+        "command": "cd /Users/mariogalla/development/augenblick && npx drizzle-kit check",
+        "expected_outcome": "Schema is valid",
+        "type": "schema",
+        "required": true,
+        "blocking": true
+      }
+    ],
+    "reasoning": "Authentication is security-sensitive code requiring comprehensive testing. High risk due to session management, password hashing, and route protection. Unit tests for form validation, integration tests for API routes and session handling, E2E tests for complete login flow."
+  },
+  "qa_acceptance": {
+    "unit_tests": {
+      "required": true,
+      "commands": ["pnpm test"],
+      "minimum_coverage": null
+    },
+    "integration_tests": {
+      "required": true,
+      "commands": ["pnpm test:integration"],
+      "services_to_test": ["main"]
+    },
+    "e2e_tests": {
+      "required": true,
+      "commands": ["npx playwright test"],
+      "flows": ["login-success", "login-failure", "protected-route-redirect", "authenticated-redirect"]
+    },
+    "browser_verification": {
+      "required": true,
+      "pages": [
+        {"url": "http://localhost:3000/login", "checks": ["renders", "no-console-errors", "form-visible", "no-register-link", "no-forgot-password-link"]},
+        {"url": "http://localhost:3000/office", "checks": ["redirects-to-login-if-unauthenticated"]}
+      ]
+    },
+    "database_verification": {
+      "required": true,
+      "checks": ["user-table-exists", "session-table-exists", "account-table-exists", "verification-table-exists", "admin-user-exists", "password-is-hashed"]
+    }
+  },
+  "qa_signoff": null
+}

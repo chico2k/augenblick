@@ -1,3 +1,5 @@
+"use client";
+
 import { Link } from "react-scroll";
 import { navigationLinks } from "../lib/links";
 import NextLink from "next/link";

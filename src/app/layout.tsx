@@ -5,13 +5,9 @@ import { ToastContainer } from "react-toastify";
 import Footer from "../components/Footer";
 import Navigation from "../components/Navigation";
 import GoogleAnalytics from "../components/GoogleAnalytics";
+import CookieConsent from "../components/CookieConsent";
 import { AxiomWebVitals } from "next-axiom";
 import type { Metadata } from "next";
-import dynamic from "next/dynamic";
-
-const DynamicConsent = dynamic(() => import("../components/CookieConsent"), {
-  ssr: false,
-});
 
 export const metadata: Metadata = {
   title: "Augenblick Chiemgau",
@@ -31,7 +27,7 @@ export default function RootLayout({
         <Navigation />
         {children}
         <ToastContainer />
-        <DynamicConsent />
+        <CookieConsent />
         <Footer />
       </body>
     </html>

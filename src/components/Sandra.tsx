@@ -1,3 +1,5 @@
+"use client";
+
 import NextImage from "next/image";
 import wimpern from "/public/sandra/lashes.png";
 import sandra from "/public/sandra/sandra.png";

@@ -1,3 +1,5 @@
+"use client";
+
 import NextImage from "next/image";
 import bg from "/public/testimonials/bg.png";
 import { Element } from "react-scroll";

@@ -9,7 +9,12 @@
       "description": "Environment variable schema with zod validation. Client-side vars go in `client` schema and must be prefixed with NEXT_PUBLIC_. All vars must be added to processEnv object for access.",
       "category": "configuration",
       "discovered_at": "2025-12-25T20:54:17.147264+00:00"
+    },
+    "src/components/": {
+      "description": "All components using react-scroll, useState, useEffect, or other client-side features need \"use client\" directive in App Router. Components fixed: Navigation, Footer, Buchung, Impressionen, Elternzeit, ui/dialog, Sandra, Testimonials, Hero, Anfahrt, Angebot.",
+      "category": "pattern",
+      "discovered_at": "2025-12-25T21:37:22.783885+00:00"
     }
   },
-  "last_updated": "2025-12-25T20:54:17.147276+00:00"
+  "last_updated": "2025-12-25T21:37:22.783895+00:00"
 }

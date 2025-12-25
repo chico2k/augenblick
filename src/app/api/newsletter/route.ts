@@ -1,14 +1,16 @@
 import client from "@sendgrid/client";
 import { NextResponse } from "next/server";
-import type z from "zod";
-import type { schemaNewsLetter } from "../../../components/Newsletter";
 import Logger from "../../../lib/logger";
 
 client.setApiKey(process.env.SENDGRID_API_KEY as string);
 
+interface NewsletterFormValues {
+  email: string;
+}
+
 export async function POST(request: Request) {
   try {
-    const formValues = (await request.json()) as z.infer<typeof schemaNewsLetter>;
+    const formValues = (await request.json()) as NewsletterFormValues;
 
     const data = {
       list_ids: ["be1bdc02-c8d0-4bf6-b3a4-b53055256db9"],

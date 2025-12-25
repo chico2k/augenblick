@@ -268,8 +268,9 @@
               "Content visible"
             ]
           },
-          "notes": "Convert to App Router page with appropriate metadata.",
-          "status": "pending"
+          "notes": "Created src/app/lashextension-volumentechnik/page.tsx following the exact pattern from existing App Router pages. Uses Metadata export for SEO, dynamic imports for client-side components, and wraps content in a section element. Committed with message: auto-claude: subtask-4-4 - Create lashextension-volumentechnik page",
+          "status": "completed",
+          "updated_at": "2025-12-25T21:10:58.703313+00:00"
         },
         {
           "id": "subtask-4-5",
@@ -290,8 +291,9 @@
               "Legal content visible"
             ]
           },
-          "notes": "Simple page with Impressum component. Add metadata export.",
-          "status": "pending"
+          "notes": "Created impressum page at src/app/impressum/page.tsx. Migrated from pages router to app router using metadata export for SEO. Committed as ea94048.",
+          "status": "completed",
+          "updated_at": "2025-12-25T21:14:41.545118+00:00"
         },
         {
           "id": "subtask-4-6",
@@ -312,8 +314,9 @@
               "Privacy policy visible"
             ]
           },
-          "notes": "Simple page with Datenschutz component. Add metadata export.",
-          "status": "pending"
+          "notes": "Created datenschutz page at src/app/datenschutz/page.tsx following the same pattern as other migrated pages (impressum). Uses Next.js 15 metadata export for SEO. Committed as cf00d3b.",
+          "status": "completed",
+          "updated_at": "2025-12-25T21:16:14.451960+00:00"
         },
         {
           "id": "subtask-4-7",
@@ -335,8 +338,9 @@
               "Back to home link works"
             ]
           },
-          "notes": "App Router uses not-found.tsx instead of 404.tsx. Keep same German content. Add metadata export.",
-          "status": "pending"
+          "notes": "Created not-found.tsx for App Router. Migrated from pages/404.tsx with German error message (\"Oops, diese Seite gibt es nicht!\") and \"Zur\u00fcck zum Start\" link. Removed metadata export as it's not supported in special files like not-found.tsx. Committed at 83f33e6.",
+          "status": "completed",
+          "updated_at": "2025-12-25T21:18:09.159914+00:00"
         }
       ]
     },
@@ -370,8 +374,9 @@
             },
             "expected_status": 200
           },
-          "notes": "Convert to route handler: export async function POST(request: NextRequest). Use await request.json() for body. Return NextResponse.json().",
-          "status": "pending"
+          "notes": "Created newsletter API route at src/app/api/newsletter/route.ts. Migrated from Pages Router to App Router with NextResponse, named POST export, and standard Request type. Maintains same SendGrid integration and error handling.",
+          "status": "completed",
+          "updated_at": "2025-12-25T21:20:36.334028+00:00"
         },
         {
           "id": "subtask-5-2",
@@ -396,8 +401,9 @@
             },
             "expected_status": 200
           },
-          "notes": "Convert to route handler with withAxiom. CRITICAL: Call await req.log.flush() before every response. Use NextRequest/NextResponse.",
-          "status": "pending"
+          "notes": "Created email API route at src/app/api/email/route.ts following App Router pattern. Migrated from Pages Router using NextResponse.json() and Request.json() pattern consistent with newsletter route. Route verified to be accessible (SMTP timeout indicates route is hit but email sending times out without valid credentials in dev).",
+          "status": "completed",
+          "updated_at": "2025-12-25T21:24:54.307869+00:00"
         }
       ]
     },
@@ -636,5 +642,5 @@
     }
   },
   "qa_signoff": null,
-  "last_updated": "2025-12-25T21:09:11.264632+00:00"
+  "last_updated": "2025-12-25T21:24:54.307879+00:00"
 }

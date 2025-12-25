@@ -1,5 +1,7 @@
+"use client";
+
 import React from "react";
-import background from "public/angebot/background.png";
+import background from "/public/angebot/background.png";
 import NextImage from "next/image";
 import { Element } from "react-scroll";
 import NextLink from "next/link";

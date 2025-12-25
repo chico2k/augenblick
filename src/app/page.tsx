@@ -2,35 +2,13 @@ import AngebotSection from "../components/Angebot";
 import SandraComponent from "../components/Sandra";
 import HeroSection from "../components/Hero";
 import Testimonials from "../components/Testimonials";
-import dynamic from "next/dynamic";
-
-const Newsletter = dynamic(() => import("../components/Newsletter"), {
-  ssr: false,
-});
-
-const Slider = dynamic(() => import("../components/Impressionen"), {
-  ssr: false,
-});
-
-const AnfahrtSection = dynamic(() => import("../components/Anfahrt"), {
-  ssr: false,
-});
-
-const StrongLash = dynamic(() => import("../components/StrongLash"), {
-  ssr: false,
-});
-
-const BuchungsSection = dynamic(() => import("../components/Buchung"), {
-  ssr: false,
-});
-
-const PartnerSection = dynamic(() => import("../components/Partner"), {
-  ssr: false,
-});
-
-const Augenblick = dynamic(() => import("../components/Augenblick"), {
-  ssr: false,
-});
+import Newsletter from "../components/Newsletter";
+import Slider from "../components/Impressionen";
+import AnfahrtSection from "../components/Anfahrt";
+import StrongLash from "../components/StrongLash";
+import BuchungsSection from "../components/Buchung";
+import PartnerSection from "../components/Partner";
+import Augenblick from "../components/Augenblick";
 
 export default function HomePage() {
   return (

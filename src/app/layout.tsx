@@ -4,6 +4,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 import GoogleAnalytics from "../components/GoogleAnalytics";
 import { AxiomWebVitals } from "next-axiom";
+import { RootProviders } from "@/components/providers/root-providers";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -32,7 +33,7 @@ export default function RootLayout({
       <body>
         <AxiomWebVitals />
         <GoogleAnalytics />
-        {children}
+        <RootProviders>{children}</RootProviders>
         <ToastContainer />
       </body>
     </html>

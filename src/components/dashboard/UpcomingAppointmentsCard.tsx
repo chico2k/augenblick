@@ -87,26 +87,28 @@ export function UpcomingAppointmentsCard({
                   <button
                     key={appointment.id}
                     onClick={() => handleAppointmentClick(appointment)}
-                    className="w-full flex items-center gap-2 rounded-lg bg-muted/50 px-3 py-2 hover:bg-muted transition-colors cursor-pointer text-left"
+                    className="w-full rounded-lg bg-muted/50 px-3 py-2 hover:bg-muted transition-colors cursor-pointer text-left"
                   >
-                    <div className="flex-1 min-w-0 flex items-center gap-2">
+                    <div className="flex flex-col gap-1">
                       <p className="font-medium truncate">{appointment.subject}</p>
-                      <span className="text-xs text-muted-foreground whitespace-nowrap">
-                        {formatDate(appointment.startTime)}
-                      </span>
-                      <span className="text-xs text-muted-foreground whitespace-nowrap">
-                        {formatTime(appointment.startTime)}
-                      </span>
-                      {needsAction && (
-                        <span className="text-xs text-amber-600 dark:text-amber-500 whitespace-nowrap">
-                          • Noch nicht erfasst
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <span className="text-xs text-muted-foreground whitespace-nowrap">
+                          {formatDate(appointment.startTime)}
                         </span>
-                      )}
-                      {needsGdpr && (
-                        <span className="text-xs text-red-600 dark:text-red-500 whitespace-nowrap">
-                          • Datenschutzerklärung fehlt
+                        <span className="text-xs text-muted-foreground whitespace-nowrap">
+                          {formatTime(appointment.startTime)}
                         </span>
-                      )}
+                        {needsAction && (
+                          <span className="text-xs text-amber-600 dark:text-amber-500 whitespace-nowrap">
+                            • Noch nicht erfasst
+                          </span>
+                        )}
+                        {needsGdpr && (
+                          <span className="text-xs text-red-600 dark:text-red-500 whitespace-nowrap">
+                            • Datenschutzerklärung fehlt
+                          </span>
+                        )}
+                      </div>
                     </div>
                   </button>
                 );

@@ -33,7 +33,6 @@ import {
   FormLabel,
   FormMessage,
 } from "../ui/form";
-import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import {
   createCustomerAction,
   updateCustomerAction,
@@ -178,15 +177,12 @@ export function CustomerForm({
   }
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>
-          {mode === "create" ? "Neuer Kunde" : "Kunde bearbeiten"}
-        </CardTitle>
-      </CardHeader>
-      <CardContent>
-        <Form {...form}>
-          <form onSubmit={(e) => { void form.handleSubmit(onSubmit)(e); }} className="space-y-6">
+    <div className="max-w-2xl space-y-6">
+      <h2 className="text-2xl font-bold tracking-tight">
+        {mode === "create" ? "Neuer Kunde" : "Kunde bearbeiten"}
+      </h2>
+      <Form {...form}>
+        <form onSubmit={(e) => { void form.handleSubmit(onSubmit)(e); }} className="space-y-6">
             {/* Name fields - grid layout */}
             <div className="grid gap-4 sm:grid-cols-2">
               {/* First Name */}
@@ -368,7 +364,6 @@ export function CustomerForm({
             </div>
           </form>
         </Form>
-      </CardContent>
-    </Card>
+    </div>
   );
 }

@@ -14,8 +14,16 @@ export function NavigationProgress() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [isLoading, setIsLoading] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+
+  // Only render on client-side to avoid SSR issues
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   useEffect(() => {
+    if (!isMounted) return;
+
     // Intercept all link clicks to start loading immediately
     const handleClick = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
@@ -32,12 +40,15 @@ export function NavigationProgress() {
     return () => {
       document.removeEventListener("click", handleClick, true);
     };
-  }, []);
+  }, [isMounted]);
 
   useEffect(() => {
+    if (!isMounted) return;
     // Stop loading when route actually changes
     setIsLoading(false);
-  }, [pathname, searchParams]);
+  }, [pathname, searchParams, isMounted]);
+
+  if (!isMounted) return null;
 
   return <LoadingBar isLoading={isLoading} />;
 }

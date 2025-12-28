@@ -7,14 +7,6 @@
 !process.env.SKIP_ENV_VALIDATION && (await import("./src/env.mjs"));
 
 import { withAxiom } from "next-axiom";
-import withPWAInit from "next-pwa";
-
-const withPWA = withPWAInit({
-  dest: "public",
-  register: true,
-  skipWaiting: true,
-  disable: process.env.NODE_ENV === "development",
-});
 
 /** @type {import("next").NextConfig} */
 const config = {
@@ -38,4 +30,6 @@ const config = {
   // },
 };
 
-export default withPWA(withAxiom(config));
+// Note: Removed next-pwa due to Next.js 15 incompatibility.
+// Using native Next.js PWA support via app/manifest.ts instead.
+export default withAxiom(config);

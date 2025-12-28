@@ -25,6 +25,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  useSidebar,
 } from "@/components/ui/sidebar";
 
 const navItems = [
@@ -45,7 +46,7 @@ const navItems = [
   },
   {
     title: "Behandlungen",
-    url: "/office/euer/behandlungen",
+    url: "/office/behandlungen",
     icon: Sparkles,
   },
   {
@@ -55,12 +56,12 @@ const navItems = [
   },
   {
     title: "Synchronisation",
-    url: "/office/euer/sync",
+    url: "/office/sync",
     icon: RefreshCw,
   },
   {
     title: "Export",
-    url: "/office/euer/export",
+    url: "/office/export",
     icon: FileText,
   },
 ];
@@ -68,10 +69,17 @@ const navItems = [
 export function OfficeSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const pathname = usePathname();
   const router = useRouter();
+  const { isMobile, setOpenMobile } = useSidebar();
 
   const handleLogout = async () => {
     await authClient.signOut();
     router.push("/login");
+  };
+
+  const handleNavClick = () => {
+    if (isMobile) {
+      setOpenMobile(false);
+    }
   };
 
   return (
@@ -80,7 +88,7 @@ export function OfficeSidebar({ ...props }: React.ComponentProps<typeof Sidebar>
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild>
-              <Link href="/office">
+              <Link href="/office" onClick={handleNavClick}>
                 <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-fuchsia-500 text-white">
                   <Sparkles className="size-4" />
                 </div>
@@ -103,7 +111,7 @@ export function OfficeSidebar({ ...props }: React.ComponentProps<typeof Sidebar>
                     asChild
                     isActive={pathname === item.url || pathname.startsWith(item.url + "/")}
                   >
-                    <Link href={item.url}>
+                    <Link href={item.url} onClick={handleNavClick}>
                       <item.icon className="size-4" />
                       <span>{item.title}</span>
                     </Link>

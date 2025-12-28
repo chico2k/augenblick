@@ -178,7 +178,7 @@ export function Dashboard({
           size="icon"
           variant="outline"
           className="h-12 w-12 rounded-full shadow-lg"
-          onClick={() => router.push("/office/euer/export")}
+          onClick={() => router.push("/office/export")}
           title="Export"
         >
           <FileDown className="h-5 w-5" />
@@ -187,7 +187,7 @@ export function Dashboard({
           size="icon"
           variant="outline"
           className="h-12 w-12 rounded-full shadow-lg"
-          onClick={() => router.push("/office/euer/behandlungen")}
+          onClick={() => router.push("/office/behandlungen")}
           title="Behandlungen verwalten"
         >
           <Settings className="h-5 w-5" />

@@ -15,9 +15,5 @@ export const metadata = {
  * Renders the CustomerForm component in create mode.
  */
 export default function NewCustomerPage() {
-  return (
-    <div className="container max-w-2xl py-6">
-      <CustomerForm mode="create" />
-    </div>
-  );
+  return <CustomerForm mode="create" />;
 }

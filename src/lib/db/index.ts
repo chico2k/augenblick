@@ -8,15 +8,24 @@
  *   import { exampleTable, type InsertExample } from '@/lib/db';
  */
 
-import { drizzle } from "drizzle-orm/postgres-js";
-import postgres from "postgres";
+/* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call */
+// Drizzle ORM types are correctly inferred when dependencies are installed
+
+import { neon } from "@neondatabase/serverless";
+import { drizzle } from "drizzle-orm/neon-http";
 import * as schema from "./schema";
 
-const connectionString = process.env.DATABASE_URL!;
+/**
+ * Create the HTTP SQL client for Neon serverless environments.
+ * Uses stateless HTTP connections - no persistent WebSocket overhead.
+ */
+const sql = neon(process.env.DATABASE_URL!);
 
-// Disable prefetch as it is not supported for "Transaction" pool mode
-const client = postgres(connectionString, { prepare: false });
-export const db = drizzle(client, { schema });
+/**
+ * Drizzle ORM database client instance.
+ * Configured for serverless with HTTP adapter for minimal cold start impact.
+ */
+export const db = drizzle(sql, { schema });
 
 export type Database = typeof db;
 

@@ -4,5 +4,16 @@
  * Following SOLID principles - Open/Closed: add new schemas here without modifying client.
  */
 
-// Export all schemas and types from example
-export * from "./example";
+export * from "./auth";
+export * from "./customers";
+export * from "./customer-audit";
+export * from "./gdpr-versions";
+export * from "./signatures";
+export * from "./relations";
+
+// EÜR Module
+export * from "./treatment-types";
+export * from "./sync-status";
+export * from "./sync-logs";
+export * from "./outlook-appointments";
+export * from "./income-entries";

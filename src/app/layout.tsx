@@ -2,10 +2,7 @@ import "../styles/globals.css";
 import "keen-slider/keen-slider.min.css";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
-import Footer from "../components/Footer";
-import Navigation from "../components/Navigation";
 import GoogleAnalytics from "../components/GoogleAnalytics";
-import CookieConsent from "../components/CookieConsent";
 import { AxiomWebVitals } from "next-axiom";
 import type { Metadata } from "next";
 
@@ -14,6 +11,17 @@ export const metadata: Metadata = {
   description: "Augenblick Chiemgau - Wimperverlängerung Lashlift Traunreut",
 };
 
+/**
+ * Root Layout - Base HTML structure for all pages
+ *
+ * This layout provides:
+ * - Global CSS imports
+ * - Analytics (Axiom, Google Analytics)
+ * - Toast notifications
+ *
+ * Note: Navigation and Footer are NOT included here.
+ * They are added in the (website) route group for public pages only.
+ */
 export default function RootLayout({
   children,
 }: {
@@ -24,11 +32,8 @@ export default function RootLayout({
       <body>
         <AxiomWebVitals />
         <GoogleAnalytics />
-        <Navigation />
         {children}
         <ToastContainer />
-        <CookieConsent />
-        <Footer />
       </body>
     </html>
   );

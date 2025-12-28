@@ -76,7 +76,7 @@ const MenuDesk = ({ close }: { close: () => void }) => {
           />
         </NextLink>
       </div>
-      <div className="hidden   flex-shrink-0 items-center justify-center lg:ml-6  lg:flex lg:space-x-6">
+      <div className="hidden   shrink-0 items-center justify-center lg:ml-6  lg:flex lg:space-x-6">
         {navigationLinks.map((link) => {
           return (
             <div key={link.name}>

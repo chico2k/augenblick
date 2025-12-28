@@ -8,8 +8,17 @@
  *   import { exampleTable, type InsertExample } from '@/lib/db';
  */
 
-// Export database client
-export { default as db } from "./client";
+import { drizzle } from "drizzle-orm/postgres-js";
+import postgres from "postgres";
+import * as schema from "./schema";
+
+const connectionString = process.env.DATABASE_URL!;
+
+// Disable prefetch as it is not supported for "Transaction" pool mode
+const client = postgres(connectionString, { prepare: false });
+export const db = drizzle(client, { schema });
+
+export type Database = typeof db;
 
 // Export all schemas and schema types
 export * from "./schema";

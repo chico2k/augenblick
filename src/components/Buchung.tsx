@@ -52,7 +52,7 @@ const BuchungsSection = () => {
   return (
     <Element name="buchung">
       <div className=" lg:pb-18 relative mx-auto max-w-7xl bg-white ">
-        <h2 className="bg-gradient-to-tl from-fuchsia-500 via-fuchsia-600 to-fuchsia-700 px-4 py-7 pl-5 text-3xl text-white md:px-12 lg:text-5xl">
+        <h2 className="bg-linear-to-tl from-fuchsia-500 via-fuchsia-600 to-fuchsia-700 px-4 py-7 pl-5 text-3xl text-white md:px-12 lg:text-5xl">
           Buchung
         </h2>
         <div className="bg-fuchsia-50 pl-5  ">
@@ -86,7 +86,7 @@ const BuchungsSection = () => {
                         {errors["name"] ? errors["name"].message : ""}
                       </p>
                     </div>
-                    <div className="relative mt-1 rounded-md shadow-sm">
+                    <div className="relative mt-1 rounded-md shadow-xs">
                       <input
                         {...register("name")}
                         id={"name"}
@@ -127,7 +127,7 @@ const BuchungsSection = () => {
                         {errors["email"] ? errors["email"].message : ""}
                       </p>
                     </div>
-                    <div className="relative mt-1 rounded-md shadow-sm">
+                    <div className="relative mt-1 rounded-md shadow-xs">
                       <input
                         {...register("email")}
                         id={"email"}
@@ -168,7 +168,7 @@ const BuchungsSection = () => {
                         {errors["phone"] ? errors["phone"].message : ""}
                       </p>
                     </div>
-                    <div className="relative mt-1 rounded-md shadow-sm">
+                    <div className="relative mt-1 rounded-md shadow-xs">
                       <input
                         {...register("phone")}
                         id={"phone"}
@@ -207,7 +207,7 @@ const BuchungsSection = () => {
                         {errors["message"] ? errors["message"].message : ""}
                       </p>
                     </div>
-                    <div className="relative mt-1 rounded-md shadow-sm">
+                    <div className="relative mt-1 rounded-md shadow-xs">
                       <textarea
                         {...register("message")}
                         id={"message"}
@@ -219,7 +219,7 @@ const BuchungsSection = () => {
               ? "border border-red-600 placeholder-red-300"
               : "border-white "
           }
-          block w-full rounded-md border-2 px-4 py-3 text-base text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-fuchsia-300 focus:ring-offset-2 focus:ring-offset-gray-900`}
+          block w-full rounded-md border-2 px-4 py-3 text-base text-gray-900 placeholder-gray-500 focus:outline-hidden focus:ring-2 focus:ring-fuchsia-300 focus:ring-offset-2 focus:ring-offset-gray-900`}
                       />
 
                       <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
@@ -247,8 +247,8 @@ const BuchungsSection = () => {
                   <div className="sm:flex sm:justify-start md:col-span-2">
                     <button
                       type="submit"
-                      className="hbover:via-fuchsia-800 mt-2 inline-flex w-full items-center justify-center rounded-md border border-transparent bg-gradient-to-tl from-fuchsia-500 via-fuchsia-600 to-fuchsia-700 px-6 py-3 text-base font-medium text-white 
-        shadow-sm transition-all duration-300 ease-in-out  hover:bg-gradient-to-l hover:from-fuchsia-900 hover:to-fuchsia-900 focus:outline-none focus:ring-2 focus:ring-fuchsia-500 focus:ring-offset-2 sm:w-auto"
+                      className="hbover:via-fuchsia-800 mt-2 inline-flex w-full items-center justify-center rounded-md border border-transparent bg-linear-to-tl from-fuchsia-500 via-fuchsia-600 to-fuchsia-700 px-6 py-3 text-base font-medium text-white 
+        shadow-xs transition-all duration-300 ease-in-out  hover:bg-linear-to-l hover:from-fuchsia-900 hover:to-fuchsia-900 focus:outline-hidden focus:ring-2 focus:ring-fuchsia-500 focus:ring-offset-2 sm:w-auto"
                     >
                       Anfragen
                     </button>

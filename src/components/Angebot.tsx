@@ -41,7 +41,7 @@ const MostPopular: React.FC<{ mostPopular: boolean }> = ({ mostPopular }) => {
   return (
     <div className="absolute inset-x-0 top-0 z-10 translate-y-px transform">
       <div className="flex -translate-y-1/2 transform justify-center ">
-        <span className="lg:text-medium rounded-2xl bg-gradient-to-tl from-fuchsia-500  via-fuchsia-600 to-fuchsia-700 px-6 py-2   text-sm uppercase text-white   md:rounded-3xl  md:py-2 md:px-8 md:text-sm md:tracking-wider">
+        <span className="lg:text-medium rounded-2xl bg-linear-to-tl from-fuchsia-500  via-fuchsia-600 to-fuchsia-700 px-6 py-2   text-sm uppercase text-white   md:rounded-3xl  md:py-2 md:px-8 md:text-sm md:tracking-wider">
           Am beliebtesten
         </span>
       </div>
@@ -53,7 +53,7 @@ const AngebotSection = () => {
   return (
     <Element name="angebot">
       <section id="angebot">
-        <div className="relative mx-auto overflow-hidden bg-gradient-to-tr from-fuchsia-100 via-fuchsia-300 to-fuchsia-500  px-5 pb-32">
+        <div className="relative mx-auto overflow-hidden bg-linear-to-tr from-fuchsia-100 via-fuchsia-300 to-fuchsia-500  px-5 pb-32">
           <div className="absolute inset-0 h-full w-full overflow-hidden">
             <NextImage
               alt="Hintergrundbild mit Wimpern"
@@ -65,7 +65,7 @@ const AngebotSection = () => {
             <h3 className="py-10 text-center text-6xl text-white md:py-16 lg:py-16 lg:text-7xl ">
               Angebot
             </h3>
-            <div className="mx-auto grid grid-cols-1 gap-3 md:grid md:grid-cols-3 lg:gap-8 ">
+            <div className="mx-auto grid grid-cols-1 gap-3 md:grid md:grid-cols-3 lg:gap-8 ">
               {products.map((product) => {
                 return (
                   <div className="relative " key={product.id}>

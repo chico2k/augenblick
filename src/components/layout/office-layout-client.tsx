@@ -8,7 +8,6 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { Separator } from "@/components/ui/separator";
-import { QueryProvider } from "@/lib/query-client";
 
 interface OfficeLayoutClientProps {
   children: React.ReactNode;
@@ -24,11 +23,17 @@ function getSectionName(pathname: string): string {
   if (pathname.startsWith("/office/kunden")) {
     return "Kunden";
   }
+  if (pathname.startsWith("/office/behandlungen")) {
+    return "Behandlungen";
+  }
   if (pathname.startsWith("/office/datenschutz")) {
     return "Datenschutz";
   }
-  if (pathname.startsWith("/office/euer/sync")) {
+  if (pathname.startsWith("/office/sync")) {
     return "Synchronisation";
+  }
+  if (pathname.startsWith("/office/export")) {
+    return "Export";
   }
   if (pathname.startsWith("/office/euer")) {
     return "EÜR";
@@ -58,29 +63,27 @@ export function OfficeLayoutClient({ children }: OfficeLayoutClientProps) {
 
   // Regular office routes get sidebar layout
   return (
-    <QueryProvider>
-      <SidebarProvider
-        style={
-          {
-            "--sidebar-width": "19rem",
-          } as React.CSSProperties
-        }
-      >
-        <OfficeSidebar />
-        <SidebarInset>
-          <header className="flex h-16 shrink-0 items-center gap-2 px-4">
-            <SidebarTrigger className="-ml-1" />
-            <Separator
-              orientation="vertical"
-              className="mr-2 data-[orientation=vertical]:h-4"
-            />
-            <span className="text-sm font-medium text-muted-foreground">
-              {sectionName}
-            </span>
-          </header>
-          <div className="flex flex-1 flex-col gap-4 p-4 pt-0">{children}</div>
-        </SidebarInset>
-      </SidebarProvider>
-    </QueryProvider>
+    <SidebarProvider
+      style={
+        {
+          "--sidebar-width": "19rem",
+        } as React.CSSProperties
+      }
+    >
+      <OfficeSidebar />
+      <SidebarInset>
+        <header className="flex h-16 shrink-0 items-center gap-2 px-4">
+          <SidebarTrigger className="-ml-1" />
+          <Separator
+            orientation="vertical"
+            className="mr-2 data-[orientation=vertical]:h-4"
+          />
+          <span className="text-sm font-medium text-muted-foreground">
+            {sectionName}
+          </span>
+        </header>
+        <div className="flex flex-1 flex-col gap-4 p-4 pt-0">{children}</div>
+      </SidebarInset>
+    </SidebarProvider>
   );
 }

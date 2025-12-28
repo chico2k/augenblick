@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 
 import {
   Dialog,
@@ -8,8 +10,6 @@ import {
   DialogTitle,
 } from "../components/ui/dialog";
 import { Link } from "react-scroll";
-
-import { useState } from "react";
 
 const Elternzeit = () => {
   const [openModal, setOpenModal] = useState(true);
@@ -47,9 +47,9 @@ const Elternzeit = () => {
                     type="button"
                     onClick={() => setOpenModal(false)}
                     className="hbover:via-fuchsia-800 mt-6 inline-flex cursor-pointer items-center rounded-md border 
-                             border-transparent bg-gradient-to-tl from-fuchsia-500 via-fuchsia-600 to-fuchsia-700 px-4 py-2 text-xl font-medium text-white shadow-sm transition-all
-                                duration-300 ease-in-out hover:bg-gradient-to-l hover:from-fuchsia-900
-                             hover:to-fuchsia-900 focus:outline-none focus:ring-2 focus:ring-indigo-500  focus:ring-offset-2 md:px-6 md:text-2xl"
+                             border-transparent bg-linear-to-tl from-fuchsia-500 via-fuchsia-600 to-fuchsia-700 px-4 py-2 text-xl font-medium text-white shadow-xs transition-all
+                                duration-300 ease-in-out hover:bg-linear-to-l hover:from-fuchsia-900
+                             hover:to-fuchsia-900 focus:outline-hidden focus:ring-2 focus:ring-indigo-500  focus:ring-offset-2 md:px-6 md:text-2xl"
                   >
                     Zum Newsletter
                   </button>

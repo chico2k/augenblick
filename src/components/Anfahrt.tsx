@@ -1,10 +1,12 @@
+"use client";
+
 import { Element } from "react-scroll";
 
 const AnfahrtSection = () => {
   return (
     <>
       <Element name="anfahrt">
-        <div className="mx-auto bg-gradient-to-tl from-fuchsia-500 via-fuchsia-600 to-fuchsia-700 text-white  md:text-center ">
+        <div className="mx-auto bg-linear-to-tl from-fuchsia-500 via-fuchsia-600 to-fuchsia-700 text-white  md:text-center ">
           <h2 className="font-display px-4 py-16  text-3xl sm:text-4xl lg:text-4xl">
             Hier findest du mich.
           </h2>

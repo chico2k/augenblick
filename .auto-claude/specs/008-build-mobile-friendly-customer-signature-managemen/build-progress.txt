@@ -1,0 +1,62 @@
+=== AUTO-BUILD PROGRESS ===
+
+Project: Mobile-Friendly Customer Signature Management System
+Workspace: Managed by orchestrator
+Started: 2025-12-26
+
+Workflow Type: feature
+Rationale: Building a complete new customer management module with GDPR signature workflows from scratch. Requires new pages, components, services, database schemas, and server actions.
+
+Session 1 (Planner):
+- Created implementation_plan.json
+- Phases: 11
+- Total subtasks: 31
+- Created init.sh
+
+Phase Summary:
+- Phase 1 (Dependencies & UI Setup): 4 subtasks, depends on []
+- Phase 2 (Database Schema): 5 subtasks, depends on [phase-1-setup]
+- Phase 3 (Service Layer): 4 subtasks, depends on [phase-2-database]
+- Phase 4 (Server Actions): 2 subtasks, depends on [phase-3-services]
+- Phase 5 (Layout Components): 3 subtasks, depends on [phase-1-setup]
+- Phase 6 (Customer List Page): 3 subtasks, depends on [phase-4-server-actions, phase-5-layout]
+- Phase 7 (Customer Create/Edit Forms): 3 subtasks, depends on [phase-6-customer-list]
+- Phase 8 (Customer Detail Page): 2 subtasks, depends on [phase-7-customer-forms]
+- Phase 9 (Signature Capture Flow): 3 subtasks, depends on [phase-8-customer-detail]
+- Phase 10 (GDPR Version Management): 3 subtasks, depends on [phase-4-server-actions, phase-5-layout]
+- Phase 11 (Integration & Polish): 4 subtasks, depends on [phase-9-signature-flow, phase-10-gdpr-management]
+
+Services Involved:
+- main (Next.js): Frontend application with App Router, TypeScript, Tailwind CSS, Drizzle ORM
+
+Files to Create (Summary):
+- 4 Database schemas (customers, gdpr-versions, signatures, customer-audit)
+- 4 Service layer files (types, customer, gdpr, audit)
+- 2 Server action files (customer.actions, gdpr.actions)
+- 3 Layout files (TopNav, office layout, signature layout)
+- 7 Page files (customer list, new, detail, edit, signature flow, gdpr management, office index)
+- 8 Component files (customer-table, customer-form, audit-log, signature-flow, gdpr-version-list, gdpr-version-form, skeletons)
+- 14 shadcn/ui components (button, card, input, etc.)
+
+Dependencies to Install:
+- @tanstack/react-table (data tables)
+- react-signature-canvas (signature capture)
+- react-markdown (GDPR text rendering)
+- sonner (toast notifications)
+
+Parallelism Analysis:
+- Max parallel phases: 2
+- Recommended workers: 1
+- Parallel groups: [phase-5-layout, phase-10-gdpr-management] can run together
+- Speedup estimate: Sequential execution recommended due to dependencies
+
+=== STARTUP COMMAND ===
+
+To continue building this spec, run:
+
+  source auto-claude/.venv/bin/activate && python auto-claude/run.py --spec 008 --parallel 1
+
+Example:
+  source auto-claude/.venv/bin/activate && python auto-claude/run.py --spec 008 --parallel 1
+
+=== END SESSION 1 ===

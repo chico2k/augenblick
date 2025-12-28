@@ -1,3 +1,5 @@
+"use client";
+
 import { Link } from "react-scroll";
 import { navigationLinks } from "../lib/links";
 import NextLink from "next/link";
@@ -23,7 +25,7 @@ const navigation = {
 
 export default function Footer() {
   return (
-    <footer className="bg-gradient-to-tl from-fuchsia-500 via-fuchsia-600 to-fuchsia-700 text-white">
+    <footer className="bg-linear-to-tl from-fuchsia-500 via-fuchsia-600 to-fuchsia-700 text-white">
       <div className="mx-auto max-w-7xl overflow-hidden py-20 px-6 sm:py-24 lg:px-8">
         <nav
           className="-mb-6 columns-2 sm:flex sm:justify-center sm:space-x-12"
@@ -57,7 +59,7 @@ export default function Footer() {
           ))}
         </div>
         <div className="flex justify-center">
-           
+           
           <a className="mt-10 mr-2 text-center text-xs leading-5 text-white">
             &copy; 2023 Augenblick
           </a>

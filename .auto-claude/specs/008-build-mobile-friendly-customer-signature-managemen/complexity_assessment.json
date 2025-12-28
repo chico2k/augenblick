@@ -1,0 +1,81 @@
+{
+  "complexity": "standard",
+  "workflow_type": "feature",
+  "confidence": 0.85,
+  "reasoning": "Multi-page frontend feature with 7 routes, 15+ components, and new npm dependencies (react-signature-canvas, TanStack Table, shadcn/ui). The PRD provides detailed implementation code which reduces complexity. Single service (frontend only), no infrastructure changes, and some patterns already exist in codebase (react-hook-form, zod, lucide-react).",
+
+  "analysis": {
+    "scope": {
+      "estimated_files": 18,
+      "estimated_services": 1,
+      "is_cross_cutting": true,
+      "notes": "7 routes (layouts + pages), 8+ components (TopNav, CustomerTable, CustomerForm, SignatureFlow, AuditLog, GdprVersionList, GdprVersionForm, skeletons), plus server actions. Layout affects all /office routes."
+    },
+    "integrations": {
+      "external_services": [],
+      "new_dependencies": [
+        "react-signature-canvas",
+        "@types/react-signature-canvas",
+        "react-markdown",
+        "@tanstack/react-table",
+        "shadcn/ui components (button, card, input, textarea, checkbox, badge, table, select, scroll-area, sheet, collapsible, form)",
+        "sonner"
+      ],
+      "research_needed": true,
+      "notes": "react-signature-canvas requires research for touch handling and canvas API. shadcn/ui needs initialization. Some deps already exist (react-hook-form, zod, lucide-react, clsx, tailwind-merge)."
+    },
+    "infrastructure": {
+      "docker_changes": false,
+      "database_changes": false,
+      "config_changes": false,
+      "notes": "Pure frontend feature. Uses existing backend services (customerService, gdprService, auditService). No Docker or DB schema changes required."
+    },
+    "knowledge": {
+      "patterns_exist": true,
+      "research_required": true,
+      "unfamiliar_tech": [
+        "react-signature-canvas",
+        "@tanstack/react-table"
+      ],
+      "notes": "PRD provides detailed code examples with exact component implementations. React Hook Form + Zod already in package.json. Research needed for signature canvas touch handling and TanStack Table setup."
+    },
+    "risk": {
+      "level": "medium",
+      "concerns": [
+        "Signature canvas touch handling on mobile devices",
+        "Data URL signature storage format",
+        "Form validation edge cases",
+        "Mobile responsiveness for complex UI"
+      ],
+      "notes": "User data handling (customer PII), signature capture for legal GDPR compliance. Forms need proper validation. Mobile-first design is critical for studio workflow."
+    }
+  },
+
+  "recommended_phases": [
+    "discovery",
+    "requirements",
+    "research",
+    "context",
+    "spec_writing",
+    "planning",
+    "validation"
+  ],
+
+  "flags": {
+    "needs_research": true,
+    "needs_self_critique": false,
+    "needs_infrastructure_setup": false
+  },
+
+  "validation_recommendations": {
+    "risk_level": "medium",
+    "skip_validation": false,
+    "minimal_mode": false,
+    "test_types_required": ["unit", "integration"],
+    "security_scan_required": false,
+    "staging_deployment_required": false,
+    "reasoning": "Customer data handling with forms and signature capture requires unit tests for validation logic and integration tests for form submission flows. No auth changes or payment processing, so security scan not required. Standard medium risk for a multi-component UI feature."
+  },
+
+  "created_at": "2025-12-26T18:30:00.000Z"
+}

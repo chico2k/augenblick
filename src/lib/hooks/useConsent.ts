@@ -1,5 +1,7 @@
+"use client";
+
 import { useEffect, useMemo, useState } from "react";
-import { setCookie, hasCookie, getCookie } from "cookies-next";
+import { setCookie, hasCookie, getCookie } from "cookies-next/client";
 
 export const useConsent = () => {
   const defaultConsent = useMemo(() => {
@@ -43,8 +45,6 @@ export const useConsent = () => {
       ad_storage: "granted",
       analytics_storage: "granted",
     });
-
-    console.log("update consent");
   };
 
   const closeCookie = () => {

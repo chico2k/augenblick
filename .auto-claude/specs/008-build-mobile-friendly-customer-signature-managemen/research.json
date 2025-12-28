@@ -1,0 +1,489 @@
+{
+  "integrations_researched": [
+    {
+      "name": "shadcn/ui",
+      "type": "library",
+      "verified_package": {
+        "name": "shadcn/ui (CLI-based, not npm package)",
+        "install_command": "npx shadcn@latest init && npx shadcn@latest add button card input textarea checkbox badge table select scroll-area sheet collapsible form",
+        "version": "latest",
+        "verified": true
+      },
+      "api_patterns": {
+        "imports": [
+          "import { Button } from '@/components/ui/button'",
+          "import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'",
+          "import { Input } from '@/components/ui/input'",
+          "import { Badge } from '@/components/ui/badge'",
+          "import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'",
+          "import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'",
+          "import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'",
+          "import { ScrollArea } from '@/components/ui/scroll-area'",
+          "import { Checkbox } from '@/components/ui/checkbox'",
+          "import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'",
+          "import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'"
+        ],
+        "initialization": "Components are installed via CLI into /components/ui/ directory. Requires tailwind.config.js with CSS variables setup.",
+        "key_functions": [
+          "Component-based API",
+          "cn() utility for className merging from @/lib/utils"
+        ],
+        "verified_against": "Context7 MCP: /shadcn-ui/ui"
+      },
+      "configuration": {
+        "env_vars": [],
+        "config_files": ["components.json", "tailwind.config.js"],
+        "dependencies": ["tailwindcss", "clsx", "tailwind-merge", "class-variance-authority", "@radix-ui/*"]
+      },
+      "infrastructure": {
+        "requires_docker": false
+      },
+      "gotchas": [
+        "Components are copied into your project, not installed as npm packages",
+        "Requires proper tailwind.config.js setup with CSS variables",
+        "Form component requires react-hook-form integration",
+        "Uses Radix UI primitives under the hood"
+      ],
+      "research_sources": [
+        "Context7 MCP: /shadcn-ui/ui",
+        "https://ui.shadcn.com/docs/installation"
+      ]
+    },
+    {
+      "name": "TanStack Table",
+      "type": "library",
+      "verified_package": {
+        "name": "@tanstack/react-table",
+        "install_command": "pnpm add @tanstack/react-table",
+        "version": "latest",
+        "verified": true
+      },
+      "api_patterns": {
+        "imports": [
+          "import { ColumnDef, flexRender, getCoreRowModel, getFilteredRowModel, useReactTable } from '@tanstack/react-table'"
+        ],
+        "initialization": "const table = useReactTable({ data, columns, getCoreRowModel: getCoreRowModel(), getFilteredRowModel: getFilteredRowModel() })",
+        "key_functions": [
+          "useReactTable(options)",
+          "getCoreRowModel()",
+          "getFilteredRowModel()",
+          "getPaginationRowModel()",
+          "flexRender(cell.column.columnDef.cell, cell.getContext())",
+          "table.getHeaderGroups()",
+          "table.getRowModel().rows"
+        ],
+        "verified_against": "Context7 MCP: /websites/tanstack_table"
+      },
+      "configuration": {
+        "env_vars": [],
+        "config_files": [],
+        "dependencies": []
+      },
+      "infrastructure": {
+        "requires_docker": false
+      },
+      "gotchas": [
+        "TanStack Table is headless - you provide your own UI components",
+        "Global filter requires state management: globalFilterFn and onGlobalFilterChange",
+        "Column definitions should use accessorKey or accessorFn",
+        "Cell rendering uses flexRender() function"
+      ],
+      "research_sources": [
+        "Context7 MCP: /websites/tanstack_table",
+        "https://tanstack.com/table/latest/docs/framework/react/examples/basic"
+      ]
+    },
+    {
+      "name": "React Hook Form",
+      "type": "library",
+      "verified_package": {
+        "name": "react-hook-form",
+        "install_command": "pnpm add react-hook-form",
+        "version": "^7.43.1 (already installed in project)",
+        "verified": true,
+        "already_installed": true
+      },
+      "api_patterns": {
+        "imports": [
+          "import { useForm } from 'react-hook-form'",
+          "import { useFieldArray } from 'react-hook-form'"
+        ],
+        "initialization": "const form = useForm({ resolver: zodResolver(schema), defaultValues: {...} })",
+        "key_functions": [
+          "useForm({ resolver, defaultValues })",
+          "form.handleSubmit(onSubmit)",
+          "form.register(name)",
+          "form.control",
+          "form.formState.errors",
+          "form.formState.isSubmitting",
+          "form.setValue(name, value)",
+          "form.watch(name)",
+          "useFieldArray({ control, name })"
+        ],
+        "verified_against": "Context7 MCP: /react-hook-form/react-hook-form"
+      },
+      "configuration": {
+        "env_vars": [],
+        "config_files": [],
+        "dependencies": ["@hookform/resolvers (for Zod integration)"]
+      },
+      "infrastructure": {
+        "requires_docker": false
+      },
+      "gotchas": [
+        "Must use register() or Controller for field registration",
+        "formState.isSubmitting requires tracking async submission",
+        "defaultValues should match schema structure",
+        "Use form.reset() to reset form values"
+      ],
+      "research_sources": [
+        "Context7 MCP: /react-hook-form/react-hook-form",
+        "https://react-hook-form.com/docs"
+      ]
+    },
+    {
+      "name": "Zod",
+      "type": "library",
+      "verified_package": {
+        "name": "zod",
+        "install_command": "pnpm add zod",
+        "version": "^3.20.2 (already installed in project)",
+        "verified": true,
+        "already_installed": true
+      },
+      "api_patterns": {
+        "imports": [
+          "import { z } from 'zod'"
+        ],
+        "initialization": "const schema = z.object({ firstName: z.string().min(1, 'Required'), email: z.string().email('Invalid email').optional() })",
+        "key_functions": [
+          "z.object({})",
+          "z.string().min(n, msg)",
+          "z.string().email(msg)",
+          "z.number().min(n)",
+          "z.literal(value)",
+          "z.enum(['a', 'b', 'c'])",
+          ".optional()",
+          ".nullable()",
+          "z.infer<typeof schema>"
+        ],
+        "verified_against": "Context7 MCP: /colinhacks/zod"
+      },
+      "configuration": {
+        "env_vars": [],
+        "config_files": [],
+        "dependencies": []
+      },
+      "infrastructure": {
+        "requires_docker": false
+      },
+      "gotchas": [
+        "Use z.infer<typeof schema> for TypeScript type inference",
+        "Empty string validation: use z.string().email().or(z.literal('')) for optional email",
+        "parse() throws on invalid data, safeParse() returns result object"
+      ],
+      "research_sources": [
+        "Context7 MCP: /colinhacks/zod",
+        "https://zod.dev/"
+      ]
+    },
+    {
+      "name": "@hookform/resolvers (Zod Resolver)",
+      "type": "library",
+      "verified_package": {
+        "name": "@hookform/resolvers",
+        "install_command": "pnpm add @hookform/resolvers",
+        "version": "^2.9.11 (already installed in project)",
+        "verified": true,
+        "already_installed": true
+      },
+      "api_patterns": {
+        "imports": [
+          "import { zodResolver } from '@hookform/resolvers/zod'"
+        ],
+        "initialization": "useForm({ resolver: zodResolver(schema) })",
+        "key_functions": [
+          "zodResolver(schema)"
+        ],
+        "verified_against": "Context7 MCP: /react-hook-form/resolvers"
+      },
+      "configuration": {
+        "env_vars": [],
+        "config_files": [],
+        "dependencies": ["zod"]
+      },
+      "infrastructure": {
+        "requires_docker": false
+      },
+      "gotchas": [
+        "Automatically infers TypeScript types from Zod schema",
+        "Use valueAsNumber: true for number inputs with register()"
+      ],
+      "research_sources": [
+        "Context7 MCP: /react-hook-form/resolvers",
+        "https://github.com/react-hook-form/resolvers"
+      ]
+    },
+    {
+      "name": "react-signature-canvas",
+      "type": "library",
+      "verified_package": {
+        "name": "react-signature-canvas",
+        "install_command": "pnpm add react-signature-canvas && pnpm add -D @types/react-signature-canvas",
+        "version": "latest",
+        "verified": true,
+        "already_installed": false
+      },
+      "api_patterns": {
+        "imports": [
+          "import SignatureCanvas from 'react-signature-canvas'"
+        ],
+        "initialization": "const sigCanvas = useRef<SignatureCanvas>(null); <SignatureCanvas ref={sigCanvas} canvasProps={{ className: 'w-full h-full' }} backgroundColor='white' />",
+        "key_functions": [
+          "sigCanvas.current?.clear()",
+          "sigCanvas.current?.isEmpty()",
+          "sigCanvas.current?.toDataURL('image/png')",
+          "sigCanvas.current?.fromDataURL(dataURL)"
+        ],
+        "verified_against": "Context7 MCP: /agilgur5/react-signature-canvas"
+      },
+      "configuration": {
+        "env_vars": [],
+        "config_files": [],
+        "dependencies": []
+      },
+      "infrastructure": {
+        "requires_docker": false
+      },
+      "gotchas": [
+        "Must use useRef to access SignatureCanvas methods",
+        "isEmpty() returns true if canvas is empty - use for validation",
+        "toDataURL() returns base64 PNG - can be stored in database",
+        "Canvas must have explicit width/height or CSS dimensions",
+        "backgroundColor prop sets the canvas background color"
+      ],
+      "research_sources": [
+        "Context7 MCP: /agilgur5/react-signature-canvas",
+        "https://github.com/agilgur5/react-signature-canvas"
+      ]
+    },
+    {
+      "name": "Lucide React",
+      "type": "library",
+      "verified_package": {
+        "name": "lucide-react",
+        "install_command": "pnpm add lucide-react",
+        "version": "^0.331.0 (already installed in project)",
+        "verified": true,
+        "already_installed": true
+      },
+      "api_patterns": {
+        "imports": [
+          "import { Menu, Users, FileText, LogOut, Plus, Pencil, FileSignature, CheckCircle, AlertCircle, ChevronDown, ArrowLeft, RotateCcw, Check, Loader2, Search } from 'lucide-react'"
+        ],
+        "initialization": "<Menu className='h-5 w-5' /> or <Loader2 className='h-4 w-4 animate-spin' />",
+        "key_functions": [
+          "Icon components accept: className, size, color, strokeWidth props"
+        ],
+        "verified_against": "Context7 MCP: /websites/lucide_dev_guide_packages"
+      },
+      "configuration": {
+        "env_vars": [],
+        "config_files": [],
+        "dependencies": []
+      },
+      "infrastructure": {
+        "requires_docker": false
+      },
+      "gotchas": [
+        "Icons are tree-shakeable - only imported icons are bundled",
+        "Use className for sizing with Tailwind (e.g., h-4 w-4)",
+        "Icons render as inline SVG elements"
+      ],
+      "research_sources": [
+        "Context7 MCP: /websites/lucide_dev_guide_packages",
+        "https://lucide.dev/guide/packages/lucide-react"
+      ]
+    },
+    {
+      "name": "react-markdown",
+      "type": "library",
+      "verified_package": {
+        "name": "react-markdown",
+        "install_command": "pnpm add react-markdown",
+        "version": "latest",
+        "verified": true,
+        "already_installed": false
+      },
+      "api_patterns": {
+        "imports": [
+          "import Markdown from 'react-markdown'"
+        ],
+        "initialization": "<Markdown>{markdownContent}</Markdown>",
+        "key_functions": [
+          "<Markdown>{children}</Markdown>",
+          "<Markdown components={{ h1: 'h2', em: CustomEm }}>{children}</Markdown>"
+        ],
+        "verified_against": "Context7 MCP: /remarkjs/react-markdown"
+      },
+      "configuration": {
+        "env_vars": [],
+        "config_files": [],
+        "dependencies": []
+      },
+      "infrastructure": {
+        "requires_docker": false
+      },
+      "gotchas": [
+        "Markdown content is passed as children, not as a prop",
+        "Use components prop to customize element rendering",
+        "Supports remark/rehype plugins for extended functionality",
+        "Renders markdown safely - no XSS vulnerabilities"
+      ],
+      "research_sources": [
+        "Context7 MCP: /remarkjs/react-markdown",
+        "https://github.com/remarkjs/react-markdown"
+      ]
+    },
+    {
+      "name": "Sonner",
+      "type": "library",
+      "verified_package": {
+        "name": "sonner",
+        "install_command": "pnpm add sonner",
+        "version": "latest",
+        "verified": true,
+        "already_installed": false,
+        "note": "Project currently uses react-toastify - may need to switch to sonner for shadcn/ui compatibility"
+      },
+      "api_patterns": {
+        "imports": [
+          "import { Toaster, toast } from 'sonner'"
+        ],
+        "initialization": "Render <Toaster /> in layout, then use toast('message') or toast.success('message'), toast.error('message')",
+        "key_functions": [
+          "toast('message')",
+          "toast.success('message')",
+          "toast.error('message')",
+          "toast.loading('message')",
+          "toast.dismiss(toastId)",
+          "<Toaster position='bottom-right' />"
+        ],
+        "verified_against": "Context7 MCP: /emilkowalski/sonner"
+      },
+      "configuration": {
+        "env_vars": [],
+        "config_files": [],
+        "dependencies": []
+      },
+      "infrastructure": {
+        "requires_docker": false
+      },
+      "gotchas": [
+        "Toaster component must be rendered in your app (typically in layout)",
+        "toast() returns a toastId that can be used with toast.dismiss()",
+        "Duration is 4000ms by default, use duration: Infinity for persistent toasts",
+        "Position defaults to bottom-right, can be changed via prop"
+      ],
+      "research_sources": [
+        "Context7 MCP: /emilkowalski/sonner",
+        "https://sonner.emilkowal.ski/"
+      ]
+    },
+    {
+      "name": "clsx + tailwind-merge",
+      "type": "library",
+      "verified_package": {
+        "name": "clsx + tailwind-merge",
+        "install_command": "pnpm add clsx tailwind-merge",
+        "version": "clsx: ^2.1.0, tailwind-merge: ^2.2.1 (already installed in project)",
+        "verified": true,
+        "already_installed": true
+      },
+      "api_patterns": {
+        "imports": [
+          "import { clsx, type ClassValue } from 'clsx'",
+          "import { twMerge } from 'tailwind-merge'"
+        ],
+        "initialization": "export function cn(...inputs: ClassValue[]) { return twMerge(clsx(inputs)); }",
+        "key_functions": [
+          "cn('base-class', conditional && 'conditional-class', props.className)"
+        ],
+        "verified_against": "shadcn/ui documentation pattern"
+      },
+      "configuration": {
+        "env_vars": [],
+        "config_files": [],
+        "dependencies": []
+      },
+      "infrastructure": {
+        "requires_docker": false
+      },
+      "gotchas": [
+        "cn() utility should be defined in lib/utils.ts",
+        "twMerge intelligently merges conflicting Tailwind classes",
+        "clsx handles conditional classes and array inputs"
+      ],
+      "research_sources": [
+        "shadcn/ui documentation pattern",
+        "https://github.com/lukeed/clsx",
+        "https://github.com/dcastil/tailwind-merge"
+      ]
+    }
+  ],
+  "unverified_claims": [],
+  "recommendations": [
+    "Project already has zod, react-hook-form, @hookform/resolvers, lucide-react, clsx, and tailwind-merge installed",
+    "Need to install: react-signature-canvas, @types/react-signature-canvas, react-markdown, @tanstack/react-table",
+    "Consider switching from react-toastify to sonner for better shadcn/ui integration (or keep react-toastify if preferred)",
+    "Run shadcn CLI to add required components: npx shadcn@latest add button card input textarea checkbox badge table select scroll-area sheet collapsible form",
+    "Create cn() utility function in lib/utils.ts if not already present",
+    "Ensure tailwind.config.js is configured with CSS variables for shadcn/ui theming"
+  ],
+  "existing_project_dependencies": {
+    "already_installed": [
+      "react-hook-form@^7.43.1",
+      "@hookform/resolvers@^2.9.11",
+      "zod@^3.20.2",
+      "lucide-react@^0.331.0",
+      "clsx@^2.1.0",
+      "tailwind-merge@^2.2.1",
+      "next@15.5.9",
+      "react@18.2.0",
+      "tailwindcss@^3.2.0"
+    ],
+    "needs_installation": [
+      "@tanstack/react-table",
+      "react-signature-canvas",
+      "@types/react-signature-canvas (dev)",
+      "react-markdown",
+      "sonner (optional - can keep react-toastify)"
+    ],
+    "shadcn_components_needed": [
+      "button",
+      "card",
+      "input",
+      "textarea",
+      "checkbox",
+      "badge",
+      "table",
+      "select",
+      "scroll-area",
+      "sheet",
+      "collapsible",
+      "form"
+    ]
+  },
+  "context7_libraries_used": [
+    "/shadcn-ui/ui",
+    "/websites/tanstack_table",
+    "/react-hook-form/react-hook-form",
+    "/colinhacks/zod",
+    "/react-hook-form/resolvers",
+    "/agilgur5/react-signature-canvas",
+    "/websites/lucide_dev_guide_packages",
+    "/remarkjs/react-markdown",
+    "/emilkowalski/sonner"
+  ],
+  "created_at": "2025-01-10T00:00:00Z"
+}

@@ -1,0 +1,442 @@
+{
+  "feature": "Service Layer with neverthrow Error Handling",
+  "workflow_type": "feature",
+  "workflow_rationale": "This is a new architectural pattern introducing a 3-tier service layer with functional error handling. It requires creating multiple new files (services, error types, server actions) and installing new dependencies. Follows feature workflow with Setup → Services → Actions phases.",
+  "phases": [
+    {
+      "id": "phase-1-setup",
+      "name": "Setup & Dependencies",
+      "type": "setup",
+      "description": "Install dependencies and create foundational error handling infrastructure",
+      "depends_on": [],
+      "parallel_safe": false,
+      "subtasks": [
+        {
+          "id": "subtask-1-1",
+          "description": "Install neverthrow, pdfkit, and @paralleldrive/cuid2 dependencies",
+          "service": "main",
+          "files_to_modify": ["package.json"],
+          "files_to_create": [],
+          "patterns_from": [],
+          "verification": {
+            "type": "command",
+            "command": "cd /Users/mariogalla/development/augenblick && pnpm list neverthrow pdfkit @paralleldrive/cuid2 2>/dev/null | grep -E '(neverthrow|pdfkit|cuid2)'",
+            "expected": "Package names in output"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-1-2",
+          "description": "Create centralized error handling with AppError class and ErrorCode enum",
+          "service": "main",
+          "files_to_modify": [],
+          "files_to_create": ["src/lib/errors.ts"],
+          "patterns_from": ["src/lib/db/client.ts"],
+          "verification": {
+            "type": "command",
+            "command": "cd /Users/mariogalla/development/augenblick && npx tsc --noEmit src/lib/errors.ts 2>&1 || echo 'Type check done'",
+            "expected": "No TypeScript errors"
+          },
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "id": "phase-2-schema",
+      "name": "Database Schema Updates",
+      "type": "implementation",
+      "description": "Update customers schema with deletedAt column and create missing schema files",
+      "depends_on": ["phase-1-setup"],
+      "parallel_safe": false,
+      "subtasks": [
+        {
+          "id": "subtask-2-1",
+          "description": "Add deletedAt timestamp column to customers schema for soft delete",
+          "service": "main",
+          "files_to_modify": ["src/lib/db/schema/customers.ts"],
+          "files_to_create": [],
+          "patterns_from": ["src/lib/db/schema/example.ts"],
+          "verification": {
+            "type": "command",
+            "command": "cd /Users/mariogalla/development/augenblick && grep -q 'deletedAt' src/lib/db/schema/customers.ts && echo 'OK'",
+            "expected": "OK"
+          },
+          "status": "pending",
+          "notes": "If customers.ts doesn't exist, create it first following the pattern from worktree-005"
+        },
+        {
+          "id": "subtask-2-2",
+          "description": "Create customer signatures schema with relations",
+          "service": "main",
+          "files_to_modify": [],
+          "files_to_create": ["src/lib/db/schema/customer-signatures.ts"],
+          "patterns_from": ["src/lib/db/schema/example.ts"],
+          "verification": {
+            "type": "command",
+            "command": "cd /Users/mariogalla/development/augenblick && test -f src/lib/db/schema/customer-signatures.ts && echo 'OK'",
+            "expected": "OK"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-2-3",
+          "description": "Create customer audit log schema for tracking changes",
+          "service": "main",
+          "files_to_modify": [],
+          "files_to_create": ["src/lib/db/schema/customer-audit.ts"],
+          "patterns_from": ["src/lib/db/schema/example.ts"],
+          "verification": {
+            "type": "command",
+            "command": "cd /Users/mariogalla/development/augenblick && test -f src/lib/db/schema/customer-audit.ts && echo 'OK'",
+            "expected": "OK"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-2-4",
+          "description": "Update schema index to export all new tables and setup relations",
+          "service": "main",
+          "files_to_modify": ["src/lib/db/schema/index.ts"],
+          "files_to_create": [],
+          "patterns_from": [],
+          "verification": {
+            "type": "command",
+            "command": "cd /Users/mariogalla/development/augenblick && npx tsc --noEmit src/lib/db/schema/index.ts 2>&1 || echo 'Check done'",
+            "expected": "No TypeScript errors"
+          },
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "id": "phase-3-audit-service",
+      "name": "Audit Service",
+      "type": "implementation",
+      "description": "Create audit service first as it's a dependency for customer service",
+      "depends_on": ["phase-2-schema"],
+      "parallel_safe": false,
+      "subtasks": [
+        {
+          "id": "subtask-3-1",
+          "description": "Create audit service with logChange and getForCustomer methods using ResultAsync",
+          "service": "main",
+          "files_to_modify": [],
+          "files_to_create": ["src/lib/services/audit.service.ts"],
+          "patterns_from": ["src/lib/db/client.ts", "src/lib/errors.ts"],
+          "verification": {
+            "type": "command",
+            "command": "cd /Users/mariogalla/development/augenblick && npx tsc --noEmit src/lib/services/audit.service.ts 2>&1 || echo 'Check done'",
+            "expected": "No TypeScript errors"
+          },
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "id": "phase-4-customer-service",
+      "name": "Customer Service",
+      "type": "implementation",
+      "description": "Create customer service with CRUD operations, soft delete, and audit logging integration",
+      "depends_on": ["phase-3-audit-service"],
+      "parallel_safe": false,
+      "subtasks": [
+        {
+          "id": "subtask-4-1",
+          "description": "Create customer service with create, getById, getAll methods using ResultAsync",
+          "service": "main",
+          "files_to_modify": [],
+          "files_to_create": ["src/lib/services/customer.service.ts"],
+          "patterns_from": ["src/lib/services/audit.service.ts", "src/lib/errors.ts"],
+          "verification": {
+            "type": "command",
+            "command": "cd /Users/mariogalla/development/augenblick && npx tsc --noEmit src/lib/services/customer.service.ts 2>&1 || echo 'Check done'",
+            "expected": "No TypeScript errors"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-4-2",
+          "description": "Add update, delete (soft delete), and search methods to customer service",
+          "service": "main",
+          "files_to_modify": ["src/lib/services/customer.service.ts"],
+          "files_to_create": [],
+          "patterns_from": [],
+          "verification": {
+            "type": "command",
+            "command": "cd /Users/mariogalla/development/augenblick && grep -E '(updateCustomer|deleteCustomer|searchCustomers)' src/lib/services/customer.service.ts && echo 'OK'",
+            "expected": "Method names found"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-4-3",
+          "description": "Add getWithSignatureStatus method to customer service for enriched queries",
+          "service": "main",
+          "files_to_modify": ["src/lib/services/customer.service.ts"],
+          "files_to_create": [],
+          "patterns_from": [],
+          "verification": {
+            "type": "command",
+            "command": "cd /Users/mariogalla/development/augenblick && grep -q 'getCustomerWithSignatureStatus' src/lib/services/customer.service.ts && echo 'OK'",
+            "expected": "OK"
+          },
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "id": "phase-5-gdpr-service",
+      "name": "GDPR Service",
+      "type": "implementation",
+      "description": "Create GDPR service for version management and signature handling",
+      "depends_on": ["phase-2-schema"],
+      "parallel_safe": true,
+      "subtasks": [
+        {
+          "id": "subtask-5-1",
+          "description": "Create GDPR version management methods (create, get, update, setActive) with transaction support",
+          "service": "main",
+          "files_to_modify": [],
+          "files_to_create": ["src/lib/services/gdpr.service.ts"],
+          "patterns_from": ["src/lib/services/audit.service.ts", "src/lib/errors.ts"],
+          "verification": {
+            "type": "command",
+            "command": "cd /Users/mariogalla/development/augenblick && npx tsc --noEmit src/lib/services/gdpr.service.ts 2>&1 || echo 'Check done'",
+            "expected": "No TypeScript errors"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-5-2",
+          "description": "Add signature methods (createSignature, getSignatures, checkValidSignature) to GDPR service",
+          "service": "main",
+          "files_to_modify": ["src/lib/services/gdpr.service.ts"],
+          "files_to_create": [],
+          "patterns_from": [],
+          "verification": {
+            "type": "command",
+            "command": "cd /Users/mariogalla/development/augenblick && grep -E '(createSignature|getSignaturesForCustomer|checkCustomerHasValidSignature)' src/lib/services/gdpr.service.ts && echo 'OK'",
+            "expected": "Method names found"
+          },
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "id": "phase-6-pdf-service",
+      "name": "PDF Service",
+      "type": "implementation",
+      "description": "Create PDF service for GDPR document generation",
+      "depends_on": ["phase-4-customer-service", "phase-5-gdpr-service"],
+      "parallel_safe": false,
+      "subtasks": [
+        {
+          "id": "subtask-6-1",
+          "description": "Create PDF service with generateGdprPdf method using pdfkit",
+          "service": "main",
+          "files_to_modify": [],
+          "files_to_create": ["src/lib/services/pdf.service.ts"],
+          "patterns_from": ["src/lib/services/customer.service.ts", "src/lib/services/gdpr.service.ts"],
+          "verification": {
+            "type": "command",
+            "command": "cd /Users/mariogalla/development/augenblick && npx tsc --noEmit src/lib/services/pdf.service.ts 2>&1 || echo 'Check done'",
+            "expected": "No TypeScript errors"
+          },
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "id": "phase-7-server-actions",
+      "name": "Server Actions",
+      "type": "implementation",
+      "description": "Create Next.js Server Actions as the public API layer for all services",
+      "depends_on": ["phase-4-customer-service", "phase-5-gdpr-service", "phase-6-pdf-service"],
+      "parallel_safe": false,
+      "subtasks": [
+        {
+          "id": "subtask-7-1",
+          "description": "Create customer server actions (create, update, delete, search) with Zod validation",
+          "service": "main",
+          "files_to_modify": [],
+          "files_to_create": ["src/app/actions/customer.actions.ts"],
+          "patterns_from": ["src/lib/services/customer.service.ts"],
+          "verification": {
+            "type": "command",
+            "command": "cd /Users/mariogalla/development/augenblick && grep -q '\"use server\"' src/app/actions/customer.actions.ts && echo 'OK'",
+            "expected": "OK"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-7-2",
+          "description": "Create GDPR server actions (createVersion, updateVersion, setActive, createSignature) with Zod validation",
+          "service": "main",
+          "files_to_modify": [],
+          "files_to_create": ["src/app/actions/gdpr.actions.ts"],
+          "patterns_from": ["src/app/actions/customer.actions.ts"],
+          "verification": {
+            "type": "command",
+            "command": "cd /Users/mariogalla/development/augenblick && grep -q '\"use server\"' src/app/actions/gdpr.actions.ts && echo 'OK'",
+            "expected": "OK"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-7-3",
+          "description": "Create PDF server action (generateGdprPdf) for document generation",
+          "service": "main",
+          "files_to_modify": [],
+          "files_to_create": ["src/app/actions/pdf.actions.ts"],
+          "patterns_from": ["src/app/actions/customer.actions.ts"],
+          "verification": {
+            "type": "command",
+            "command": "cd /Users/mariogalla/development/augenblick && grep -q '\"use server\"' src/app/actions/pdf.actions.ts && echo 'OK'",
+            "expected": "OK"
+          },
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "id": "phase-8-integration",
+      "name": "Integration & Verification",
+      "type": "integration",
+      "description": "Verify all services work together and TypeScript compilation succeeds",
+      "depends_on": ["phase-7-server-actions"],
+      "parallel_safe": false,
+      "subtasks": [
+        {
+          "id": "subtask-8-1",
+          "description": "Run TypeScript type check on entire project",
+          "all_services": true,
+          "files_to_modify": [],
+          "files_to_create": [],
+          "patterns_from": [],
+          "verification": {
+            "type": "command",
+            "command": "cd /Users/mariogalla/development/augenblick && npx tsc --noEmit",
+            "expected": "No TypeScript errors"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-8-2",
+          "description": "Verify Next.js dev server starts without errors",
+          "all_services": true,
+          "files_to_modify": [],
+          "files_to_create": [],
+          "patterns_from": [],
+          "verification": {
+            "type": "command",
+            "command": "cd /Users/mariogalla/development/augenblick && timeout 30 npm run dev 2>&1 | head -20 || true",
+            "expected": "Server starts on port 3000"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-8-3",
+          "description": "Verify ESLint passes on new files",
+          "all_services": true,
+          "files_to_modify": [],
+          "files_to_create": [],
+          "patterns_from": [],
+          "verification": {
+            "type": "command",
+            "command": "cd /Users/mariogalla/development/augenblick && npm run lint",
+            "expected": "No linting errors"
+          },
+          "status": "pending"
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "total_phases": 8,
+    "total_subtasks": 17,
+    "services_involved": ["main"],
+    "parallelism": {
+      "max_parallel_phases": 2,
+      "parallel_groups": [
+        {
+          "phases": ["phase-4-customer-service", "phase-5-gdpr-service"],
+          "reason": "Both depend on phase-2-schema (and phase-3 for customer), different service files"
+        }
+      ],
+      "recommended_workers": 1,
+      "speedup_estimate": "1.2x faster than sequential (limited parallelism opportunity)"
+    },
+    "startup_command": "source auto-claude/.venv/bin/activate && python auto-claude/run.py --spec 006 --parallel 1"
+  },
+  "verification_strategy": {
+    "risk_level": "medium",
+    "skip_validation": false,
+    "test_creation_phase": "post_implementation",
+    "test_types_required": ["unit", "integration"],
+    "security_scanning_required": false,
+    "staging_deployment_required": false,
+    "acceptance_criteria": [
+      "All TypeScript compilation passes without errors",
+      "All services export functions with ResultAsync return types",
+      "Server Actions are marked with 'use server' directive",
+      "Soft delete pattern filters deleted records correctly",
+      "Error messages are in German for user-facing content",
+      "Audit logging is integrated with customer mutations"
+    ],
+    "verification_steps": [
+      {
+        "name": "TypeScript Compilation",
+        "command": "npx tsc --noEmit",
+        "expected_outcome": "No errors",
+        "type": "typecheck",
+        "required": true,
+        "blocking": true
+      },
+      {
+        "name": "ESLint Check",
+        "command": "npm run lint",
+        "expected_outcome": "No linting errors",
+        "type": "lint",
+        "required": true,
+        "blocking": true
+      },
+      {
+        "name": "Dev Server Starts",
+        "command": "npm run dev",
+        "expected_outcome": "Server runs on port 3000",
+        "type": "runtime",
+        "required": true,
+        "blocking": true
+      }
+    ],
+    "reasoning": "Medium risk implementation with new architectural pattern (neverthrow). TypeScript compilation and linting are critical to verify correct usage of ResultAsync patterns."
+  },
+  "qa_acceptance": {
+    "unit_tests": {
+      "required": true,
+      "commands": [],
+      "minimum_coverage": null,
+      "notes": "Unit tests to be created in post-implementation phase"
+    },
+    "integration_tests": {
+      "required": true,
+      "commands": [],
+      "services_to_test": ["main"],
+      "notes": "Integration tests for service-to-service communication"
+    },
+    "e2e_tests": {
+      "required": false,
+      "commands": [],
+      "flows": []
+    },
+    "browser_verification": {
+      "required": false,
+      "pages": []
+    },
+    "database_verification": {
+      "required": true,
+      "checks": ["schema-has-deletedAt", "relations-configured"]
+    }
+  },
+  "qa_signoff": null
+}

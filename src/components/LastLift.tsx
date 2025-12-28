@@ -3,8 +3,6 @@ import {
   CheckCircleIcon,
   InformationCircleIcon,
 } from "@heroicons/react/outline";
-import BuchungsSection from "./Buchung";
-import Slider from "./Impressionen";
 import banner from "/public/lashlift/banner.png";
 import NextImage from "next/image";
 

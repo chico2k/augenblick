@@ -1,4 +1,6 @@
 {
+  "root": true,
+  "ignorePatterns": ["src/open-in-v0/**/*"],
   "overrides": [
     {
       "extends": [

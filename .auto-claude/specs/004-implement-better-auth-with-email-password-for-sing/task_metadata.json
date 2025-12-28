@@ -1,0 +1,35 @@
+{
+  "sourceType": "manual",
+  "model": "opus",
+  "thinkingLevel": "high",
+  "isAutoProfile": true,
+  "phaseModels": {
+    "spec": "opus",
+    "planning": "opus",
+    "coding": "opus",
+    "qa": "opus"
+  },
+  "phaseThinking": {
+    "spec": "ultrathink",
+    "planning": "high",
+    "coding": "low",
+    "qa": "low"
+  },
+  "referencedFiles": [
+    {
+      "id": "3e80736e-43ab-42bc-8d03-ac56e04ebd63",
+      "path": "neon.tech",
+      "name": "neon.tech",
+      "isDirectory": false,
+      "addedAt": "2025-12-25T22:22:23.425Z"
+    },
+    {
+      "id": "084ead4c-3915-44a1-bb89-0c60523c6787",
+      "path": "email.de",
+      "name": "email.de",
+      "isDirectory": false,
+      "addedAt": "2025-12-25T22:22:23.425Z"
+    }
+  ],
+  "baseBranch": "admim-view"
+}

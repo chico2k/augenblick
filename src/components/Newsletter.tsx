@@ -1,3 +1,5 @@
+"use client";
+
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -28,7 +30,7 @@ export default function Newsletter() {
 
   return (
     <Element name="newsletter">
-      <section className="bg-gradient-to-tl from-fuchsia-500 via-fuchsia-600 to-fuchsia-700 ">
+      <section className="bg-linear-to-tl from-fuchsia-500 via-fuchsia-600 to-fuchsia-700 ">
         <div className=" mx-auto max-w-7xl py-20 px-8 md:px-12 lg:flex lg:items-center lg:py-32 lg:px-8">
           <div className=" lg:w-0 lg:flex-1">
             <h2 className="text-3xl font-semibold tracking-tight text-white sm:text-3xl lg:text-4xl">
@@ -68,11 +70,11 @@ export default function Newsletter() {
                 className="w-full rounded-md border border-transparent px-5 py-3 placeholder-gray-500 focus:border-white focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 sm:max-w-xs"
                 placeholder="E-Mail"
               />
-              <div className="mt-3 rounded-md shadow sm:mt-0 sm:ml-3 sm:flex-shrink-0">
+              <div className="mt-3 rounded-md shadow-sm sm:mt-0 sm:ml-3 sm:shrink-0">
                 <button
                   id="submit-newsletter"
                   type="submit"
-                  className="flex w-full items-center justify-center rounded-md border border-transparent bg-fuchsia-800 px-5 py-3 text-base font-medium text-white hover:bg-fuchsia-700 focus:outline-none focus:ring-2 focus:ring-fuchsia-500 focus:ring-offset-2 focus:ring-offset-gray-800"
+                  className="flex w-full items-center justify-center rounded-md border border-transparent bg-fuchsia-800 px-5 py-3 text-base font-medium text-white hover:bg-fuchsia-700 focus:outline-hidden focus:ring-2 focus:ring-fuchsia-500 focus:ring-offset-2 focus:ring-offset-gray-800"
                 >
                   Abschicken
                 </button>

@@ -1,0 +1,433 @@
+{
+  "integrations_researched": [
+    {
+      "name": "Better Auth",
+      "type": "library",
+      "verified_package": {
+        "name": "better-auth",
+        "install_command": "pnpm add better-auth",
+        "version": "latest",
+        "verified": true
+      },
+      "api_patterns": {
+        "imports": [
+          "import { betterAuth } from \"better-auth\"",
+          "import { drizzleAdapter } from \"better-auth/adapters/drizzle\"",
+          "import { toNextJsHandler } from \"better-auth/next-js\"",
+          "import { createAuthClient } from \"better-auth/react\"",
+          "import { getSessionCookie, getCookieCache } from \"better-auth/cookies\""
+        ],
+        "initialization": "export const auth = betterAuth({ database: drizzleAdapter(db, { provider: \"pg\" }), emailAndPassword: { enabled: true }, session: { expiresIn: 60 * 60 * 24 * 30, updateAge: 60 * 60 * 24 } })",
+        "key_functions": [
+          "auth.api.getSession({ headers })",
+          "authClient.signIn.email({ email, password, callbackURL })",
+          "authClient.signOut()",
+          "authClient.useSession()"
+        ],
+        "verified_against": "Context7 MCP: /better-auth/better-auth"
+      },
+      "configuration": {
+        "env_vars": [
+          "BETTER_AUTH_SECRET",
+          "NEXT_PUBLIC_APP_URL",
+          "DATABASE_URL"
+        ],
+        "config_files": [
+          "lib/auth.ts",
+          "lib/auth-client.ts",
+          "app/api/auth/[...all]/route.ts"
+        ],
+        "dependencies": [
+          "drizzle-orm",
+          "@neondatabase/serverless"
+        ]
+      },
+      "infrastructure": {
+        "requires_docker": false,
+        "docker_image": null,
+        "ports": [],
+        "volumes": []
+      },
+      "gotchas": [
+        "disabledPaths config is the correct way to block public sign-up endpoints (e.g., disabledPaths: [\"/sign-up/email\"])",
+        "For Next.js 15.2.0+, use runtime: 'nodejs' in middleware.config for full session validation with auth.api.getSession",
+        "Next.js 16 renames middleware.ts to proxy.ts with function named 'proxy' - this is UNVERIFIED in official docs",
+        "Better Auth uses scrypt for password hashing by default (not bcrypt) - can be customized via password.hash/verify",
+        "toNextJsHandler is the correct wrapper for Next.js App Router API routes",
+        "Session validation in middleware is 'optimistic' with getSessionCookie - full validation requires auth.api.getSession",
+        "The CLI command is 'npx @better-auth/cli generate' for schema generation, 'npx @better-auth/cli migrate' to apply"
+      ],
+      "research_sources": [
+        "Context7 MCP: /better-auth/better-auth - 2333 code snippets",
+        "https://github.com/better-auth/better-auth/blob/canary/docs/content/docs/integrations/next.mdx",
+        "https://github.com/better-auth/better-auth/blob/canary/docs/content/docs/reference/options.mdx"
+      ]
+    },
+    {
+      "name": "React Hook Form",
+      "type": "library",
+      "verified_package": {
+        "name": "react-hook-form",
+        "install_command": "pnpm add react-hook-form",
+        "version": "^7.43.1",
+        "verified": true,
+        "already_installed": true
+      },
+      "api_patterns": {
+        "imports": [
+          "import { useForm } from \"react-hook-form\"",
+          "import { zodResolver } from \"@hookform/resolvers/zod\""
+        ],
+        "initialization": "const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<LoginForm>({ resolver: zodResolver(schema) })",
+        "key_functions": [
+          "useForm({ resolver, defaultValues })",
+          "register(fieldName)",
+          "handleSubmit(onSubmit)",
+          "formState.errors",
+          "formState.isSubmitting"
+        ],
+        "verified_against": "Context7 MCP: /react-hook-form/documentation"
+      },
+      "configuration": {
+        "env_vars": [],
+        "config_files": [],
+        "dependencies": [
+          "@hookform/resolvers",
+          "zod"
+        ]
+      },
+      "infrastructure": {
+        "requires_docker": false,
+        "docker_image": null,
+        "ports": [],
+        "volumes": []
+      },
+      "gotchas": [
+        "zodResolver is imported from '@hookform/resolvers/zod' (not from react-hook-form)",
+        "For TypeScript, use z.infer<typeof schema> to get the form type",
+        "valueAsNumber option is needed for number inputs: register('age', { valueAsNumber: true })"
+      ],
+      "research_sources": [
+        "Context7 MCP: /react-hook-form/documentation - 344 code snippets",
+        "Context7 MCP: /react-hook-form/resolvers - 51 code snippets"
+      ]
+    },
+    {
+      "name": "@hookform/resolvers",
+      "type": "library",
+      "verified_package": {
+        "name": "@hookform/resolvers",
+        "install_command": "pnpm add @hookform/resolvers",
+        "version": "^2.9.11",
+        "verified": true,
+        "already_installed": true
+      },
+      "api_patterns": {
+        "imports": [
+          "import { zodResolver } from \"@hookform/resolvers/zod\""
+        ],
+        "initialization": "resolver: zodResolver(schema)",
+        "key_functions": [
+          "zodResolver(schema)"
+        ],
+        "verified_against": "Context7 MCP: /react-hook-form/resolvers"
+      },
+      "configuration": {
+        "env_vars": [],
+        "config_files": [],
+        "dependencies": [
+          "zod"
+        ]
+      },
+      "infrastructure": {
+        "requires_docker": false,
+        "docker_image": null,
+        "ports": [],
+        "volumes": []
+      },
+      "gotchas": [
+        "Import zodResolver from '@hookform/resolvers/zod' specifically",
+        "Works with both Zod v3 and v4 (import from 'zod' or 'zod/v4')"
+      ],
+      "research_sources": [
+        "Context7 MCP: /react-hook-form/resolvers"
+      ]
+    },
+    {
+      "name": "Zod",
+      "type": "library",
+      "verified_package": {
+        "name": "zod",
+        "install_command": "pnpm add zod",
+        "version": "^3.20.2",
+        "verified": true,
+        "already_installed": true
+      },
+      "api_patterns": {
+        "imports": [
+          "import { z } from \"zod\"",
+          "import * as z from \"zod\""
+        ],
+        "initialization": "const schema = z.object({ email: z.string().email(), password: z.string().min(8) })",
+        "key_functions": [
+          "z.object({})",
+          "z.string()",
+          "z.string().email()",
+          "z.string().min(n, message)",
+          "z.infer<typeof schema>",
+          "schema.parse()",
+          "schema.safeParse()"
+        ],
+        "verified_against": "Context7 MCP: /colinhacks/zod"
+      },
+      "configuration": {
+        "env_vars": [],
+        "config_files": [],
+        "dependencies": []
+      },
+      "infrastructure": {
+        "requires_docker": false,
+        "docker_image": null,
+        "ports": [],
+        "volumes": []
+      },
+      "gotchas": [
+        "Custom error messages use { message: 'Custom error' } syntax",
+        "Email validation: z.string().email({ message: 'Invalid email' })",
+        "Min length: z.string().min(8, { message: 'Must be 8 characters' })"
+      ],
+      "research_sources": [
+        "Context7 MCP: /colinhacks/zod - 641 code snippets"
+      ]
+    },
+    {
+      "name": "@tanstack/react-query",
+      "type": "library",
+      "verified_package": {
+        "name": "@tanstack/react-query",
+        "install_command": "pnpm add @tanstack/react-query",
+        "version": "^5.90.12",
+        "verified": true,
+        "already_installed": false
+      },
+      "api_patterns": {
+        "imports": [
+          "import { QueryClient, QueryClientProvider } from \"@tanstack/react-query\""
+        ],
+        "initialization": "const queryClient = new QueryClient()",
+        "key_functions": [
+          "useQuery({ queryKey, queryFn })",
+          "useMutation({ mutationFn })",
+          "QueryClientProvider"
+        ],
+        "verified_against": "Context7 MCP: /websites/tanstack_query"
+      },
+      "configuration": {
+        "env_vars": [],
+        "config_files": [],
+        "dependencies": [
+          "react",
+          "react-dom"
+        ]
+      },
+      "infrastructure": {
+        "requires_docker": false,
+        "docker_image": null,
+        "ports": [],
+        "volumes": []
+      },
+      "gotchas": [
+        "Version 5.x requires React 18+",
+        "Old package 'react-query' is deprecated - use '@tanstack/react-query'",
+        "QueryClientProvider must wrap app at root level"
+      ],
+      "research_sources": [
+        "Context7 MCP: /websites/tanstack_query - 2156 code snippets"
+      ],
+      "notes": "Optional for this task - Better Auth provides useSession hook that may suffice for auth state management"
+    },
+    {
+      "name": "Drizzle ORM",
+      "type": "library",
+      "verified_package": {
+        "name": "drizzle-orm",
+        "install_command": "pnpm add drizzle-orm",
+        "version": "^0.38.3",
+        "verified": true,
+        "already_installed": true
+      },
+      "api_patterns": {
+        "imports": [
+          "import { drizzle } from \"drizzle-orm/neon-http\"",
+          "import { neon } from \"@neondatabase/serverless\"",
+          "import { pgTable, text, timestamp, index } from \"drizzle-orm/pg-core\""
+        ],
+        "initialization": "const sql = neon(process.env.DATABASE_URL!); const db = drizzle(sql, { schema });",
+        "key_functions": [
+          "db.select().from(table)",
+          "db.insert(table).values({})",
+          "db.update(table).set({}).where()",
+          "pgTable(name, columns, config)"
+        ],
+        "verified_against": "Context7 MCP: /drizzle-team/drizzle-orm"
+      },
+      "configuration": {
+        "env_vars": [
+          "DATABASE_URL"
+        ],
+        "config_files": [
+          "src/lib/db/client.ts",
+          "src/lib/db/schema/index.ts"
+        ],
+        "dependencies": [
+          "@neondatabase/serverless"
+        ]
+      },
+      "infrastructure": {
+        "requires_docker": false,
+        "docker_image": null,
+        "ports": [],
+        "volumes": []
+      },
+      "gotchas": [
+        "Use drizzle-orm/neon-http for Neon HTTP connections (already configured)",
+        "Schema must be passed to drizzle() for relation queries",
+        "Better Auth drizzleAdapter needs provider: 'pg' for PostgreSQL"
+      ],
+      "research_sources": [
+        "Context7 MCP: /drizzle-team/drizzle-orm - 509 code snippets"
+      ]
+    },
+    {
+      "name": "@neondatabase/serverless",
+      "type": "library",
+      "verified_package": {
+        "name": "@neondatabase/serverless",
+        "install_command": "pnpm add @neondatabase/serverless",
+        "version": "^0.10.4",
+        "verified": true,
+        "already_installed": true
+      },
+      "api_patterns": {
+        "imports": [
+          "import { neon } from \"@neondatabase/serverless\""
+        ],
+        "initialization": "const sql = neon(process.env.DATABASE_URL!)",
+        "key_functions": [
+          "neon(connectionString)"
+        ],
+        "verified_against": "Context7 MCP: /drizzle-team/drizzle-orm"
+      },
+      "configuration": {
+        "env_vars": [
+          "DATABASE_URL"
+        ],
+        "config_files": [],
+        "dependencies": []
+      },
+      "infrastructure": {
+        "requires_docker": false,
+        "docker_image": null,
+        "ports": [],
+        "volumes": []
+      },
+      "gotchas": [
+        "HTTP driver is stateless - ideal for serverless",
+        "Import path is 'drizzle-orm/neon-http' for HTTP connections"
+      ],
+      "research_sources": [
+        "Context7 MCP: /drizzle-team/drizzle-orm"
+      ]
+    },
+    {
+      "name": "@better-auth/cli",
+      "type": "library",
+      "verified_package": {
+        "name": "@better-auth/cli",
+        "install_command": "npx @better-auth/cli",
+        "version": "latest",
+        "verified": true,
+        "already_installed": false,
+        "usage": "CLI tool - run with npx, not installed as dependency"
+      },
+      "api_patterns": {
+        "imports": [],
+        "initialization": null,
+        "key_functions": [
+          "npx @better-auth/cli generate",
+          "npx @better-auth/cli migrate"
+        ],
+        "verified_against": "Context7 MCP: /better-auth/better-auth"
+      },
+      "configuration": {
+        "env_vars": [],
+        "config_files": [],
+        "dependencies": []
+      },
+      "infrastructure": {
+        "requires_docker": false,
+        "docker_image": null,
+        "ports": [],
+        "volumes": []
+      },
+      "gotchas": [
+        "Run 'npx @better-auth/cli generate' to create schema file for Drizzle/Prisma",
+        "Run 'npx @better-auth/cli migrate' to apply schema directly to database",
+        "For Drizzle: use generate command, then run drizzle-kit to apply migrations",
+        "Output path can be specified: --output ./db/auth-schema.ts"
+      ],
+      "research_sources": [
+        "Context7 MCP: /better-auth/better-auth",
+        "https://github.com/better-auth/better-auth/blob/canary/docs/content/docs/installation.mdx"
+      ]
+    }
+  ],
+  "unverified_claims": [
+    {
+      "claim": "Next.js 16 renames middleware.ts to proxy.ts with export named 'proxy'",
+      "reason": "Next.js 16 is not yet released. Current stable is Next.js 15. This appears to be a future/experimental feature. The project uses Next.js 15.5.9.",
+      "risk_level": "high",
+      "recommendation": "Use standard middleware.ts with 'middleware' export for Next.js 15. The proxy.ts pattern may be for Next.js 16+ when released."
+    },
+    {
+      "claim": "better-auth/crypto exports hash.hash() function for password hashing",
+      "reason": "Documentation shows custom password hash/verify functions but specific import path 'better-auth/crypto' not found in Context7 docs",
+      "risk_level": "medium",
+      "recommendation": "Use the emailAndPassword.password.hash config option with a custom function, or let Better Auth use its default scrypt hashing"
+    }
+  ],
+  "recommendations": [
+    "Use standard middleware.ts (not proxy.ts) since the project uses Next.js 15.5.9 - the proxy.ts pattern is for unreleased Next.js 16",
+    "The project already has drizzle-orm, zod, react-hook-form, and @hookform/resolvers installed - only need to add better-auth",
+    "Consider whether @tanstack/react-query is actually needed - Better Auth's useSession hook may be sufficient for auth state",
+    "Use the getSessionCookie for optimistic middleware checks, but validate with auth.api.getSession on protected pages for security",
+    "For admin seeding, use Better Auth's API: auth.api.signUpEmail({ email, password, name }) rather than direct DB insertion",
+    "Database is already configured with Neon HTTP - the drizzleAdapter will work with existing db client"
+  ],
+  "existing_project_setup": {
+    "next_version": "15.5.9",
+    "react_version": "18.2.0",
+    "already_installed": [
+      "drizzle-orm@^0.38.3",
+      "drizzle-kit@^0.30.2",
+      "@neondatabase/serverless@^0.10.4",
+      "zod@^3.20.2",
+      "react-hook-form@^7.43.1",
+      "@hookform/resolvers@^2.9.11"
+    ],
+    "needs_installation": [
+      "better-auth"
+    ],
+    "db_client_path": "src/lib/db/client.ts",
+    "schema_path": "src/lib/db/schema/index.ts"
+  },
+  "context7_libraries_used": [
+    "/better-auth/better-auth",
+    "/react-hook-form/documentation",
+    "/react-hook-form/resolvers",
+    "/colinhacks/zod",
+    "/websites/tanstack_query",
+    "/drizzle-team/drizzle-orm"
+  ],
+  "created_at": "2025-12-25T00:00:00Z"
+}

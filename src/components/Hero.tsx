@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import NextImage from "next/image";
 import imageHero from "/public/hero/bg.png";
@@ -35,9 +37,9 @@ const HeroSection: React.FunctionComponent = () => {
               type="button"
               id="click-buchung"
               className="click-buchung hbover:via-fuchsia-800 inline-flex cursor-pointer items-center rounded-md border 
-              border-transparent bg-gradient-to-tl from-fuchsia-500 via-fuchsia-600 to-fuchsia-700 px-4 py-2 text-xl font-medium text-white shadow-sm transition-all
-              duration-300 ease-in-out hover:bg-gradient-to-l hover:from-fuchsia-900
-            hover:to-fuchsia-900 focus:outline-none focus:ring-2 focus:ring-indigo-500  focus:ring-offset-2 md:px-6 md:text-2xl"
+              border-transparent bg-linear-to-tl from-fuchsia-500 via-fuchsia-600 to-fuchsia-700 px-4 py-2 text-xl font-medium text-white shadow-xs transition-all
+              duration-300 ease-in-out hover:bg-linear-to-l hover:from-fuchsia-900
+            hover:to-fuchsia-900 focus:outline-hidden focus:ring-2 focus:ring-indigo-500  focus:ring-offset-2 md:px-6 md:text-2xl"
             >
               Buchung
             </button>

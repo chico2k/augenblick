@@ -1,0 +1,15 @@
+{
+  "discovered_files": {
+    "src/lib/db/schema/example.ts": {
+      "description": "Schema files use pgTable from drizzle-orm/pg-core with serial primary keys, and export types using $inferSelect (Example) and $inferInsert (NewExample) patterns for type-safe database operations.",
+      "category": "pattern",
+      "discovered_at": "2025-12-25T18:49:26.146974+00:00"
+    },
+    "src/lib/db/client.ts": {
+      "description": "Database client uses aliased imports (e.g., 'neon as createSqlClient') to maintain provider-agnostic naming throughout the codebase, following Dependency Inversion Principle.",
+      "category": "pattern",
+      "discovered_at": "2025-12-25T18:55:23.722084+00:00"
+    }
+  },
+  "last_updated": "2025-12-25T18:55:23.722099+00:00"
+}

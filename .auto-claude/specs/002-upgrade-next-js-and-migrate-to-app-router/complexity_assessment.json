@@ -1,0 +1,99 @@
+{
+  "complexity": "standard",
+  "workflow_type": "refactor",
+  "confidence": 0.85,
+  "reasoning": "This is a well-defined architectural migration from Pages Router to App Router with a major version upgrade (13.1.6 → 15.x). The scope is contained (~15 files), the codebase is small, and Next.js provides clear migration documentation. Research is needed for latest App Router patterns and third-party library compatibility (next-axiom, cookies-next), but no new integrations are being added.",
+
+  "analysis": {
+    "scope": {
+      "estimated_files": 15,
+      "estimated_services": 1,
+      "is_cross_cutting": true,
+      "notes": "7 page routes, 2 API routes, 1 _app.tsx, next.config.mjs, and potentially several components need 'use client' directives. All pages touch the routing layer."
+    },
+    "integrations": {
+      "external_services": ["SendGrid", "SMTP2GO", "Google Analytics", "Axiom"],
+      "new_dependencies": [],
+      "research_needed": true,
+      "notes": "No new integrations. Existing integrations (next-axiom, cookies-next) need App Router compatibility verification. API routes use existing services."
+    },
+    "infrastructure": {
+      "docker_changes": false,
+      "database_changes": false,
+      "config_changes": true,
+      "notes": "next.config.mjs needs updates. i18n config mentioned as incompatible with App Router. Package.json dependencies need version updates."
+    },
+    "knowledge": {
+      "patterns_exist": true,
+      "research_required": true,
+      "unfamiliar_tech": ["Next.js 15 App Router", "Route Handlers", "Metadata API"],
+      "notes": "Next.js provides migration guides, but need to research latest 15.x patterns for: layout.tsx structure, route handlers (replacing API routes), metadata API (replacing next/head), and client component boundaries."
+    },
+    "risk": {
+      "level": "medium",
+      "concerns": [
+        "Multiple major version jumps (13 → 15) may have accumulated breaking changes",
+        "Client/Server component boundaries with existing dynamic imports",
+        "next-axiom and cookies-next App Router compatibility",
+        "i18n config incompatibility with App Router",
+        "GTM script injection patterns in App Router"
+      ],
+      "notes": "Primary risk is accumulated breaking changes and ensuring third-party libraries work with App Router. Rollback is possible by preserving pages directory during migration."
+    }
+  },
+
+  "recommended_phases": [
+    "discovery",
+    "requirements",
+    "research",
+    "context",
+    "spec_writing",
+    "planning",
+    "validation"
+  ],
+
+  "flags": {
+    "needs_research": true,
+    "needs_self_critique": false,
+    "needs_infrastructure_setup": false
+  },
+
+  "validation_recommendations": {
+    "risk_level": "medium",
+    "skip_validation": false,
+    "minimal_mode": false,
+    "test_types_required": ["unit", "integration"],
+    "security_scan_required": false,
+    "staging_deployment_required": false,
+    "reasoning": "Architectural migration affects all routes and requires thorough testing to ensure no regressions. Integration tests needed for API routes and form submissions. No security-critical changes being made - just migrating existing patterns."
+  },
+
+  "migration_specific": {
+    "from_version": "13.1.6",
+    "to_version": "latest stable (15.x)",
+    "pages_to_migrate": [
+      "src/pages/index.tsx",
+      "src/pages/404.tsx",
+      "src/pages/impressum.tsx",
+      "src/pages/datenschutz.tsx",
+      "src/pages/lashlift.tsx",
+      "src/pages/lashextension-1-zu-1-technik.tsx",
+      "src/pages/lashextension-volumentechnik.tsx"
+    ],
+    "api_routes_to_migrate": [
+      "src/pages/api/email/index.ts",
+      "src/pages/api/newsletter/index.ts"
+    ],
+    "special_files": [
+      "src/pages/_app.tsx → src/app/layout.tsx"
+    ],
+    "key_patterns_to_convert": [
+      "next/head → metadata export",
+      "dynamic imports with ssr:false → 'use client' components",
+      "NextApiRequest/Response → NextRequest/Response",
+      "withAxiom HOC → App Router compatible approach"
+    ]
+  },
+
+  "created_at": "2025-12-25T21:30:00.000Z"
+}

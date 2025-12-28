@@ -1,0 +1,4 @@
+{
+  "task_description": "Upgrade Shadcn and Tailwind to latest",
+  "workflow_type": "feature"
+}

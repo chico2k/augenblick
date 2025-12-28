@@ -1,0 +1,65 @@
+{
+  "project_root": "/Users/mariogalla/development/augenblick",
+  "project_type": "single",
+  "services": {
+    "main": {
+      "name": "main",
+      "path": ".",
+      "language": "TypeScript",
+      "framework": "Next.js",
+      "type": "frontend",
+      "package_manager": "pnpm",
+      "default_port": 3000,
+      "styling": "Tailwind CSS",
+      "orm": "Drizzle",
+      "database": "Neon Postgres",
+      "dev_command": "npm run dev",
+      "test_command": "npx tsc --noEmit",
+      "key_directories": {
+        "src": {
+          "path": "src",
+          "purpose": "Source code"
+        },
+        "schema": {
+          "path": "src/lib/db/schema",
+          "purpose": "Database schema files"
+        },
+        "drizzle": {
+          "path": "drizzle",
+          "purpose": "Generated migrations"
+        },
+        "tests": {
+          "path": "tests",
+          "purpose": "Test files"
+        }
+      },
+      "dependencies": [
+        "@neondatabase/serverless",
+        "drizzle-orm"
+      ],
+      "dev_dependencies": [
+        "drizzle-kit",
+        "typescript"
+      ]
+    }
+  },
+  "infrastructure": {
+    "docker": false,
+    "database": "Neon Postgres (serverless)"
+  },
+  "conventions": {
+    "linter": "ESLint",
+    "formatter": "Prettier",
+    "testing": "TypeScript type checking",
+    "migration_tool": "drizzle-kit"
+  },
+  "commands": {
+    "dev": "npm run dev",
+    "build": "npm run build",
+    "lint": "npm run lint",
+    "type_check": "npx tsc --noEmit",
+    "db_generate": "npx drizzle-kit generate",
+    "db_push": "npx drizzle-kit push",
+    "db_migrate": "npx drizzle-kit migrate"
+  }
+}

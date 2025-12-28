@@ -1,0 +1,4 @@
+{
+  "task_description": "setup a neon as db tool for a severless deployment use the correct setup for serverless it is important. buil the client in the SOLID principle avoid neon in the terms of naming tools. also setup drizzl as our tool to conect to it",
+  "workflow_type": "feature"
+}

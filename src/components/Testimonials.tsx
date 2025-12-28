@@ -1,3 +1,5 @@
+"use client";
+
 import NextImage from "next/image";
 import bg from "/public/testimonials/bg.png";
 import { Element } from "react-scroll";
@@ -106,8 +108,8 @@ export function Testimonials() {
             href="https://g.page/r/CcdoDyfEcWXWEBM/review"
             target={"_blank"}
             id="click-reviews-write"
-            className="hbover:via-fuchsia-800 mt-2 inline-flex items-center justify-center rounded-md border border-transparent bg-gradient-to-tl from-fuchsia-500 via-fuchsia-600 to-fuchsia-700 px-6 py-3 text-base font-medium text-white 
-                shadow-sm transition-all duration-300 ease-in-out  hover:bg-gradient-to-l hover:from-fuchsia-900 hover:to-fuchsia-900 focus:outline-none focus:ring-2 focus:ring-fuchsia-500 focus:ring-offset-2 sm:w-auto"
+            className="hbover:via-fuchsia-800 mt-2 inline-flex items-center justify-center rounded-md border border-transparent bg-linear-to-tl from-fuchsia-500 via-fuchsia-600 to-fuchsia-700 px-6 py-3 text-base font-medium text-white 
+                shadow-xs transition-all duration-300 ease-in-out  hover:bg-linear-to-l hover:from-fuchsia-900 hover:to-fuchsia-900 focus:outline-hidden focus:ring-2 focus:ring-fuchsia-500 focus:ring-offset-2 sm:w-auto"
             rel="noreferrer"
           >
             Bewertung schreiben

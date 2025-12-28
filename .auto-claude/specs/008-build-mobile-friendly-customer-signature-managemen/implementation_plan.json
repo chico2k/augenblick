@@ -1,0 +1,749 @@
+{
+  "feature": "Mobile-Friendly Customer Signature Management System",
+  "workflow_type": "feature",
+  "workflow_rationale": "Building a complete new customer management module with GDPR signature workflows from scratch. Requires new pages, components, services, database schemas, and server actions across a single Next.js service.",
+  "phases": [
+    {
+      "id": "phase-1-setup",
+      "name": "Dependencies & UI Setup",
+      "type": "setup",
+      "description": "Install required npm packages and shadcn/ui components",
+      "depends_on": [],
+      "parallel_safe": false,
+      "subtasks": [
+        {
+          "id": "subtask-1-1",
+          "description": "Install npm dependencies: @tanstack/react-table, react-signature-canvas, react-markdown, sonner",
+          "service": "main",
+          "files_to_modify": ["package.json"],
+          "files_to_create": [],
+          "patterns_from": [],
+          "verification": {
+            "type": "command",
+            "command": "cd /Users/mariogalla/development/augenblick && npm ls @tanstack/react-table react-signature-canvas react-markdown sonner",
+            "expected": "All packages listed without errors"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-1-2",
+          "description": "Install shadcn/ui components: button, card, input, textarea, checkbox, badge, table, select, scroll-area, sheet, collapsible, form, label, separator",
+          "service": "main",
+          "files_to_modify": [],
+          "files_to_create": [
+            "src/components/ui/button.tsx",
+            "src/components/ui/card.tsx",
+            "src/components/ui/input.tsx",
+            "src/components/ui/textarea.tsx",
+            "src/components/ui/checkbox.tsx",
+            "src/components/ui/badge.tsx",
+            "src/components/ui/table.tsx",
+            "src/components/ui/select.tsx",
+            "src/components/ui/scroll-area.tsx",
+            "src/components/ui/sheet.tsx",
+            "src/components/ui/collapsible.tsx",
+            "src/components/ui/form.tsx",
+            "src/components/ui/label.tsx",
+            "src/components/ui/separator.tsx"
+          ],
+          "patterns_from": ["src/components/ui/dialog.tsx"],
+          "verification": {
+            "type": "command",
+            "command": "ls /Users/mariogalla/development/augenblick/src/components/ui/",
+            "expected": "All shadcn components listed"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-1-3",
+          "description": "Add formatDate utility function to lib/utils.ts",
+          "service": "main",
+          "files_to_modify": ["src/lib/utils.ts"],
+          "files_to_create": [],
+          "patterns_from": [],
+          "verification": {
+            "type": "command",
+            "command": "grep -q 'formatDate' /Users/mariogalla/development/augenblick/src/lib/utils.ts && echo 'OK'",
+            "expected": "OK"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-1-4",
+          "description": "Add Toaster component to app layout for toast notifications",
+          "service": "main",
+          "files_to_modify": ["src/app/layout.tsx"],
+          "files_to_create": [],
+          "patterns_from": [],
+          "verification": {
+            "type": "command",
+            "command": "grep -q 'Toaster' /Users/mariogalla/development/augenblick/src/app/layout.tsx && echo 'OK'",
+            "expected": "OK"
+          },
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "id": "phase-2-database",
+      "name": "Database Schema",
+      "type": "implementation",
+      "description": "Create Drizzle schemas for customers, GDPR versions, signatures, and audit logs",
+      "depends_on": ["phase-1-setup"],
+      "parallel_safe": false,
+      "subtasks": [
+        {
+          "id": "subtask-2-1",
+          "description": "Create customers table schema with Drizzle",
+          "service": "main",
+          "files_to_modify": ["src/lib/db/schema/index.ts"],
+          "files_to_create": ["src/lib/db/schema/customers.ts"],
+          "patterns_from": ["src/lib/db/schema/example.ts"],
+          "verification": {
+            "type": "command",
+            "command": "grep -q 'customers' /Users/mariogalla/development/augenblick/src/lib/db/schema/customers.ts && echo 'OK'",
+            "expected": "OK"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-2-2",
+          "description": "Create GDPR versions table schema",
+          "service": "main",
+          "files_to_modify": ["src/lib/db/schema/index.ts"],
+          "files_to_create": ["src/lib/db/schema/gdpr-versions.ts"],
+          "patterns_from": ["src/lib/db/schema/example.ts"],
+          "verification": {
+            "type": "command",
+            "command": "grep -q 'gdprVersions' /Users/mariogalla/development/augenblick/src/lib/db/schema/gdpr-versions.ts && echo 'OK'",
+            "expected": "OK"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-2-3",
+          "description": "Create signatures table schema with customer and GDPR version relations",
+          "service": "main",
+          "files_to_modify": ["src/lib/db/schema/index.ts"],
+          "files_to_create": ["src/lib/db/schema/signatures.ts"],
+          "patterns_from": ["src/lib/db/schema/example.ts"],
+          "verification": {
+            "type": "command",
+            "command": "grep -q 'signatures' /Users/mariogalla/development/augenblick/src/lib/db/schema/signatures.ts && echo 'OK'",
+            "expected": "OK"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-2-4",
+          "description": "Create customer audit log table schema",
+          "service": "main",
+          "files_to_modify": ["src/lib/db/schema/index.ts"],
+          "files_to_create": ["src/lib/db/schema/customer-audit.ts"],
+          "patterns_from": ["src/lib/db/schema/example.ts"],
+          "verification": {
+            "type": "command",
+            "command": "grep -q 'customerAudit' /Users/mariogalla/development/augenblick/src/lib/db/schema/customer-audit.ts && echo 'OK'",
+            "expected": "OK"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-2-5",
+          "description": "Generate and run database migrations",
+          "service": "main",
+          "files_to_modify": [],
+          "files_to_create": [],
+          "patterns_from": [],
+          "verification": {
+            "type": "command",
+            "command": "cd /Users/mariogalla/development/augenblick && npx drizzle-kit push --force",
+            "expected": "Schema pushed successfully"
+          },
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "id": "phase-3-services",
+      "name": "Service Layer",
+      "type": "implementation",
+      "description": "Create service layer with neverthrow Result pattern for customers, GDPR, and audit",
+      "depends_on": ["phase-2-database"],
+      "parallel_safe": false,
+      "subtasks": [
+        {
+          "id": "subtask-3-1",
+          "description": "Create service types for Result pattern",
+          "service": "main",
+          "files_to_modify": [],
+          "files_to_create": ["src/lib/services/types.ts"],
+          "patterns_from": [],
+          "verification": {
+            "type": "command",
+            "command": "grep -q 'ServiceError' /Users/mariogalla/development/augenblick/src/lib/services/types.ts && echo 'OK'",
+            "expected": "OK"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-3-2",
+          "description": "Create customer service with CRUD operations and signature status",
+          "service": "main",
+          "files_to_modify": [],
+          "files_to_create": ["src/lib/services/customer.service.ts"],
+          "patterns_from": [],
+          "verification": {
+            "type": "command",
+            "command": "grep -q 'getWithSignatureStatus' /Users/mariogalla/development/augenblick/src/lib/services/customer.service.ts && echo 'OK'",
+            "expected": "OK"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-3-3",
+          "description": "Create GDPR service for version management and signature operations",
+          "service": "main",
+          "files_to_modify": [],
+          "files_to_create": ["src/lib/services/gdpr.service.ts"],
+          "patterns_from": ["src/lib/services/customer.service.ts"],
+          "verification": {
+            "type": "command",
+            "command": "grep -q 'getActiveVersion' /Users/mariogalla/development/augenblick/src/lib/services/gdpr.service.ts && echo 'OK'",
+            "expected": "OK"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-3-4",
+          "description": "Create audit service for customer change tracking",
+          "service": "main",
+          "files_to_modify": [],
+          "files_to_create": ["src/lib/services/audit.service.ts"],
+          "patterns_from": ["src/lib/services/customer.service.ts"],
+          "verification": {
+            "type": "command",
+            "command": "grep -q 'getForCustomer' /Users/mariogalla/development/augenblick/src/lib/services/audit.service.ts && echo 'OK'",
+            "expected": "OK"
+          },
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "id": "phase-4-server-actions",
+      "name": "Server Actions",
+      "type": "implementation",
+      "description": "Create Next.js server actions for form submissions",
+      "depends_on": ["phase-3-services"],
+      "parallel_safe": false,
+      "subtasks": [
+        {
+          "id": "subtask-4-1",
+          "description": "Create customer server actions (create, update, delete)",
+          "service": "main",
+          "files_to_modify": [],
+          "files_to_create": ["src/app/actions/customer.actions.ts"],
+          "patterns_from": [],
+          "verification": {
+            "type": "command",
+            "command": "grep -q 'use server' /Users/mariogalla/development/augenblick/src/app/actions/customer.actions.ts && echo 'OK'",
+            "expected": "OK"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-4-2",
+          "description": "Create GDPR server actions (create version, set active, create signature)",
+          "service": "main",
+          "files_to_modify": [],
+          "files_to_create": ["src/app/actions/gdpr.actions.ts"],
+          "patterns_from": ["src/app/actions/customer.actions.ts"],
+          "verification": {
+            "type": "command",
+            "command": "grep -q 'createSignatureAction' /Users/mariogalla/development/augenblick/src/app/actions/gdpr.actions.ts && echo 'OK'",
+            "expected": "OK"
+          },
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "id": "phase-5-layout",
+      "name": "Layout Components",
+      "type": "implementation",
+      "description": "Create mobile-first navigation and office layout",
+      "depends_on": ["phase-1-setup"],
+      "parallel_safe": true,
+      "subtasks": [
+        {
+          "id": "subtask-5-1",
+          "description": "Create TopNav component with mobile Sheet menu and desktop navigation",
+          "service": "main",
+          "files_to_modify": [],
+          "files_to_create": ["src/components/layout/top-nav.tsx"],
+          "patterns_from": ["src/components/Navigation.tsx"],
+          "verification": {
+            "type": "command",
+            "command": "grep -q 'Sheet' /Users/mariogalla/development/augenblick/src/components/layout/top-nav.tsx && echo 'OK'",
+            "expected": "OK"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-5-2",
+          "description": "Create office layout wrapper with TopNav",
+          "service": "main",
+          "files_to_modify": [],
+          "files_to_create": ["src/app/office/layout.tsx"],
+          "patterns_from": ["src/app/layout.tsx"],
+          "verification": {
+            "type": "command",
+            "command": "grep -q 'TopNav' /Users/mariogalla/development/augenblick/src/app/office/layout.tsx && echo 'OK'",
+            "expected": "OK"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-5-3",
+          "description": "Create office index page with redirect to /office/kunden",
+          "service": "main",
+          "files_to_modify": [],
+          "files_to_create": ["src/app/office/page.tsx"],
+          "patterns_from": [],
+          "verification": {
+            "type": "command",
+            "command": "grep -q 'redirect' /Users/mariogalla/development/augenblick/src/app/office/page.tsx && echo 'OK'",
+            "expected": "OK"
+          },
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "id": "phase-6-customer-list",
+      "name": "Customer List Page",
+      "type": "implementation",
+      "description": "Build customer table with search and signature filtering",
+      "depends_on": ["phase-4-server-actions", "phase-5-layout"],
+      "parallel_safe": false,
+      "subtasks": [
+        {
+          "id": "subtask-6-1",
+          "description": "Create customer table skeleton component for loading state",
+          "service": "main",
+          "files_to_modify": [],
+          "files_to_create": ["src/components/customers/customer-table-skeleton.tsx"],
+          "patterns_from": [],
+          "verification": {
+            "type": "command",
+            "command": "grep -q 'Skeleton' /Users/mariogalla/development/augenblick/src/components/customers/customer-table-skeleton.tsx && echo 'OK'",
+            "expected": "OK"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-6-2",
+          "description": "Create customer table component with TanStack Table, search, and filter",
+          "service": "main",
+          "files_to_modify": [],
+          "files_to_create": ["src/components/customers/customer-table.tsx"],
+          "patterns_from": [],
+          "verification": {
+            "type": "command",
+            "command": "grep -q 'useReactTable' /Users/mariogalla/development/augenblick/src/components/customers/customer-table.tsx && echo 'OK'",
+            "expected": "OK"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-6-3",
+          "description": "Create customer list page with table and new customer button",
+          "service": "main",
+          "files_to_modify": [],
+          "files_to_create": ["src/app/office/kunden/page.tsx"],
+          "patterns_from": [],
+          "verification": {
+            "type": "browser",
+            "url": "http://localhost:3000/office/kunden",
+            "checks": ["Table renders", "Search input visible", "Filter dropdown visible"]
+          },
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "id": "phase-7-customer-forms",
+      "name": "Customer Create/Edit Forms",
+      "type": "implementation",
+      "description": "Build customer forms with React Hook Form and Zod validation",
+      "depends_on": ["phase-6-customer-list"],
+      "parallel_safe": false,
+      "subtasks": [
+        {
+          "id": "subtask-7-1",
+          "description": "Create reusable customer form component with Zod validation",
+          "service": "main",
+          "files_to_modify": [],
+          "files_to_create": ["src/components/customers/customer-form.tsx"],
+          "patterns_from": [],
+          "verification": {
+            "type": "command",
+            "command": "grep -q 'zodResolver' /Users/mariogalla/development/augenblick/src/components/customers/customer-form.tsx && echo 'OK'",
+            "expected": "OK"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-7-2",
+          "description": "Create new customer page with form",
+          "service": "main",
+          "files_to_modify": [],
+          "files_to_create": ["src/app/office/kunden/neu/page.tsx"],
+          "patterns_from": [],
+          "verification": {
+            "type": "browser",
+            "url": "http://localhost:3000/office/kunden/neu",
+            "checks": ["Form renders", "Required fields marked", "Submit button visible"]
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-7-3",
+          "description": "Create edit customer page with pre-filled form",
+          "service": "main",
+          "files_to_modify": [],
+          "files_to_create": ["src/app/office/kunden/[id]/bearbeiten/page.tsx"],
+          "patterns_from": ["src/app/office/kunden/neu/page.tsx"],
+          "verification": {
+            "type": "command",
+            "command": "grep -q 'params' /Users/mariogalla/development/augenblick/src/app/office/kunden/\\[id\\]/bearbeiten/page.tsx && echo 'OK'",
+            "expected": "OK"
+          },
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "id": "phase-8-customer-detail",
+      "name": "Customer Detail Page",
+      "type": "implementation",
+      "description": "Build customer detail page with signature status and audit log",
+      "depends_on": ["phase-7-customer-forms"],
+      "parallel_safe": false,
+      "subtasks": [
+        {
+          "id": "subtask-8-1",
+          "description": "Create audit log component for customer change history",
+          "service": "main",
+          "files_to_modify": [],
+          "files_to_create": ["src/components/customers/audit-log.tsx"],
+          "patterns_from": [],
+          "verification": {
+            "type": "command",
+            "command": "grep -q 'AuditLog' /Users/mariogalla/development/augenblick/src/components/customers/audit-log.tsx && echo 'OK'",
+            "expected": "OK"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-8-2",
+          "description": "Create customer detail page with signature status card and audit log",
+          "service": "main",
+          "files_to_modify": [],
+          "files_to_create": ["src/app/office/kunden/[id]/page.tsx"],
+          "patterns_from": [],
+          "verification": {
+            "type": "browser",
+            "url": "http://localhost:3000/office/kunden/[id]",
+            "checks": ["Customer name displayed", "Signature status card visible", "Edit button visible"]
+          },
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "id": "phase-9-signature-flow",
+      "name": "Signature Capture Flow",
+      "type": "implementation",
+      "description": "Build fullscreen 3-step signature capture flow",
+      "depends_on": ["phase-8-customer-detail"],
+      "parallel_safe": false,
+      "subtasks": [
+        {
+          "id": "subtask-9-1",
+          "description": "Create fullscreen signature layout without TopNav",
+          "service": "main",
+          "files_to_modify": [],
+          "files_to_create": ["src/app/office/kunden/[id]/datenschutz/layout.tsx"],
+          "patterns_from": ["src/app/layout.tsx"],
+          "verification": {
+            "type": "command",
+            "command": "test ! $(grep -q 'TopNav' /Users/mariogalla/development/augenblick/src/app/office/kunden/\\[id\\]/datenschutz/layout.tsx) && echo 'OK'",
+            "expected": "OK"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-9-2",
+          "description": "Create signature flow component with read, sign, and success steps",
+          "service": "main",
+          "files_to_modify": [],
+          "files_to_create": ["src/components/signature/signature-flow.tsx"],
+          "patterns_from": [],
+          "verification": {
+            "type": "command",
+            "command": "grep -q 'SignatureCanvas' /Users/mariogalla/development/augenblick/src/components/signature/signature-flow.tsx && echo 'OK'",
+            "expected": "OK"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-9-3",
+          "description": "Create signature page that loads customer and GDPR version",
+          "service": "main",
+          "files_to_modify": [],
+          "files_to_create": ["src/app/office/kunden/[id]/datenschutz/page.tsx"],
+          "patterns_from": [],
+          "verification": {
+            "type": "browser",
+            "url": "http://localhost:3000/office/kunden/[id]/datenschutz",
+            "checks": ["GDPR text visible", "Checkbox visible", "Canvas visible on step 2"]
+          },
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "id": "phase-10-gdpr-management",
+      "name": "GDPR Version Management",
+      "type": "implementation",
+      "description": "Build GDPR version management interface",
+      "depends_on": ["phase-4-server-actions", "phase-5-layout"],
+      "parallel_safe": true,
+      "subtasks": [
+        {
+          "id": "subtask-10-1",
+          "description": "Create GDPR version list component with activate button",
+          "service": "main",
+          "files_to_modify": [],
+          "files_to_create": ["src/components/gdpr/gdpr-version-list.tsx"],
+          "patterns_from": [],
+          "verification": {
+            "type": "command",
+            "command": "grep -q 'GdprVersionList' /Users/mariogalla/development/augenblick/src/components/gdpr/gdpr-version-list.tsx && echo 'OK'",
+            "expected": "OK"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-10-2",
+          "description": "Create GDPR version form component for creating new versions",
+          "service": "main",
+          "files_to_modify": [],
+          "files_to_create": ["src/components/gdpr/gdpr-version-form.tsx"],
+          "patterns_from": ["src/components/customers/customer-form.tsx"],
+          "verification": {
+            "type": "command",
+            "command": "grep -q 'zodResolver' /Users/mariogalla/development/augenblick/src/components/gdpr/gdpr-version-form.tsx && echo 'OK'",
+            "expected": "OK"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-10-3",
+          "description": "Create GDPR management page with version list and form",
+          "service": "main",
+          "files_to_modify": [],
+          "files_to_create": ["src/app/office/datenschutz/page.tsx"],
+          "patterns_from": [],
+          "verification": {
+            "type": "browser",
+            "url": "http://localhost:3000/office/datenschutz",
+            "checks": ["Version list visible", "New version form visible", "Active badge on current version"]
+          },
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "id": "phase-11-integration",
+      "name": "Integration & Polish",
+      "type": "integration",
+      "description": "Wire all services together and verify end-to-end flows",
+      "depends_on": ["phase-9-signature-flow", "phase-10-gdpr-management"],
+      "parallel_safe": false,
+      "subtasks": [
+        {
+          "id": "subtask-11-1",
+          "description": "End-to-end verification of customer creation flow",
+          "all_services": true,
+          "files_to_modify": [],
+          "files_to_create": [],
+          "patterns_from": [],
+          "verification": {
+            "type": "e2e",
+            "steps": [
+              "Navigate to /office/kunden/neu",
+              "Fill form with valid data",
+              "Submit form",
+              "Verify redirect to customer list",
+              "Verify new customer appears in table"
+            ]
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-11-2",
+          "description": "End-to-end verification of signature collection flow",
+          "all_services": true,
+          "files_to_modify": [],
+          "files_to_create": [],
+          "patterns_from": [],
+          "verification": {
+            "type": "e2e",
+            "steps": [
+              "Navigate to customer detail page",
+              "Click 'Jetzt unterschreiben' button",
+              "Read GDPR text and check agreement box",
+              "Click 'Weiter zur Unterschrift'",
+              "Draw signature on canvas",
+              "Click 'Bestaetigen'",
+              "Verify success screen",
+              "Navigate back and verify green badge"
+            ]
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-11-3",
+          "description": "End-to-end verification of GDPR version management",
+          "all_services": true,
+          "files_to_modify": [],
+          "files_to_create": [],
+          "patterns_from": [],
+          "verification": {
+            "type": "e2e",
+            "steps": [
+              "Navigate to /office/datenschutz",
+              "Create new GDPR version",
+              "Verify version appears in list",
+              "Activate new version",
+              "Verify active badge moves to new version"
+            ]
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-11-4",
+          "description": "Verify mobile responsiveness across all pages",
+          "all_services": true,
+          "files_to_modify": [],
+          "files_to_create": [],
+          "patterns_from": [],
+          "verification": {
+            "type": "browser",
+            "url": "http://localhost:3000/office/kunden",
+            "checks": [
+              "Test at 320px width - hamburger menu visible",
+              "Test at 768px width - tablet layout",
+              "Test at 1024px width - desktop layout",
+              "Touch targets are 44x44px minimum"
+            ]
+          },
+          "status": "pending"
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "total_phases": 11,
+    "total_subtasks": 31,
+    "services_involved": ["main"],
+    "parallelism": {
+      "max_parallel_phases": 2,
+      "parallel_groups": [
+        {
+          "phases": ["phase-5-layout", "phase-10-gdpr-management"],
+          "reason": "Both depend on phase-1-setup and phase-4-server-actions, different file sets"
+        }
+      ],
+      "recommended_workers": 1,
+      "speedup_estimate": "Sequential execution recommended due to dependencies"
+    },
+    "startup_command": "source auto-claude/.venv/bin/activate && python auto-claude/run.py --spec 008 --parallel 1"
+  },
+  "verification_strategy": {
+    "risk_level": "medium",
+    "skip_validation": false,
+    "test_creation_phase": "post_implementation",
+    "test_types_required": ["unit", "integration"],
+    "security_scanning_required": false,
+    "staging_deployment_required": false,
+    "acceptance_criteria": [
+      "All existing tests pass",
+      "New code has test coverage",
+      "No console errors during navigation",
+      "Mobile responsiveness verified at 320px, 768px, 1024px widths",
+      "Forms validate required fields",
+      "Signature canvas validates non-empty before submission"
+    ],
+    "verification_steps": [
+      {
+        "name": "TypeScript Compilation",
+        "command": "cd /Users/mariogalla/development/augenblick && npm run build",
+        "expected_outcome": "Build completes without errors",
+        "type": "build",
+        "required": true,
+        "blocking": true
+      },
+      {
+        "name": "ESLint Check",
+        "command": "cd /Users/mariogalla/development/augenblick && npm run lint",
+        "expected_outcome": "No linting errors",
+        "type": "lint",
+        "required": true,
+        "blocking": true
+      },
+      {
+        "name": "Database Migrations",
+        "command": "cd /Users/mariogalla/development/augenblick && npx drizzle-kit push --force",
+        "expected_outcome": "Schema pushed successfully",
+        "type": "database",
+        "required": true,
+        "blocking": true
+      }
+    ],
+    "reasoning": "Medium risk requires unit and integration tests for form validation logic and database operations. No auth changes so security scan not required."
+  },
+  "qa_acceptance": {
+    "unit_tests": {
+      "required": true,
+      "commands": ["npm test"],
+      "minimum_coverage": null
+    },
+    "integration_tests": {
+      "required": true,
+      "commands": [],
+      "services_to_test": ["main"]
+    },
+    "e2e_tests": {
+      "required": false,
+      "commands": [],
+      "flows": ["customer-creation", "signature-collection", "gdpr-management"]
+    },
+    "browser_verification": {
+      "required": true,
+      "pages": [
+        {"url": "http://localhost:3000/office/kunden", "checks": ["renders", "no-console-errors"]},
+        {"url": "http://localhost:3000/office/kunden/neu", "checks": ["renders", "form-validation"]},
+        {"url": "http://localhost:3000/office/datenschutz", "checks": ["renders", "version-list"]}
+      ]
+    },
+    "database_verification": {
+      "required": true,
+      "checks": ["migrations-applied", "schema-valid"]
+    }
+  },
+  "qa_signoff": null
+}

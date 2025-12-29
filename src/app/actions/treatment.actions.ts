@@ -210,3 +210,28 @@ export async function getTreatmentsAction(): Promise<
     };
   }
 }
+
+/**
+ * Get active treatment types.
+ */
+export async function getActiveTreatmentsAction() {
+  try {
+    const authResult = await requireAuth();
+    if (!authResult.success) {
+      return { success: false, error: authResult.error };
+    }
+
+    const result = await treatmentService.getActive();
+
+    if (isErrResult(result)) {
+      return { success: false, error: result.error.message };
+    }
+
+    return { success: true, data: result.value };
+  } catch (error) {
+    return {
+      success: false,
+      error: `Fehler beim Laden der aktiven Behandlungsarten: ${String(error)}`,
+    };
+  }
+}

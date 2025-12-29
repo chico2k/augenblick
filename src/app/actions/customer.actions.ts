@@ -304,3 +304,64 @@ export async function deleteCustomerFormAction(
 
   return deleteCustomerAction(input);
 }
+
+/**
+ * Get list of customers.
+ *
+ * @param params - Pagination parameters
+ * @returns ActionResult with array of customers
+ */
+export async function getCustomersListAction(params: {
+  page: number;
+  limit: number;
+}) {
+  try {
+    const result = await customerService.list(params);
+
+    if (isErrResult(result)) {
+      return { success: false, error: result.error.message };
+    }
+
+    return { success: true, data: result.value.items };
+  } catch (error) {
+    return {
+      success: false,
+      error: `Fehler beim Laden der Kunden: ${String(error)}`,
+    };
+  }
+}
+
+/**
+ * Get customer detail with audit logs.
+ *
+ * @param id - Customer ID
+ * @returns ActionResult with customer and audit entries
+ */
+export async function getCustomerDetailAction(id: string) {
+  try {
+    // Parallel fetch
+    const [customerResult, auditResult] = await Promise.all([
+      customerService.getWithSignatureStatus(id),
+      auditService.getForCustomer(id, { page: 1, limit: 50 }),
+    ]);
+
+    if (isErrResult(customerResult)) {
+      return { success: false, error: customerResult.error.message };
+    }
+
+    const auditEntries = isErrResult(auditResult) ? [] : auditResult.value.items;
+
+    return {
+      success: true,
+      data: {
+        customer: customerResult.value,
+        auditEntries,
+      },
+    };
+  } catch (error) {
+    return {
+      success: false,
+      error: `Fehler beim Laden des Kunden: ${String(error)}`,
+    };
+  }
+}

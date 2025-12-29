@@ -41,6 +41,43 @@ export const queryKeys = {
 
   // Sync Status
   sync: {
+    all: ['sync'] as const,
     status: () => ['sync', 'status'] as const,
+    logs: (page: number, limit: number) =>
+      ['sync', 'logs', { page, limit }] as const,
+  },
+
+  // Income
+  income: {
+    all: ['income'] as const,
+    stats: () => [...queryKeys.income.all, 'stats'] as const,
+    daily: (startDate: Date, endDate: Date) =>
+      [...queryKeys.income.all, 'daily', { startDate: startDate.toISOString(), endDate: endDate.toISOString() }] as const,
+    weekly: () => [...queryKeys.income.all, 'weekly'] as const,
+    monthly: () => [...queryKeys.income.all, 'monthly'] as const,
+  },
+
+  // Outlook
+  outlook: {
+    all: ['outlook'] as const,
+    lists: () => [...queryKeys.outlook.all, 'list'] as const,
+    upcoming: (limit: number) => [...queryKeys.outlook.lists(), 'upcoming', { limit }] as const,
+    pending: () => [...queryKeys.outlook.lists(), 'pending'] as const,
+    allAppointments: () => [...queryKeys.outlook.lists(), 'all'] as const,
+    syncStatus: () => [...queryKeys.outlook.all, 'syncStatus'] as const,
+  },
+
+  // Audit
+  audit: {
+    all: ['audit'] as const,
+    forCustomer: (customerId: string, page: number, limit: number) =>
+      [...queryKeys.audit.all, 'customer', customerId, { page, limit }] as const,
+  },
+
+  // Dashboard
+  dashboard: {
+    all: ['dashboard'] as const,
+    gdprStatus: (appointmentIds: string[]) =>
+      [...queryKeys.dashboard.all, 'gdpr-status', { appointmentIds }] as const,
   },
 } as const;

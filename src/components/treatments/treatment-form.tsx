@@ -5,7 +5,6 @@
  * Reusable form for creating and editing treatments with Zod validation.
  */
 
-import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -25,10 +24,7 @@ import {
   FormLabel,
   FormMessage,
 } from "../ui/form";
-import {
-  createTreatmentAction,
-  updateTreatmentAction,
-} from "../../app/actions/treatment.actions";
+import { useCreateTreatment, useUpdateTreatment } from "@/hooks/use-treatments";
 
 /**
  * Zod schema for treatment form validation.
@@ -78,7 +74,8 @@ export function TreatmentForm({
   sortOrder = 0,
 }: TreatmentFormProps) {
   const router = useRouter();
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const createMutation = useCreateTreatment();
+  const updateMutation = useUpdateTreatment();
 
   const form = useForm<TreatmentFormData>({
     resolver: zodResolver(treatmentFormSchema),
@@ -88,50 +85,53 @@ export function TreatmentForm({
     },
   });
 
-  const onSubmit = async (data: TreatmentFormData) => {
-    setIsSubmitting(true);
-    try {
-      if (mode === "edit" && treatmentId) {
-        const result = await updateTreatmentAction({
+  const onSubmit = (data: TreatmentFormData) => {
+    if (mode === "edit" && treatmentId) {
+      updateMutation.mutate(
+        {
           id: treatmentId,
           name: data.name,
           description: data.description || null,
           defaultPrice: data.defaultPrice,
           isActive: data.isActive,
-        });
-
-        if (result.success) {
-          toast.success("Behandlungsart aktualisiert");
-          router.push("/office/behandlungen");
-          router.refresh();
-        } else {
-          toast.error(result.error || "Fehler beim Aktualisieren");
+        },
+        {
+          onSuccess: () => {
+            toast.success("Behandlungsart aktualisiert");
+            router.push("/office/behandlungen");
+          },
+          onError: (error) => {
+            toast.error(error.message || "Fehler beim Aktualisieren");
+          },
         }
-      } else {
-        const result = await createTreatmentAction({
+      );
+    } else {
+      createMutation.mutate(
+        {
           name: data.name,
           description: data.description,
           defaultPrice: data.defaultPrice,
           isActive: data.isActive,
           sortOrder,
-        });
-
-        if (result.success) {
-          toast.success("Behandlungsart erstellt");
-          router.push("/office/behandlungen");
-          router.refresh();
-        } else {
-          toast.error(result.error || "Fehler beim Erstellen");
+        },
+        {
+          onSuccess: () => {
+            toast.success("Behandlungsart erstellt");
+            router.push("/office/behandlungen");
+          },
+          onError: (error) => {
+            toast.error(error.message || "Fehler beim Erstellen");
+          },
         }
-      }
-    } finally {
-      setIsSubmitting(false);
+      );
     }
   };
 
   const handleCancel = () => {
     router.push("/office/behandlungen");
   };
+
+  const isSubmitting = createMutation.isPending || updateMutation.isPending;
 
   return (
     <div className="max-w-2xl space-y-6">

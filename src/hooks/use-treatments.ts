@@ -9,6 +9,8 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import {
   getTreatmentsAction,
   getActiveTreatmentsAction,
+  createTreatmentAction,
+  updateTreatmentAction,
   deleteTreatmentAction,
 } from '@/app/actions/treatment.actions';
 import { queryKeys } from '@/lib/query-keys';
@@ -92,6 +94,89 @@ export function useDeleteTreatment() {
     },
     onSettled: () => {
       // Refetch to ensure cache consistency
+      void queryClient.invalidateQueries({ queryKey: queryKeys.treatments.lists() });
+    },
+  });
+}
+
+/**
+ * Mutation hook for creating a treatment.
+ * Invalidates cache on success to trigger refetch.
+ *
+ * @returns Mutation object with mutate function
+ *
+ * @example
+ * ```tsx
+ * const createMutation = useCreateTreatment();
+ *
+ * createMutation.mutate(data, {
+ *   onSuccess: () => toast.success("Created"),
+ *   onError: (error) => toast.error(error.message),
+ * });
+ * ```
+ */
+export function useCreateTreatment() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (data: {
+      name: string;
+      description?: string;
+      defaultPrice: string;
+      isActive: boolean;
+      sortOrder?: number;
+    }) => {
+      const result = await createTreatmentAction({
+        ...data,
+        sortOrder: data.sortOrder ?? 0,
+      });
+      if (!result.success) {
+        throw new Error(result.error || 'Failed to create treatment');
+      }
+      return result;
+    },
+    onSuccess: () => {
+      // Invalidate and refetch treatments list
+      void queryClient.invalidateQueries({ queryKey: queryKeys.treatments.lists() });
+    },
+  });
+}
+
+/**
+ * Mutation hook for updating a treatment.
+ * Invalidates cache on success to trigger refetch.
+ *
+ * @returns Mutation object with mutate function
+ *
+ * @example
+ * ```tsx
+ * const updateMutation = useUpdateTreatment();
+ *
+ * updateMutation.mutate({ id: '123', name: 'New Name' }, {
+ *   onSuccess: () => toast.success("Updated"),
+ *   onError: (error) => toast.error(error.message),
+ * });
+ * ```
+ */
+export function useUpdateTreatment() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (data: {
+      id: string;
+      name?: string;
+      description?: string | null;
+      defaultPrice?: string;
+      isActive?: boolean;
+    }) => {
+      const result = await updateTreatmentAction(data);
+      if (!result.success) {
+        throw new Error(result.error || 'Failed to update treatment');
+      }
+      return result;
+    },
+    onSuccess: () => {
+      // Invalidate and refetch treatments list
       void queryClient.invalidateQueries({ queryKey: queryKeys.treatments.lists() });
     },
   });

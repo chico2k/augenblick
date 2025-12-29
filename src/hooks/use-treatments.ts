@@ -8,6 +8,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import {
   getTreatmentsAction,
+  getActiveTreatmentsAction,
   deleteTreatmentAction,
 } from '@/app/actions/treatment.actions';
 import { queryKeys } from '@/lib/query-keys';
@@ -92,6 +93,29 @@ export function useDeleteTreatment() {
     onSettled: () => {
       // Refetch to ensure cache consistency
       void queryClient.invalidateQueries({ queryKey: queryKeys.treatments.lists() });
+    },
+  });
+}
+
+/**
+ * Query hook for fetching active treatments list.
+ *
+ * @returns Query result with active treatments data
+ *
+ * @example
+ * ```tsx
+ * const { data: activeTreatments = [] } = useActiveTreatments();
+ * ```
+ */
+export function useActiveTreatments() {
+  return useQuery({
+    queryKey: queryKeys.treatments.lists(),
+    queryFn: async () => {
+      const result = await getActiveTreatmentsAction();
+      if (!result.success || !result.data) {
+        throw new Error(result.error || 'Failed to fetch active treatments');
+      }
+      return result.data;
     },
   });
 }

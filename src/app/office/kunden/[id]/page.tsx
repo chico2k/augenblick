@@ -1,63 +1,25 @@
+"use client";
+
 /**
  * Customer Detail Page
- * Server component that displays customer information, signature status, and audit log.
+ * Client component that displays customer information, signature status, and audit log.
+ * Uses React Query for client-side caching and optimized data fetching.
  */
 
-import { notFound } from "next/navigation";
+import { useParams, notFound } from "next/navigation";
 import Link from "next/link";
-import { Pencil, FileSignature, Mail, Phone, FileText, ArrowLeft, CheckCircle, AlertCircle, Users, Activity } from "lucide-react";
+import { Pencil, FileSignature, Mail, Phone, FileText, ArrowLeft, CheckCircle, AlertCircle, Users, Activity, Loader2 } from "lucide-react";
 
-import { customerService } from "@/lib/services/customer.service";
-import { auditService } from "@/lib/services/audit.service";
-import { isOkResult, isErrResult } from "@/lib/services/types";
+import { useCustomerDetail } from "@/hooks/use-customers";
 import { formatDate } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { AuditLog, type AuditLogEntry } from "@/components/customers/audit-log";
+import { AuditLog } from "@/components/customers/audit-log";
 import { PdfDownloadButton } from "@/components/customers/pdf-download-button";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { cn } from "@/lib/utils";
-
-export const metadata = {
-  title: "Kundendetails",
-  description: "Kundendaten und DSGVO-Status anzeigen",
-};
-
-interface CustomerDetailPageProps {
-  params: Promise<{ id: string }>;
-}
-
-/**
- * Fetches customer data with signature status and audit logs.
- */
-async function getCustomerData(id: string) {
-  const [customerResult, auditResult] = await Promise.all([
-    customerService.getWithSignatureStatus(id),
-    auditService.getForCustomer(id, { page: 1, limit: 50 }),
-  ]);
-
-  if (isErrResult(customerResult)) {
-    return null;
-  }
-
-  const auditEntries: AuditLogEntry[] = isOkResult(auditResult)
-    ? auditResult.value.items.map((log) => ({
-        id: log.id,
-        customerId: log.customerId,
-        action: log.action,
-        changes: log.changes,
-        actorId: log.actorId,
-        actorName: log.actorName,
-        createdAt: log.createdAt,
-      }))
-    : [];
-
-  return {
-    customer: customerResult.value,
-    auditEntries,
-  };
-}
 
 /**
  * Customer Detail Page
@@ -68,15 +30,34 @@ async function getCustomerData(id: string) {
  * - Edit functionality
  * - Audit log for change history
  */
-export default async function CustomerDetailPage({
-  params,
-}: CustomerDetailPageProps) {
-  const { id } = await params;
+export default function CustomerDetailPage() {
+  const params = useParams();
+  const id = params.id as string;
 
-  const data = await getCustomerData(id);
+  const { data, isLoading, isError, error } = useCustomerDetail(id);
 
-  if (!data) {
-    notFound();
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center py-12">
+        <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+      </div>
+    );
+  }
+
+  if (isError || !data) {
+    if (error?.message?.includes('nicht gefunden')) {
+      notFound();
+    }
+
+    return (
+      <Alert variant="destructive">
+        <AlertCircle className="h-4 w-4" />
+        <AlertTitle>Fehler</AlertTitle>
+        <AlertDescription>
+          {error?.message || "Fehler beim Laden der Kundendaten"}
+        </AlertDescription>
+      </Alert>
+    );
   }
 
   const { customer, auditEntries } = data;

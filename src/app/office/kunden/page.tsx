@@ -1,57 +1,50 @@
-import { Suspense } from "react";
-import Link from "next/link";
-import { Plus } from "lucide-react";
-import { customerService } from "@/lib/services/customer.service";
-import { isErrResult } from "@/lib/services/types";
-import { CustomerTable, type CustomerTableData } from "@/components/customers/customer-table";
-import { CustomerTableSkeleton } from "@/components/customers/customer-table-skeleton";
-import { Button } from "@/components/ui/button";
-
-/**
- * Fetches customers with signature status from the database.
- */
-async function getCustomers(): Promise<CustomerTableData[]> {
-  const result = await customerService.list({ page: 1, limit: 1000 });
-
-  if (isErrResult(result)) {
-    // Return empty array on error - table will show "Keine Kunden gefunden"
-    return [];
-  }
-
-  return result.value.items;
-}
-
-/**
- * Server component that fetches and displays customer data.
- */
-async function CustomerListContent({
-  actionButton,
-}: {
-  actionButton?: React.ReactNode;
-}) {
-  const customers = await getCustomers();
-  return <CustomerTable data={customers} actionButton={actionButton} />;
-}
+"use client";
 
 /**
  * Customer List Page
  *
  * Displays a table of all customers with search and signature status filtering.
- * Uses master layout pattern: breadcrumb in header, toolbar with filters and action button.
+ * Uses React Query for client-side caching and optimized data fetching.
  */
+
+import Link from "next/link";
+import { Plus, AlertCircle } from "lucide-react";
+import { useCustomersList } from "@/hooks/use-customers";
+import { CustomerTable } from "@/components/customers/customer-table";
+import { CustomerTableSkeleton } from "@/components/customers/customer-table-skeleton";
+import { Button } from "@/components/ui/button";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+
 export default function KundenPage() {
+  const { data: customers = [], isLoading, isError, error } = useCustomersList();
+
+  if (isLoading) {
+    return <CustomerTableSkeleton rowCount={10} />;
+  }
+
+  if (isError) {
+    return (
+      <Alert variant="destructive">
+        <AlertCircle className="h-4 w-4" />
+        <AlertTitle>Fehler</AlertTitle>
+        <AlertDescription>
+          {error?.message || "Fehler beim Laden der Kunden"}
+        </AlertDescription>
+      </Alert>
+    );
+  }
+
   return (
-    <Suspense fallback={<CustomerTableSkeleton rowCount={10} />}>
-      <CustomerListContent
-        actionButton={
-          <Link href="/office/kunden/neu">
-            <Button>
-              <Plus className="mr-2 h-4 w-4" />
-              Neuer Kunde
-            </Button>
-          </Link>
-        }
-      />
-    </Suspense>
+    <CustomerTable
+      data={customers}
+      actionButton={
+        <Link href="/office/kunden/neu">
+          <Button>
+            <Plus className="mr-2 h-4 w-4" />
+            Neuer Kunde
+          </Button>
+        </Link>
+      }
+    />
   );
 }

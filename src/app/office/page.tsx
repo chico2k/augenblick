@@ -1,83 +1,78 @@
+"use client";
+
+/**
+ * Office Dashboard Page
+ * Client component that displays income chart and appointment cards.
+ * Uses React Query for client-side caching and optimized data fetching.
+ */
+
+import { useMemo } from "react";
+import {
+  useDailyIncome,
+  useUpcomingAppointments,
+  usePendingAppointments,
+  useGdprStatusForAppointments,
+} from "@/hooks/use-dashboard";
+import { useActiveTreatments } from "@/hooks/use-treatments";
+import { useCustomersList } from "@/hooks/use-customers";
 import { IncomeChart } from "@/components/euer/IncomeChart";
 import { PendingAppointmentsCard } from "@/components/dashboard/PendingAppointmentsCard";
 import { UpcomingAppointmentsCard } from "@/components/dashboard/UpcomingAppointmentsCard";
-import { incomeService } from "@/lib/services/income.service";
-import { outlookService } from "@/lib/services/outlook.service";
-import { treatmentService } from "@/lib/services/treatment.service";
-import { customerService } from "@/lib/services/customer.service";
-import { isOkResult } from "@/lib/services/types";
-import { db } from "@/lib/db";
-import { signatures, incomeEntries } from "@/lib/db/schema";
-import { eq, and, isNull } from "drizzle-orm";
 
-export default async function OfficePage() {
-  // Get daily income data for chart (last 90 days)
-  const now = new Date();
-  const ninetyDaysAgo = new Date(now);
-  ninetyDaysAgo.setDate(now.getDate() - 90);
-  const dailyIncomeResult = await incomeService.getDailyTotals(ninetyDaysAgo, now);
-  const dailyIncomeData = isOkResult(dailyIncomeResult) ? dailyIncomeResult.value : [];
+export default function OfficePage() {
+  // Calculate date range for income chart (last 90 days)
+  const { startDate, endDate } = useMemo(() => {
+    const end = new Date();
+    const start = new Date();
+    start.setDate(end.getDate() - 90);
+    return { startDate: start, endDate: end };
+  }, []);
 
-  // Get upcoming appointments
-  const upcomingResult = await outlookService.getUpcoming(5);
-  const upcomingAppointments = isOkResult(upcomingResult) ? upcomingResult.value : [];
+  // Phase 1: Independent queries
+  const { data: dailyIncome = [], isLoading: loadingIncome } =
+    useDailyIncome(startDate, endDate);
 
-  // Get pending appointments (need to be confirmed)
-  const pendingResult = await outlookService.getPending();
-  const pendingAppointments = isOkResult(pendingResult) ? pendingResult.value.slice(0, 5) : [];
+  const { data: upcomingAppointments = [], isLoading: loadingUpcoming } =
+    useUpcomingAppointments(5);
 
-  // Get treatment types for confirmation sheet
-  const treatmentsResult = await treatmentService.getActive();
-  const treatmentTypes = isOkResult(treatmentsResult) ? treatmentsResult.value : [];
+  const { data: pendingAppointments = [], isLoading: loadingPending } =
+    usePendingAppointments();
 
-  // Get customers for confirmation sheet
-  const customersResult = await customerService.list({ page: 1, limit: 100 });
-  const customers = isOkResult(customersResult) ? customersResult.value.items : [];
+  const { data: treatmentTypes = [] } = useActiveTreatments();
+  const { data: customers = [] } = useCustomersList();
 
-  // Check which appointments have customers without GDPR signatures
-  const appointmentCustomerMap = new Map<string, string>(); // appointmentId -> customerId
-  const customersWithoutGdpr = new Set<string>();
+  // Phase 2: Dependent query (only when we have appointments)
+  const appointmentIds = useMemo(
+    () => upcomingAppointments.map((a) => a.id),
+    [upcomingAppointments]
+  );
 
-  // Get customer IDs from income entries for upcoming appointments
-  for (const appointment of upcomingAppointments) {
-    const incomeResult = await db
-      .select({ customerId: incomeEntries.customerId })
-      .from(incomeEntries)
-      .where(and(
-        eq(incomeEntries.appointmentId, appointment.id),
-        isNull(incomeEntries.deletedAt)
-      ))
-      .limit(1);
+  const { data: gdprStatus } = useGdprStatusForAppointments(appointmentIds);
 
-    if (incomeResult.length > 0 && incomeResult[0]!.customerId) {
-      const customerId = incomeResult[0]!.customerId;
-      appointmentCustomerMap.set(appointment.id, customerId);
+  // Derive appointmentsNeedingGdpr Set
+  const appointmentsNeedingGdpr = useMemo(() => {
+    if (!gdprStatus) return new Set<string>();
+    return new Set(gdprStatus.appointmentsNeedingGdpr);
+  }, [gdprStatus]);
 
-      // Check if customer has GDPR signature
-      const signatureResult = await db
-        .select({ id: signatures.id })
-        .from(signatures)
-        .where(eq(signatures.customerId, customerId))
-        .limit(1);
+  const isLoading = loadingIncome || loadingUpcoming || loadingPending;
 
-      if (signatureResult.length === 0) {
-        customersWithoutGdpr.add(customerId);
-      }
-    }
-  }
-
-  // Create a set of appointment IDs that need GDPR warning
-  const appointmentsNeedingGdpr = new Set<string>();
-  for (const [appointmentId, customerId] of appointmentCustomerMap) {
-    if (customersWithoutGdpr.has(customerId)) {
-      appointmentsNeedingGdpr.add(appointmentId);
-    }
+  if (isLoading) {
+    return (
+      <div className="space-y-6">
+        <div className="h-[400px] animate-pulse bg-muted rounded-lg" />
+        <div className="grid gap-6 lg:grid-cols-2">
+          <div className="h-[300px] animate-pulse bg-muted rounded-lg" />
+          <div className="h-[300px] animate-pulse bg-muted rounded-lg" />
+        </div>
+      </div>
+    );
   }
 
   return (
     <div className="space-y-6">
       {/* Income Chart */}
-      <IncomeChart data={dailyIncomeData} />
+      <IncomeChart data={dailyIncome} />
 
       {/* Two Column Layout */}
       <div className="grid gap-6 lg:grid-cols-2">

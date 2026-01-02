@@ -5,7 +5,6 @@
  * Reusable form for creating and editing customers with Zod validation.
  */
 
-import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -27,16 +26,12 @@ import {
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "../ui/form";
-import {
-  createCustomerAction,
-  updateCustomerAction,
-} from "../../app/actions/customer.actions";
+import { useCreateCustomer, useUpdateCustomer } from "@/hooks/use-customers";
 
 /**
  * Zod schema for customer form validation.
@@ -102,7 +97,10 @@ export function CustomerForm({
   onCancel,
 }: CustomerFormProps) {
   const router = useRouter();
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const createMutation = useCreateCustomer();
+  const updateMutation = useUpdateCustomer();
+
+  const isSubmitting = createMutation.isPending || updateMutation.isPending;
 
   // Initialize form with React Hook Form and Zod resolver
   const form = useForm<CustomerFormData>({
@@ -117,51 +115,44 @@ export function CustomerForm({
    * Handle form submission.
    * Creates or updates customer based on mode.
    */
-  async function onSubmit(data: CustomerFormData) {
-    setIsSubmitting(true);
-
-    try {
-      if (mode === "create") {
-        // Create new customer
-        const result = await createCustomerAction(data);
-
-        if (result.success && result.data) {
+  function onSubmit(data: CustomerFormData) {
+    if (mode === "create") {
+      createMutation.mutate(data, {
+        onSuccess: (result) => {
           toast.success("Kunde erfolgreich erstellt");
           if (onSuccess) {
-            onSuccess(result.data.id);
+            onSuccess(result.id);
           } else {
             router.push("/office/kunden");
           }
-        } else {
-          toast.error(result.error || "Fehler beim Erstellen des Kunden");
-        }
-      } else {
-        // Update existing customer
-        if (!customerId) {
-          toast.error("Kunden-ID fehlt");
-          return;
-        }
-
-        const result = await updateCustomerAction({
-          id: customerId,
-          ...data,
-        });
-
-        if (result.success) {
-          toast.success("Kunde erfolgreich aktualisiert");
-          if (onSuccess) {
-            onSuccess(customerId);
-          } else {
-            router.push(`/office/kunden/${customerId}`);
-          }
-        } else {
-          toast.error(result.error || "Fehler beim Aktualisieren des Kunden");
-        }
+        },
+        onError: (error) => {
+          toast.error(error.message || "Fehler beim Erstellen des Kunden");
+        },
+      });
+    } else {
+      // Update existing customer
+      if (!customerId) {
+        toast.error("Kunden-ID fehlt");
+        return;
       }
-    } catch (error) {
-      toast.error(`Ein Fehler ist aufgetreten: ${String(error)}`);
-    } finally {
-      setIsSubmitting(false);
+
+      updateMutation.mutate(
+        { id: customerId, ...data },
+        {
+          onSuccess: () => {
+            toast.success("Kunde erfolgreich aktualisiert");
+            if (onSuccess) {
+              onSuccess(customerId);
+            } else {
+              router.push(`/office/kunden/${customerId}`);
+            }
+          },
+          onError: (error) => {
+            toast.error(error.message || "Fehler beim Aktualisieren des Kunden");
+          },
+        }
+      );
     }
   }
 

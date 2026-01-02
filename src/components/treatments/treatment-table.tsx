@@ -11,7 +11,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { Search, ChevronLeft, ChevronRight, Trash2 } from "lucide-react";
+import { Search, ChevronLeft, ChevronRight, Trash2, Pencil } from "lucide-react";
 import {
   Table,
   TableBody,
@@ -120,7 +120,16 @@ export function TreatmentTable({
         id: "actions",
         header: "",
         cell: ({ row }) => (
-          <div className="flex justify-end">
+          <div className="flex justify-end gap-1">
+            <Link href={`/office/behandlungen/${row.original.id}/bearbeiten`}>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-9 w-9 text-blue-500 hover:text-blue-600 hover:bg-blue-50"
+              >
+                <Pencil className="h-4 w-4" />
+              </Button>
+            </Link>
             <Button
               variant="ghost"
               size="icon"

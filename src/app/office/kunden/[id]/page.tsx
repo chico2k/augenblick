@@ -6,11 +6,13 @@
  * Uses React Query for client-side caching and optimized data fetching.
  */
 
-import { useParams, notFound } from "next/navigation";
+import { useState } from "react";
+import { useParams, useRouter, notFound } from "next/navigation";
 import Link from "next/link";
-import { Pencil, FileSignature, Mail, Phone, FileText, ArrowLeft, CheckCircle, AlertCircle, Users, Activity, Loader2 } from "lucide-react";
+import { Pencil, FileSignature, Mail, Phone, FileText, ArrowLeft, CheckCircle, AlertCircle, Users, Activity, Loader2, Trash2 } from "lucide-react";
+import { toast } from "react-toastify";
 
-import { useCustomerDetail } from "@/hooks/use-customers";
+import { useCustomerDetail, useDeleteCustomer } from "@/hooks/use-customers";
 import { formatDate } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -19,6 +21,17 @@ import { Separator } from "@/components/ui/separator";
 import { AuditLog } from "@/components/customers/audit-log";
 import { PdfDownloadButton } from "@/components/customers/pdf-download-button";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { cn } from "@/lib/utils";
 
 /**
@@ -32,9 +45,12 @@ import { cn } from "@/lib/utils";
  */
 export default function CustomerDetailPage() {
   const params = useParams();
+  const router = useRouter();
   const id = params.id as string;
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
   const { data, isLoading, isError, error } = useCustomerDetail(id);
+  const deleteMutation = useDeleteCustomer();
 
   if (isLoading) {
     return (
@@ -63,6 +79,19 @@ export default function CustomerDetailPage() {
   const { customer, auditEntries } = data;
   const fullName = `${customer.firstName} ${customer.lastName}`;
 
+  const handleDelete = () => {
+    deleteMutation.mutate(customer.id, {
+      onSuccess: () => {
+        toast.success(`${fullName} wurde gelöscht`);
+        router.push("/office/kunden");
+      },
+      onError: (err) => {
+        toast.error(err.message || "Fehler beim Löschen");
+        setDeleteDialogOpen(false);
+      },
+    });
+  };
+
   return (
     <div className="space-y-6">
       {/* Back link and header */}
@@ -82,12 +111,49 @@ export default function CustomerDetailPage() {
           </div>
         </div>
 
-        <Link href={`/office/kunden/${customer.id}/bearbeiten`}>
-          <Button variant="outline">
-            <Pencil className="mr-2 h-4 w-4" />
-            Bearbeiten
-          </Button>
-        </Link>
+        <div className="flex gap-2">
+          <Link href={`/office/kunden/${customer.id}/bearbeiten`}>
+            <Button variant="outline">
+              <Pencil className="mr-2 h-4 w-4" />
+              Bearbeiten
+            </Button>
+          </Link>
+
+          <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+            <AlertDialogTrigger asChild>
+              <Button variant="destructive">
+                <Trash2 className="mr-2 h-4 w-4" />
+                Löschen
+              </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Kunden löschen?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  Möchten Sie <strong>{fullName}</strong> wirklich löschen?
+                  Diese Aktion kann nicht rückgängig gemacht werden.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Abbrechen</AlertDialogCancel>
+                <AlertDialogAction
+                  onClick={handleDelete}
+                  disabled={deleteMutation.isPending}
+                  className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                >
+                  {deleteMutation.isPending ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Löschen...
+                    </>
+                  ) : (
+                    "Ja, löschen"
+                  )}
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+        </div>
       </div>
 
       {/* Main content grid */}

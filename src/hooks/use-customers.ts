@@ -5,10 +5,11 @@
  * Includes customer list and detail views with audit logs.
  */
 
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import {
   getCustomersListAction,
   getCustomerDetailAction,
+  deleteCustomerAction,
 } from '@/app/actions/customer.actions';
 import { queryKeys } from '@/lib/query-keys';
 
@@ -60,6 +61,40 @@ export function useCustomerDetail(id: string) {
         throw new Error(result.error || 'Failed to fetch customer detail');
       }
       return result.data;
+    },
+  });
+}
+
+/**
+ * Mutation hook for deleting a customer.
+ * Invalidates cache on success.
+ *
+ * @returns Mutation object with mutate function
+ *
+ * @example
+ * ```tsx
+ * const deleteMutation = useDeleteCustomer();
+ *
+ * deleteMutation.mutate(customerId, {
+ *   onSuccess: () => router.push('/office/kunden'),
+ *   onError: (error) => toast.error(error.message),
+ * });
+ * ```
+ */
+export function useDeleteCustomer() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const result = await deleteCustomerAction({ id });
+      if (!result.success) {
+        throw new Error(result.error || 'Fehler beim Löschen des Kunden');
+      }
+      return result;
+    },
+    onSuccess: () => {
+      // Invalidate customers list to trigger refetch
+      void queryClient.invalidateQueries({ queryKey: queryKeys.customers.lists() });
     },
   });
 }

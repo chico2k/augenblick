@@ -2,17 +2,11 @@
 
 /**
  * Toast Provider
- * Client-side wrapper for react-toastify's ToastContainer.
- * Handles the client-side only import to avoid SSR issues.
+ * Client-side wrapper for sonner's Toaster component.
  */
 
-import dynamic from "next/dynamic";
-
-const ToastContainer = dynamic(
-  () => import("react-toastify").then((mod) => mod.ToastContainer),
-  { ssr: false }
-);
+import { Toaster } from "sonner";
 
 export function ToastProvider() {
-  return <ToastContainer />;
+  return <Toaster position="top-right" richColors />;
 }

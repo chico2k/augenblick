@@ -10,7 +10,7 @@ import { useState } from "react";
 import { useParams, useRouter, notFound } from "next/navigation";
 import Link from "next/link";
 import { Pencil, FileSignature, Mail, Phone, FileText, ArrowLeft, CheckCircle, AlertCircle, Users, Activity, Loader2, Trash2 } from "lucide-react";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 
 import { useCustomerDetail, useDeleteCustomer } from "@/hooks/use-customers";
 import { formatDate } from "@/lib/utils";

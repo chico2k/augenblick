@@ -1,6 +1,5 @@
 import "../styles/globals.css";
 import "keen-slider/keen-slider.min.css";
-import "react-toastify/dist/ReactToastify.css";
 import GoogleAnalytics from "../components/GoogleAnalytics";
 import { AxiomWebVitals } from "next-axiom";
 import { RootProviders } from "@/components/providers/root-providers";

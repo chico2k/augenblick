@@ -6,6 +6,7 @@
  */
 
 import { Suspense } from "react";
+import { ToastContainer } from "react-toastify";
 import { NavigationProgress } from "./navigation-progress";
 import { QueryProvider } from "@/lib/query-client";
 
@@ -16,6 +17,7 @@ export function RootProviders({ children }: { children: React.ReactNode }) {
         <NavigationProgress />
       </Suspense>
       {children}
+      <ToastContainer />
     </QueryProvider>
   );
 }

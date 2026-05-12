@@ -3,7 +3,7 @@
  * Handles synchronization of Outlook calendar events.
  */
 
-import { eq, and, desc, notInArray, gte, asc, lt } from "drizzle-orm";
+import { eq, and, desc, inArray, notInArray, gte, asc, lt } from "drizzle-orm";
 import { db } from "@/lib/db";
 import {
   outlookAppointments,
@@ -177,16 +177,86 @@ export const outlookService = {
       let imported = 0;
       let updated = 0;
 
-      // Upsert all events from Outlook
-      for (const event of events) {
-        const result = await this.upsertAppointment(event);
-        if (isOkResult(result)) {
-          if (result.value.isNew) {
-            imported++;
-          } else {
-            updated++;
+      if (events.length > 0) {
+        // Bulk-fetch all existing appointments for these event IDs in one query.
+        const eventIds = events.map((e) => e.id);
+        const existingRows = await db
+          .select()
+          .from(outlookAppointments)
+          .where(inArray(outlookAppointments.outlookEventId, eventIds));
+
+        const existingMap = new Map(
+          existingRows.map((row) => [row.outlookEventId, row])
+        );
+
+        const now = new Date();
+        const toInsert: Array<typeof outlookAppointments.$inferInsert> = [];
+        const toUpdate: Array<{
+          id: string;
+          values: Partial<typeof outlookAppointments.$inferInsert>;
+        }> = [];
+
+        for (const event of events) {
+          const existing = existingMap.get(event.id);
+
+          if (!existing) {
+            toInsert.push({
+              outlookEventId: event.id,
+              outlookChangeKey: event.changeKey ?? null,
+              subject: event.subject,
+              startTime: new Date(event.start.dateTime),
+              endTime: new Date(event.end.dateTime),
+              location: event.location?.displayName ?? null,
+              bodyPreview: event.bodyPreview ?? null,
+              status: "pending",
+            });
+            continue;
+          }
+
+          // Only update pending appointments whose changeKey differs;
+          // confirmed/dismissed entries are kept as-is.
+          if (
+            existing.status === "pending" &&
+            existing.outlookChangeKey !== (event.changeKey ?? null)
+          ) {
+            toUpdate.push({
+              id: existing.id,
+              values: {
+                outlookChangeKey: event.changeKey ?? null,
+                subject: event.subject,
+                startTime: new Date(event.start.dateTime),
+                endTime: new Date(event.end.dateTime),
+                location: event.location?.displayName ?? null,
+                bodyPreview: event.bodyPreview ?? null,
+                lastSyncAt: now,
+              },
+            });
           }
         }
+
+        // Bulk insert new appointments in one round-trip.
+        if (toInsert.length > 0) {
+          await db.insert(outlookAppointments).values(toInsert);
+          imported = toInsert.length;
+        }
+
+        // Parallelize updates in chunks to avoid pool/socket pressure.
+        const UPDATE_CONCURRENCY = 20;
+        for (let i = 0; i < toUpdate.length; i += UPDATE_CONCURRENCY) {
+          const chunk = toUpdate.slice(i, i + UPDATE_CONCURRENCY);
+          await Promise.all(
+            chunk.map((u) =>
+              db
+                .update(outlookAppointments)
+                .set(u.values)
+                .where(eq(outlookAppointments.id, u.id))
+            )
+          );
+        }
+
+        // Original behaviour: count everything that wasn't a fresh insert as "updated"
+        // (includes no-op skips for confirmed/dismissed and unchanged entries).
+        updated = events.length - imported;
       }
 
       // Mark pending appointments as dismissed if deleted from Outlook

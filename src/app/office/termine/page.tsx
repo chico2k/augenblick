@@ -107,13 +107,10 @@ export default async function TerminePage() {
   return (
     <Suspense fallback={<DashboardSkeleton />}>
       <Dashboard
-        initialStats={data.stats}
         initialAllAppointments={data.allAppointments}
         initialPendingCount={data.pendingCount}
         treatmentTypes={data.treatmentTypes}
         customers={data.customers}
-        syncStatus={data.syncStatus}
-        isOutlookConfigured={data.isOutlookConfigured}
       />
     </Suspense>
   );

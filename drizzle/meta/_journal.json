@@ -8,6 +8,13 @@
       "when": 1766916224420,
       "tag": "0000_typical_shadowcat",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1778618622353,
+      "tag": "0001_equal_prodigy",
+      "breakpoints": true
     }
   ]
 }

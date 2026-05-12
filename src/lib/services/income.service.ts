@@ -105,11 +105,11 @@ export const incomeService = {
         .where(and(eq(incomeEntries.appointmentId, appointmentId), isNull(incomeEntries.deletedAt)))
         .limit(1);
 
-      if (result.length === 0) {
+      const row = result[0];
+      if (!row) {
         return Ok(null);
       }
 
-      const row = result[0]!;
       return Ok({
         ...row.income,
         customer: row.customer?.id ? row.customer : null,
@@ -155,14 +155,14 @@ export const incomeService = {
         .where(and(eq(incomeEntries.id, id), isNull(incomeEntries.deletedAt)))
         .limit(1);
 
-      if (result.length === 0) {
+      const row = result[0];
+      if (!row) {
         return Err({
           code: "NOT_FOUND",
           message: "Einnahme nicht gefunden",
         });
       }
 
-      const row = result[0]!;
       return Ok({
         ...row.income,
         customer: row.customer?.id ? row.customer : null,

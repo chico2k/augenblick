@@ -13,6 +13,8 @@ import { customerAudit } from "./customer-audit";
 import { treatmentTypes } from "./treatment-types";
 import { outlookAppointments } from "./outlook-appointments";
 import { incomeEntries } from "./income-entries";
+import { expenseTypes } from "./expense-types";
+import { expenseEntries } from "./expense-entries";
 
 // ============================================================================
 // Auth Schema Relations
@@ -171,5 +173,26 @@ export const incomeEntriesRelations = relations(incomeEntries, ({ one }) => ({
   appointment: one(outlookAppointments, {
     fields: [incomeEntries.appointmentId],
     references: [outlookAppointments.id],
+  }),
+}));
+
+/**
+ * Expense Type relations.
+ * An expense type has many expense entries.
+ */
+export const expenseTypesRelations = relations(expenseTypes, ({ many }) => ({
+  /** Expense entries using this expense type */
+  expenseEntries: many(expenseEntries),
+}));
+
+/**
+ * Expense Entry relations.
+ * An expense entry optionally belongs to an expense type.
+ */
+export const expenseEntriesRelations = relations(expenseEntries, ({ one }) => ({
+  /** The expense type for this Ausgabe (optional) */
+  expenseType: one(expenseTypes, {
+    fields: [expenseEntries.expenseTypeId],
+    references: [expenseTypes.id],
   }),
 }));

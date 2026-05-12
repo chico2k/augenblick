@@ -177,13 +177,14 @@ function AuditLogEntryItem({ entry }: { entry: AuditLogEntry }) {
             </Button>
           </CollapsibleTrigger>
           <CollapsibleContent className="mt-2 space-y-1 rounded-md bg-muted/50 p-3">
-            {Object.entries(entry.changes!).map(([field, change]) => (
-              <ChangeDetail
-                key={field}
-                field={field}
-                change={change as { from?: unknown; to?: unknown }}
-              />
-            ))}
+            {entry.changes &&
+              Object.entries(entry.changes).map(([field, change]) => (
+                <ChangeDetail
+                  key={field}
+                  field={field}
+                  change={change as { from?: unknown; to?: unknown }}
+                />
+              ))}
           </CollapsibleContent>
         </Collapsible>
       )}

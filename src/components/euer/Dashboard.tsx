@@ -5,9 +5,9 @@
  * Main dashboard showing stats, pending appointments, and recent income.
  */
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { Plus, FileDown, Settings } from "lucide-react";
+import { FileDown, Settings } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { AppointmentsTable } from "./appointments-table";
@@ -22,45 +22,22 @@ import type {
   OutlookAppointment,
   TreatmentType,
   Customer,
-  SyncStatus as SyncStatusType,
 } from "@/lib/db/schema";
 
 interface DashboardProps {
-  initialStats: {
-    weeklyTotal: number;
-    monthlyTotal: number;
-    weeklyCount: number;
-    monthlyCount: number;
-  };
   initialAllAppointments: OutlookAppointment[];
   initialPendingCount: number;
   treatmentTypes: TreatmentType[];
   customers: Customer[];
-  syncStatus: SyncStatusType | null;
-  isOutlookConfigured: boolean;
-}
-
-/**
- * Format currency in German format.
- */
-function formatCurrency(amount: number): string {
-  return new Intl.NumberFormat("de-DE", {
-    style: "currency",
-    currency: "EUR",
-  }).format(amount);
 }
 
 export function Dashboard({
-  initialStats,
   initialAllAppointments,
   initialPendingCount,
   treatmentTypes,
   customers,
-  syncStatus,
-  isOutlookConfigured,
 }: DashboardProps) {
   const router = useRouter();
-  const [stats, setStats] = useState(initialStats);
   const [allAppointments, setAllAppointments] = useState(initialAllAppointments);
   const [pendingCount, setPendingCount] = useState(initialPendingCount);
   const [selectedAppointment, setSelectedAppointment] = useState<OutlookAppointment | null>(null);
@@ -145,10 +122,6 @@ export function Dashboard({
     setSelectedAppointment(null);
     router.refresh();
   }, [selectedAppointment, router]);
-
-  const handleSyncComplete = () => {
-    router.refresh();
-  };
 
   return (
     <div className="space-y-6">

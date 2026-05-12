@@ -17,3 +17,5 @@ export * from "./sync-status";
 export * from "./sync-logs";
 export * from "./outlook-appointments";
 export * from "./income-entries";
+export * from "./expense-types";
+export * from "./expense-entries";

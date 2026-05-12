@@ -5,13 +5,12 @@
  * Shows Outlook calendar sync history and allows manual sync.
  */
 
-import { RefreshCw, CheckCircle2, XCircle, Clock, Loader2, ChevronDown, AlertCircle } from "lucide-react";
+import { RefreshCw, CheckCircle2, XCircle, Clock, Loader2, AlertCircle } from "lucide-react";
 import { toast } from "sonner";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import {
   Alert,
   AlertDescription,
@@ -22,8 +21,6 @@ import {
   triggerSyncAction,
 } from "@/app/actions/sync.actions";
 import type { SyncLog } from "@/lib/db/schema";
-import { useState } from "react";
-import { cn } from "@/lib/utils";
 
 /**
  * Format duration between two dates.
@@ -86,7 +83,6 @@ function getStatusBadge(status: SyncLog["status"]) {
  * Sync Log Item Component
  */
 function SyncLogItem({ log }: { log: SyncLog }) {
-  const [isExpanded, setIsExpanded] = useState(false);
   const statusBadge = getStatusBadge(log.status);
 
   return (
@@ -160,7 +156,10 @@ export default function SyncPage() {
       if (!result.success) {
         throw new Error(result.error);
       }
-      return result.data!;
+      if (!result.data) {
+        throw new Error("Keine Sync-Log-Daten erhalten");
+      }
+      return result.data;
     },
   });
 

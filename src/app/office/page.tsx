@@ -16,6 +16,7 @@ import {
 import { useActiveTreatments } from "@/hooks/use-treatments";
 import { useCustomersList } from "@/hooks/use-customers";
 import { IncomeChart } from "@/components/euer/IncomeChart";
+import { ExpenseQuickAdd } from "@/components/dashboard/expense-quick-add";
 import { PendingAppointmentsCard } from "@/components/dashboard/PendingAppointmentsCard";
 import { UpcomingAppointmentsCard } from "@/components/dashboard/UpcomingAppointmentsCard";
 
@@ -60,6 +61,9 @@ export default function OfficePage() {
   if (isLoading) {
     return (
       <div className="space-y-6">
+        <div className="flex justify-end">
+          <ExpenseQuickAdd />
+        </div>
         <div className="h-[400px] animate-pulse bg-muted rounded-lg" />
         <div className="grid gap-6 lg:grid-cols-2">
           <div className="h-[300px] animate-pulse bg-muted rounded-lg" />
@@ -71,6 +75,10 @@ export default function OfficePage() {
 
   return (
     <div className="space-y-6">
+      <div className="flex justify-end">
+        <ExpenseQuickAdd />
+      </div>
+
       {/* Income Chart */}
       <IncomeChart data={dailyIncome} />
 

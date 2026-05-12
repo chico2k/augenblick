@@ -16,7 +16,11 @@ import * as schema from "./schema";
  * Create the HTTP SQL client for serverless environments.
  * Uses stateless HTTP connections - no persistent WebSocket overhead.
  */
-const sql = neon(process.env.DATABASE_URL!);
+const databaseUrl = process.env.DATABASE_URL;
+if (!databaseUrl) {
+  throw new Error("DATABASE_URL ist nicht gesetzt");
+}
+const sql = neon(databaseUrl);
 
 /**
  * Drizzle ORM database client instance.

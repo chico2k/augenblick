@@ -145,7 +145,7 @@ export async function getGdprStatusForAppointmentsAction(
   }
 
   const appointmentsNeedingGdpr = Object.entries(appointmentCustomerMap)
-    .filter(([_appointmentId, customerId]) => customersWithoutGdpr.has(customerId))
+    .filter(([, customerId]) => customersWithoutGdpr.has(customerId))
     .map(([appointmentId]) => appointmentId);
 
   return {

@@ -6,7 +6,7 @@
 import { and, desc, count, eq, isNull, lt, sql } from "drizzle-orm";
 import { db } from "@/lib/db";
 import { syncLogs, type SyncLog, type NewSyncLog } from "@/lib/db/schema";
-import { Result, Ok, Err, type ServiceError } from "./types";
+import { type Result, Ok, Err } from "./types";
 
 /**
  * List sync logs with pagination.

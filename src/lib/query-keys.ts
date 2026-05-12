@@ -80,4 +80,10 @@ export const queryKeys = {
     gdprStatus: (appointmentIds: string[]) =>
       [...queryKeys.dashboard.all, 'gdpr-status', { appointmentIds }] as const,
   },
+
+  // Expenses
+  expenses: {
+    all: ['expenses'] as const,
+    types: () => [...queryKeys.expenses.all, 'types'] as const,
+  },
 } as const;

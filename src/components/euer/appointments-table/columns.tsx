@@ -1,6 +1,6 @@
 "use client";
 
-import { Column, ColumnDef } from "@tanstack/react-table";
+import type { Column, ColumnDef } from "@tanstack/react-table";
 import type { ReactNode } from "react";
 import {
   ArrowDown,

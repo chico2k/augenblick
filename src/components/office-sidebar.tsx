@@ -11,6 +11,7 @@ import {
   RefreshCw,
   LayoutDashboard,
   Calendar,
+  ReceiptText,
 } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
@@ -48,6 +49,11 @@ const navItems = [
     title: "Behandlungen",
     url: "/office/behandlungen",
     icon: Sparkles,
+  },
+  {
+    title: "Ausgaben",
+    url: "/office/ausgaben",
+    icon: ReceiptText,
   },
   {
     title: "Datenschutz",

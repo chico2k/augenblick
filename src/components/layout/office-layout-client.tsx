@@ -26,6 +26,9 @@ function getSectionName(pathname: string): string {
   if (pathname.startsWith("/office/behandlungen")) {
     return "Behandlungen";
   }
+  if (pathname.startsWith("/office/ausgaben")) {
+    return "Ausgaben";
+  }
   if (pathname.startsWith("/office/datenschutz")) {
     return "Datenschutz";
   }

@@ -111,7 +111,13 @@ export const outlookService = {
           .where(eq(syncStatus.id, existing.id))
           .returning();
 
-        return Ok(updated!);
+        if (!updated) {
+          return Err({
+            code: "DATABASE_ERROR",
+            message: "Sync-Status konnte nicht aktualisiert werden",
+          });
+        }
+        return Ok(updated);
       } else {
         const [created] = await db
           .insert(syncStatus)
@@ -123,7 +129,13 @@ export const outlookService = {
           })
           .returning();
 
-        return Ok(created!);
+        if (!created) {
+          return Err({
+            code: "DATABASE_ERROR",
+            message: "Sync-Status konnte nicht erstellt werden",
+          });
+        }
+        return Ok(created);
       }
     } catch (error) {
       return Err({

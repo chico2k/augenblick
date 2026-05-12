@@ -1,4 +1,4 @@
-import { pgTable, text, timestamp, uuid, decimal, boolean, pgEnum } from "drizzle-orm/pg-core";
+import { pgTable, text, timestamp, uuid, decimal, pgEnum } from "drizzle-orm/pg-core";
 import { customers } from "./customers";
 import { treatmentTypes } from "./treatment-types";
 import { outlookAppointments } from "./outlook-appointments";

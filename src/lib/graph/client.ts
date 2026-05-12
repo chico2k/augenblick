@@ -41,10 +41,14 @@ function validateEnvVars(): void {
 export function getGraphClient(): Client {
   validateEnvVars();
 
+  if (!AZURE_TENANT_ID || !AZURE_CLIENT_ID || !AZURE_CLIENT_SECRET) {
+    throw new Error("Azure Credentials nicht vollständig konfiguriert");
+  }
+
   const credential = new ClientSecretCredential(
-    AZURE_TENANT_ID!,
-    AZURE_CLIENT_ID!,
-    AZURE_CLIENT_SECRET!
+    AZURE_TENANT_ID,
+    AZURE_CLIENT_ID,
+    AZURE_CLIENT_SECRET
   );
 
   const authProvider = new TokenCredentialAuthenticationProvider(credential, {

@@ -5,12 +5,12 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   Users,
-  Euro,
   FileText,
   Sparkles,
   LogOut,
   RefreshCw,
   LayoutDashboard,
+  Calendar,
 } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
@@ -36,8 +36,8 @@ const navItems = [
   },
   {
     title: "Termine",
-    url: "/office/euer",
-    icon: Euro,
+    url: "/office/termine",
+    icon: Calendar,
   },
   {
     title: "Kunden",
@@ -66,7 +66,9 @@ const navItems = [
   },
 ];
 
-export function OfficeSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+export function OfficeSidebar({
+  ...props
+}: React.ComponentProps<typeof Sidebar>) {
   const pathname = usePathname();
   const router = useRouter();
   const { isMobile, setOpenMobile } = useSidebar();
@@ -89,12 +91,12 @@ export function OfficeSidebar({ ...props }: React.ComponentProps<typeof Sidebar>
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild>
               <Link href="/office" onClick={handleNavClick}>
-                <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-fuchsia-500 text-white">
+                <div className="size-8 flex aspect-square items-center justify-center rounded-lg bg-fuchsia-500 text-white">
                   <Sparkles className="size-4" />
                 </div>
                 <div className="flex flex-col gap-0.5 leading-none">
                   <span className="font-semibold">Augenblick</span>
-                  <span className="text-xs text-muted-foreground">Office</span>
+                  <span className="text-muted-foreground text-xs">Office</span>
                 </div>
               </Link>
             </SidebarMenuButton>
@@ -109,7 +111,10 @@ export function OfficeSidebar({ ...props }: React.ComponentProps<typeof Sidebar>
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton
                     asChild
-                    isActive={pathname === item.url || pathname.startsWith(item.url + "/")}
+                    isActive={
+                      pathname === item.url ||
+                      pathname.startsWith(item.url + "/")
+                    }
                   >
                     <Link href={item.url} onClick={handleNavClick}>
                       <item.icon className="size-4" />

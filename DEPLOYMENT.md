@@ -113,24 +113,33 @@ This means:
 When you make schema changes:
 
 ```bash
-# 1. Update your schema in src/lib/db/schema/
+# 1. Optional: copy production into your development Neon branch
+npm run db:copy:prod-to-dev
+
+# 2. Update your schema in src/lib/db/schema/
 # (edit files in src/lib/db/schema/)
 
-# 2. Generate migration files
+# 3. Generate migration files
 npm run db:generate
 
-# 3. Review the generated SQL in drizzle/ folder
+# 4. Review the generated SQL in drizzle/ folder
 
-# 4. Apply migrations to your local database
+# 5. Apply migrations to your local development database
 npm run db:migrate
 
-# 5. Commit migration files to git
+# 6. Commit migration files to git
 git add drizzle/
 git commit -m "Add migration for [feature name]"
 
-# 6. Push to deploy (migrations run automatically on Vercel)
+# 7. Push to deploy (migrations run automatically on Vercel)
 git push
 ```
+
+`npm run db:copy:prod-to-dev` runs `neon branches reset development --parent`,
+using `NEON_DEV_BRANCH` and the required `NEON_PROJECT_ID` from `.env`. This
+replaces the development branch with the latest data and schema from its parent
+branch while keeping your development connection string unchanged. The command
+does not rely on Neon CLI project context.
 
 ### How It Works on Vercel
 

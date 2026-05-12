@@ -35,8 +35,8 @@ function getSectionName(pathname: string): string {
   if (pathname.startsWith("/office/export")) {
     return "Export";
   }
-  if (pathname.startsWith("/office/euer")) {
-    return "EÜR";
+  if (pathname.startsWith("/office/termine")) {
+    return "Termine";
   }
   return "Office";
 }
@@ -56,7 +56,7 @@ export function OfficeLayoutClient({ children }: OfficeLayoutClientProps) {
 
   // Fullscreen routes get minimal layout (no sidebar)
   if (isFullscreenRoute) {
-    return <div className="min-h-screen bg-background">{children}</div>;
+    return <div className="bg-background min-h-screen">{children}</div>;
   }
 
   const sectionName = getSectionName(pathname);
@@ -78,7 +78,7 @@ export function OfficeLayoutClient({ children }: OfficeLayoutClientProps) {
             orientation="vertical"
             className="mr-2 data-[orientation=vertical]:h-4"
           />
-          <span className="text-sm font-medium text-muted-foreground">
+          <span className="text-muted-foreground text-sm font-medium">
             {sectionName}
           </span>
         </header>

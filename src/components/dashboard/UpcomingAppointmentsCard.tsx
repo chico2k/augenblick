@@ -6,7 +6,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Calendar, Clock, ArrowRight } from "lucide-react";
 import { ConfirmationSheet } from "@/components/euer/ConfirmationSheet";
-import type { OutlookAppointment, TreatmentType, Customer } from "@/lib/db/schema";
+import type {
+  OutlookAppointment,
+  TreatmentType,
+  Customer,
+} from "@/lib/db/schema";
 
 interface UpcomingAppointmentsCardProps {
   appointments: OutlookAppointment[];
@@ -42,7 +46,8 @@ export function UpcomingAppointmentsCard({
   customers,
   appointmentsNeedingGdpr,
 }: UpcomingAppointmentsCardProps) {
-  const [selectedAppointment, setSelectedAppointment] = useState<OutlookAppointment | null>(null);
+  const [selectedAppointment, setSelectedAppointment] =
+    useState<OutlookAppointment | null>(null);
 
   const handleAppointmentClick = (appointment: OutlookAppointment) => {
     setSelectedAppointment(appointment);
@@ -61,11 +66,11 @@ export function UpcomingAppointmentsCard({
   return (
     <>
       <Card>
-        <CardHeader className="pb-3 flex flex-row items-center justify-between space-y-0">
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
           <CardTitle className="text-lg">Nächste Termine</CardTitle>
           {appointments.length > 0 && (
             <Button variant="ghost" size="sm" asChild>
-              <Link href="/office/euer">
+              <Link href="/office/termine">
                 Alle anzeigen
                 <ArrowRight className="ml-1 h-4 w-4" />
               </Link>
@@ -74,37 +79,40 @@ export function UpcomingAppointmentsCard({
         </CardHeader>
         <CardContent>
           {appointments.length === 0 ? (
-            <p className="text-center text-muted-foreground py-6">
+            <p className="text-muted-foreground py-6 text-center">
               Keine anstehenden Termine
             </p>
           ) : (
             <div className="space-y-2">
               {appointments.map((appointment) => {
                 const needsAction = appointment.status === "pending";
-                const needsGdpr = appointmentsNeedingGdpr?.has(appointment.id) ?? false;
+                const needsGdpr =
+                  appointmentsNeedingGdpr?.has(appointment.id) ?? false;
 
                 return (
                   <button
                     key={appointment.id}
                     onClick={() => handleAppointmentClick(appointment)}
-                    className="w-full rounded-lg bg-muted/50 px-3 py-2 hover:bg-muted transition-colors cursor-pointer text-left"
+                    className="bg-muted/50 hover:bg-muted w-full cursor-pointer rounded-lg px-3 py-2 text-left transition-colors"
                   >
                     <div className="flex flex-col gap-1">
-                      <p className="font-medium truncate">{appointment.subject}</p>
-                      <div className="flex items-center gap-2 flex-wrap">
-                        <span className="text-xs text-muted-foreground whitespace-nowrap">
+                      <p className="truncate font-medium">
+                        {appointment.subject}
+                      </p>
+                      <div className="flex flex-wrap items-center gap-2">
+                        <span className="text-muted-foreground whitespace-nowrap text-xs">
                           {formatDate(appointment.startTime)}
                         </span>
-                        <span className="text-xs text-muted-foreground whitespace-nowrap">
+                        <span className="text-muted-foreground whitespace-nowrap text-xs">
                           {formatTime(appointment.startTime)}
                         </span>
                         {needsAction && (
-                          <span className="text-xs text-amber-600 dark:text-amber-500 whitespace-nowrap">
+                          <span className="whitespace-nowrap text-xs text-amber-600 dark:text-amber-500">
                             • Noch nicht erfasst
                           </span>
                         )}
                         {needsGdpr && (
-                          <span className="text-xs text-red-600 dark:text-red-500 whitespace-nowrap">
+                          <span className="whitespace-nowrap text-xs text-red-600 dark:text-red-500">
                             • Datenschutzerklärung fehlt
                           </span>
                         )}

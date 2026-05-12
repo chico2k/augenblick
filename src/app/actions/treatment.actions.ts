@@ -15,7 +15,9 @@ import { isErrResult } from "@/lib/services/types";
 /**
  * Verify user is authenticated.
  */
-async function requireAuth(): Promise<{ success: true } | { success: false; error: string }> {
+async function requireAuth(): Promise<
+  { success: true } | { success: false; error: string }
+> {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
@@ -54,7 +56,10 @@ const updateTreatmentSchema = z.object({
   id: z.string().uuid("Ungültige ID"),
   name: z.string().min(1, "Name erforderlich").optional(),
   description: z.string().nullable().optional(),
-  defaultPrice: z.string().regex(/^\d+(\.\d{1,2})?$/, "Ungültiger Preis").optional(),
+  defaultPrice: z
+    .string()
+    .regex(/^\d+(\.\d{1,2})?$/, "Ungültiger Preis")
+    .optional(),
   isActive: z.boolean().optional(),
   sortOrder: z.number().int().min(0).optional(),
 });
@@ -91,8 +96,8 @@ export async function createTreatmentAction(
       return { success: false, error: result.error.message };
     }
 
-    revalidatePath("/office/euer");
-    revalidatePath("/office/euer/behandlungen");
+    revalidatePath("/office/termine");
+    revalidatePath("/office/behandlungen");
 
     return { success: true, data: { id: result.value.id } };
   } catch (error) {
@@ -130,8 +135,8 @@ export async function updateTreatmentAction(
       return { success: false, error: result.error.message };
     }
 
-    revalidatePath("/office/euer");
-    revalidatePath("/office/euer/behandlungen");
+    revalidatePath("/office/termine");
+    revalidatePath("/office/behandlungen");
 
     return { success: true, data: { id } };
   } catch (error) {
@@ -145,9 +150,7 @@ export async function updateTreatmentAction(
 /**
  * Delete a treatment type.
  */
-export async function deleteTreatmentAction(
-  id: string
-): Promise<ActionResult> {
+export async function deleteTreatmentAction(id: string): Promise<ActionResult> {
   try {
     const authResult = await requireAuth();
     if (!authResult.success) {
@@ -164,8 +167,8 @@ export async function deleteTreatmentAction(
       return { success: false, error: result.error.message };
     }
 
-    revalidatePath("/office/euer");
-    revalidatePath("/office/euer/behandlungen");
+    revalidatePath("/office/termine");
+    revalidatePath("/office/behandlungen");
 
     return { success: true };
   } catch (error) {
@@ -180,15 +183,17 @@ export async function deleteTreatmentAction(
  * Get all treatment types.
  */
 export async function getTreatmentsAction(): Promise<
-  ActionResult<{
-    id: string;
-    name: string;
-    description: string | null;
-    defaultPrice: string;
-    isActive: boolean;
-    sortOrder: string;
-    createdAt: Date;
-  }[]>
+  ActionResult<
+    {
+      id: string;
+      name: string;
+      description: string | null;
+      defaultPrice: string;
+      isActive: boolean;
+      sortOrder: string;
+      createdAt: Date;
+    }[]
+  >
 > {
   try {
     const authResult = await requireAuth();

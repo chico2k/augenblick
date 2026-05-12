@@ -3,7 +3,7 @@
  * Manages Outlook sync log entries using neverthrow for error handling.
  */
 
-import { desc, count, sql } from "drizzle-orm";
+import { and, desc, count, eq, isNull, lt, sql } from "drizzle-orm";
 import { db } from "@/lib/db";
 import { syncLogs, type SyncLog, type NewSyncLog } from "@/lib/db/schema";
 import { Result, Ok, Err, type ServiceError } from "./types";
@@ -55,6 +55,69 @@ async function list(params: {
     return Err({
       code: "DATABASE_ERROR",
       message: "Failed to list sync logs",
+      details: { error: String(error) },
+    });
+  }
+}
+
+/**
+ * Mark in-progress sync logs as cancelled when they are older than the timeout.
+ */
+async function markStaleInProgress(timeoutMinutes = 15): Promise<Result<{ updatedCount: number }>> {
+  try {
+    const cutoff = new Date();
+    cutoff.setMinutes(cutoff.getMinutes() - timeoutMinutes);
+
+    const updated = await db
+      .update(syncLogs)
+      .set({
+        status: "cancelled",
+        syncEndedAt: new Date(),
+        message: "Sync abgebrochen: veralteter laufender Log-Eintrag",
+      })
+      .where(
+        and(
+          eq(syncLogs.status, "in_progress"),
+          isNull(syncLogs.syncEndedAt),
+          lt(syncLogs.syncStartedAt, cutoff)
+        )
+      )
+      .returning({ id: syncLogs.id })
+      .execute();
+
+    return Ok({ updatedCount: updated.length });
+  } catch (error) {
+    return Err({
+      code: "DATABASE_ERROR",
+      message: "Failed to mark stale sync logs",
+      details: { error: String(error) },
+    });
+  }
+}
+
+/**
+ * Get the latest active sync log, if a sync is currently running.
+ */
+async function getActiveInProgress(): Promise<Result<SyncLog | null>> {
+  try {
+    const result = await db
+      .select()
+      .from(syncLogs)
+      .where(
+        and(
+          eq(syncLogs.status, "in_progress"),
+          isNull(syncLogs.syncEndedAt)
+        )
+      )
+      .orderBy(desc(syncLogs.syncStartedAt))
+      .limit(1)
+      .execute();
+
+    return Ok(result[0] ?? null);
+  } catch (error) {
+    return Err({
+      code: "DATABASE_ERROR",
+      message: "Failed to get active sync log",
       details: { error: String(error) },
     });
   }
@@ -229,6 +292,8 @@ async function getStats(): Promise<
 
 export const syncLogService = {
   list,
+  markStaleInProgress,
+  getActiveInProgress,
   getLatest,
   getById,
   create,

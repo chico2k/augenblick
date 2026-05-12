@@ -23,7 +23,9 @@ export interface ActionResult<T = void> {
 /**
  * Verify user is authenticated.
  */
-async function requireAuth(): Promise<{ success: true } | { success: false; error: string }> {
+async function requireAuth(): Promise<
+  { success: true } | { success: false; error: string }
+> {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
@@ -60,7 +62,7 @@ export async function syncOutlookAction(): Promise<
       return { success: false, error: result.error.message };
     }
 
-    revalidatePath("/office/euer");
+    revalidatePath("/office/termine");
 
     return { success: true, data: result.value };
   } catch (error) {
@@ -93,7 +95,7 @@ export async function dismissAppointmentAction(
       return { success: false, error: result.error.message };
     }
 
-    revalidatePath("/office/euer");
+    revalidatePath("/office/termine");
 
     return { success: true };
   } catch (error) {
@@ -107,7 +109,9 @@ export async function dismissAppointmentAction(
 /**
  * Check if sync is needed (called on page load).
  */
-export async function checkSyncNeededAction(): Promise<ActionResult<{ needsSync: boolean }>> {
+export async function checkSyncNeededAction(): Promise<
+  ActionResult<{ needsSync: boolean }>
+> {
   try {
     const authResult = await requireAuth();
     if (!authResult.success) {
@@ -185,7 +189,7 @@ export async function revertToPendingAction(
       return { success: false, error: result.error.message };
     }
 
-    revalidatePath("/office/euer");
+    revalidatePath("/office/termine");
     revalidatePath("/office");
 
     return { success: true };
@@ -220,7 +224,7 @@ export async function cancelAppointmentAction(
       return { success: false, error: result.error.message };
     }
 
-    revalidatePath("/office/euer");
+    revalidatePath("/office/termine");
     revalidatePath("/office");
 
     return { success: true };
@@ -254,7 +258,7 @@ export async function uncancelAppointmentAction(
       return { success: false, error: result.error.message };
     }
 
-    revalidatePath("/office/euer");
+    revalidatePath("/office/termine");
     revalidatePath("/office");
 
     return { success: true };
@@ -285,7 +289,7 @@ export async function deleteAllAppointmentsAction(): Promise<
       return { success: false, error: result.error.message };
     }
 
-    revalidatePath("/office/euer");
+    revalidatePath("/office/termine");
     revalidatePath("/office");
 
     return { success: true, data: result.value };

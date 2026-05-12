@@ -3,7 +3,7 @@
  * Handles synchronization of Outlook calendar events.
  */
 
-import { eq, and, desc, notInArray, gte, asc } from "drizzle-orm";
+import { eq, and, desc, notInArray, gte, asc, lt } from "drizzle-orm";
 import { db } from "@/lib/db";
 import {
   outlookAppointments,
@@ -14,6 +14,28 @@ import {
 import { fetchCalendarEvents, isGraphConfigured, type GraphCalendarEvent } from "@/lib/graph/client";
 import { type Result, Ok, Err, isOkResult } from "./types";
 
+const DEFAULT_SYNC_START_DATE = "2026-05-01";
+const SYNC_LOOKAHEAD_YEARS = 3;
+
+function getSyncStartDate(): Date {
+  const configuredDate = process.env.OUTLOOK_SYNC_START_DATE ?? DEFAULT_SYNC_START_DATE;
+  const dateInput = /^\d{4}-\d{2}-\d{2}$/.test(configuredDate)
+    ? `${configuredDate}T00:00:00`
+    : configuredDate;
+  const startDate = new Date(dateInput);
+
+  if (Number.isNaN(startDate.getTime())) {
+    throw new Error(`Ungültiges OUTLOOK_SYNC_START_DATE: ${configuredDate}`);
+  }
+
+  return startDate;
+}
+
+function getSyncEndDate(startDate: Date): Date {
+  const endDate = new Date(startDate);
+  endDate.setFullYear(endDate.getFullYear() + SYNC_LOOKAHEAD_YEARS);
+  return endDate;
+}
 
 /**
  * Sync result with statistics.
@@ -22,6 +44,7 @@ export interface SyncResult {
   imported: number;
   updated: number;
   deleted: number;
+  removedBeforeStart: number;
   total: number;
 }
 
@@ -112,7 +135,7 @@ export const outlookService = {
 
   /**
    * Sync calendar events from Outlook.
-   * Imports events from 2026-01-01 onwards (Go-Live date).
+   * Imports events from the configured sync start date onwards.
    */
   async syncFromOutlook(): Promise<Result<SyncResult>> {
     if (!isGraphConfigured()) {
@@ -126,10 +149,16 @@ export const outlookService = {
       // Mark sync as in progress
       await this.updateSyncStatus("in_progress", "Synchronisierung läuft...");
 
-      // Fetch events from 2026-01-01 onwards (Go-Live date) + 3 years ahead
-      const startDate = new Date("2026-01-01T00:00:00");
-      const endDate = new Date("2026-01-01T00:00:00");
-      endDate.setFullYear(endDate.getFullYear() + 3);
+      // Remove previously imported appointments before the active sync window.
+      const startDate = getSyncStartDate();
+      const endDate = getSyncEndDate(startDate);
+      const cleanupResult = await this.deleteAppointmentsBefore(startDate);
+
+      if (!isOkResult(cleanupResult)) {
+        throw new Error(cleanupResult.error.message);
+      }
+
+      const removedBeforeStart = cleanupResult.value.deletedCount;
 
       const events = await fetchCalendarEvents(startDate, endDate);
 
@@ -152,24 +181,37 @@ export const outlookService = {
       const outlookEventIds = events.map((e) => e.id);
       let deleted = 0;
 
-      if (outlookEventIds.length > 0) {
-        // Find pending appointments not in current Outlook events
-        const deletedResult = await db
-          .update(outlookAppointments)
-          .set({ status: "dismissed" })
-          .where(
-            and(
-              eq(outlookAppointments.status, "pending"),
-              notInArray(outlookAppointments.outlookEventId, outlookEventIds)
+      // Find pending appointments inside the sync window that are no longer in Outlook.
+      const deletedResult = outlookEventIds.length > 0
+        ? await db
+            .update(outlookAppointments)
+            .set({ status: "dismissed" })
+            .where(
+              and(
+                eq(outlookAppointments.status, "pending"),
+                gte(outlookAppointments.startTime, startDate),
+                lt(outlookAppointments.startTime, endDate),
+                notInArray(outlookAppointments.outlookEventId, outlookEventIds)
+              )
             )
-          )
-          .returning({ id: outlookAppointments.id });
+            .returning({ id: outlookAppointments.id })
+        : await db
+            .update(outlookAppointments)
+            .set({ status: "dismissed" })
+            .where(
+              and(
+                eq(outlookAppointments.status, "pending"),
+                gte(outlookAppointments.startTime, startDate),
+                lt(outlookAppointments.startTime, endDate)
+              )
+            )
+            .returning({ id: outlookAppointments.id });
 
-        deleted = deletedResult.length;
-      }
+      deleted = deletedResult.length;
 
       // Update sync status
       const statusParts = [];
+      if (removedBeforeStart > 0) statusParts.push(`${removedBeforeStart} vor Stichtag entfernt`);
       if (imported > 0) statusParts.push(`${imported} neue`);
       if (updated > 0) statusParts.push(`${updated} aktualisiert`);
       if (deleted > 0) statusParts.push(`${deleted} gelöscht`);
@@ -181,6 +223,7 @@ export const outlookService = {
         imported,
         updated,
         deleted,
+        removedBeforeStart,
         total: events.length,
       });
     } catch (error) {
@@ -560,6 +603,25 @@ export const outlookService = {
       return Err({
         code: "DATABASE_ERROR",
         message: `Fehler beim Löschen der Termine: ${String(error)}`,
+      });
+    }
+  },
+
+  /**
+   * Delete imported appointments before the active sync start date.
+   */
+  async deleteAppointmentsBefore(startDate: Date): Promise<Result<{ deletedCount: number }>> {
+    try {
+      const deleted = await db
+        .delete(outlookAppointments)
+        .where(lt(outlookAppointments.startTime, startDate))
+        .returning({ id: outlookAppointments.id });
+
+      return Ok({ deletedCount: deleted.length });
+    } catch (error) {
+      return Err({
+        code: "DATABASE_ERROR",
+        message: `Fehler beim Löschen alter Termine: ${String(error)}`,
       });
     }
   },

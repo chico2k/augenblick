@@ -13,6 +13,8 @@
     "db:migrate": "drizzle-kit migrate",
     "db:push": "drizzle-kit push",
     "db:studio": "drizzle-kit studio",
+    "db:copy:prod-to-dev": "tsx scripts/reset-development-db.ts",
+    "db:reset:dev": "tsx scripts/reset-development-db.ts",
     "db:seed": "tsx scripts/seed-admin.ts"
   },
   "dependencies": {

@@ -32,6 +32,11 @@ export async function getSyncLogsAction(params: {
     totalPages: number;
   }>
 > {
+  const staleResult = await syncLogService.markStaleInProgress();
+  if (!isOkResult(staleResult)) {
+    return { success: false, error: staleResult.error.message };
+  }
+
   const result = await syncLogService.list(params);
 
   if (isOkResult(result)) {
@@ -97,6 +102,23 @@ export async function getSyncStatsAction(): Promise<
  * 3. Update the sync log with results
  */
 export async function triggerSyncAction(): Promise<ActionResult<{ logId: string }>> {
+  const staleResult = await syncLogService.markStaleInProgress();
+  if (!isOkResult(staleResult)) {
+    return { success: false, error: staleResult.error.message };
+  }
+
+  const activeSyncResult = await syncLogService.getActiveInProgress();
+  if (!isOkResult(activeSyncResult)) {
+    return { success: false, error: activeSyncResult.error.message };
+  }
+
+  if (activeSyncResult.value) {
+    return {
+      success: false,
+      error: "Ein Sync läuft bereits. Bitte warte, bis er abgeschlossen ist.",
+    };
+  }
+
   // Create sync log entry
   const logResult = await syncLogService.create({
     syncStartedAt: new Date(),
@@ -115,12 +137,28 @@ export async function triggerSyncAction(): Promise<ActionResult<{ logId: string 
     const syncResult = await outlookService.syncFromOutlook();
 
     if (isOkResult(syncResult)) {
-      const result = syncResult.value as { imported: number; updated: number; deleted: number; total: number; };
+      const result = syncResult.value as {
+        imported: number;
+        updated: number;
+        deleted: number;
+        removedBeforeStart: number;
+        total: number;
+      };
       // Update log with success
+      const messageParts = [
+        `${result.imported} neu`,
+        `${result.updated} aktualisiert`,
+        `${result.deleted} gelöscht`,
+      ];
+
+      if (result.removedBeforeStart > 0) {
+        messageParts.push(`${result.removedBeforeStart} vor Stichtag entfernt`);
+      }
+
       await syncLogService.update(log.id, {
         syncEndedAt: new Date(),
         status: "success",
-        message: `${result.imported} neu, ${result.updated} aktualisiert, ${result.deleted} gelöscht`,
+        message: messageParts.join(", "),
         appointmentsImported: result.imported,
         appointmentsSkipped: 0,
         appointmentsFailed: 0,

@@ -39,7 +39,9 @@ export interface ActionResult<T = void> {
 /**
  * Verify user is authenticated.
  */
-async function requireAuth(): Promise<{ success: true } | { success: false; error: string }> {
+async function requireAuth(): Promise<
+  { success: true } | { success: false; error: string }
+> {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
@@ -69,7 +71,10 @@ const createIncomeSchema = z.object({
  */
 const updateIncomeSchema = z.object({
   id: z.string().uuid("Ungültige ID"),
-  amount: z.string().regex(/^\d+(\.\d{1,2})?$/, "Ungültiger Betrag").optional(),
+  amount: z
+    .string()
+    .regex(/^\d+(\.\d{1,2})?$/, "Ungültiger Betrag")
+    .optional(),
   paymentMethod: z.enum(["cash", "card"]).optional(),
   incomeDate: z.coerce.date().optional(),
   customerId: z.string().uuid().nullable().optional(),
@@ -109,7 +114,7 @@ export async function createIncomeAction(
       return { success: false, error: result.error.message };
     }
 
-    revalidatePath("/office/euer");
+    revalidatePath("/office/termine");
 
     return { success: true, data: { id: result.value.id } };
   } catch (error) {
@@ -125,13 +130,15 @@ export async function createIncomeAction(
  */
 export async function getIncomeByAppointmentAction(
   appointmentId: string
-): Promise<ActionResult<{
-  id: string;
-  amount: string;
-  treatmentTypeId: string | null;
-  customerId: string | null;
-  paymentMethod: "cash" | "card";
-} | null>> {
+): Promise<
+  ActionResult<{
+    id: string;
+    amount: string;
+    treatmentTypeId: string | null;
+    customerId: string | null;
+    paymentMethod: "cash" | "card";
+  } | null>
+> {
   try {
     const authResult = await requireAuth();
     if (!authResult.success) {
@@ -194,7 +201,9 @@ export async function confirmAppointmentAction(input: {
     const appointment = appointmentResult.value;
 
     // Check if income entry already exists for this appointment
-    const existingIncomeResult = await incomeService.getByAppointmentId(input.appointmentId);
+    const existingIncomeResult = await incomeService.getByAppointmentId(
+      input.appointmentId
+    );
     if (isErrResult(existingIncomeResult)) {
       return { success: false, error: existingIncomeResult.error.message };
     }
@@ -203,13 +212,16 @@ export async function confirmAppointmentAction(input: {
 
     if (existingIncomeResult.value) {
       // Update existing income entry
-      const updateResult = await incomeService.update(existingIncomeResult.value.id, {
-        amount: input.amount,
-        paymentMethod: input.paymentMethod ?? "cash",
-        customerId: input.customerId ?? null,
-        treatmentTypeId: input.treatmentTypeId ?? null,
-        notes: input.notes ?? null,
-      });
+      const updateResult = await incomeService.update(
+        existingIncomeResult.value.id,
+        {
+          amount: input.amount,
+          paymentMethod: input.paymentMethod ?? "cash",
+          customerId: input.customerId ?? null,
+          treatmentTypeId: input.treatmentTypeId ?? null,
+          notes: input.notes ?? null,
+        }
+      );
 
       if (isErrResult(updateResult)) {
         return { success: false, error: updateResult.error.message };
@@ -243,7 +255,7 @@ export async function confirmAppointmentAction(input: {
       incomeId = incomeResult.value.id;
     }
 
-    revalidatePath("/office/euer");
+    revalidatePath("/office/termine");
     revalidatePath("/office");
 
     return { success: true, data: { incomeId } };
@@ -282,7 +294,7 @@ export async function updateIncomeAction(
       return { success: false, error: result.error.message };
     }
 
-    revalidatePath("/office/euer");
+    revalidatePath("/office/termine");
 
     return { success: true, data: { id } };
   } catch (error) {
@@ -313,7 +325,7 @@ export async function deleteIncomeAction(id: string): Promise<ActionResult> {
       return { success: false, error: result.error.message };
     }
 
-    revalidatePath("/office/euer");
+    revalidatePath("/office/termine");
 
     return { success: true };
   } catch (error) {
@@ -394,14 +406,23 @@ export async function exportIncomeAction(input: {
     const entries = result.value;
 
     // Generate CSV with sanitized values to prevent formula injection
-    const csvHeaders = ["Datum", "Betrag", "Zahlungsart", "Behandlung", "Kunde", "Notizen"];
+    const csvHeaders = [
+      "Datum",
+      "Betrag",
+      "Zahlungsart",
+      "Behandlung",
+      "Kunde",
+      "Notizen",
+    ];
     const rows = entries.map((entry) => [
       entry.incomeDate.toLocaleDateString("de-DE"),
       parseFloat(entry.amount).toFixed(2).replace(".", ","),
       entry.paymentMethod === "cash" ? "Bar" : "EC-Karte",
       sanitizeCsvValue(entry.treatmentType?.name ?? ""),
       sanitizeCsvValue(
-        entry.customer ? `${entry.customer.firstName} ${entry.customer.lastName}` : ""
+        entry.customer
+          ? `${entry.customer.firstName} ${entry.customer.lastName}`
+          : ""
       ),
       sanitizeCsvValue(entry.notes ?? ""),
     ]);
